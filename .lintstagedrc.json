@@ -1,5 +1,7 @@
 {
     "src/**/*.{scss}": ["stylelint src/**/*.scss --fix"],
-    "src/**/*.{ts,tsx,scss}": ["prettier --write src/**/*.ts{,x}"],
-    "src/**/*.{ts,tsx}": ["eslint src/**/*.ts{,x} --fix --max-warnings 0"]
+    "src/**/*.{ts,tsx}": [
+        "eslint src/**/*.ts{,x} --fix --max-warnings 0",
+        "prettier --write src/**/*.ts{,x}"
+    ]
 }
