@@ -1,13 +1,27 @@
 .buttonWrapper {
-  display: grid;
-  width: 100px;
-  height: 50px;
-  box-sizing: border-box;
-  background: darkblue;
-  grid-template-columns: reapt(auto-fit, minmax(100px, 1fr));
+    display: grid;
+    width: 100px;
+    height: 50px;
+    box-sizing: border-box;
+    background: darkblue;
+    grid-template-columns: reapt(auto-fit, minmax(100px, 1fr));
 
-  &:hover {
-    height: 100px;
-    background: blue;
-  }
+    &:hover {
+        height: 100px;
+        background: blue;
+    }
+}
+
+.buttonStyle {
+    display: grid;
+    width: 100px;
+    height: 50px;
+    box-sizing: border-box;
+    background: darkblue;
+    grid-template-columns: reapt(auto-fit, minmax(100px, 1fr));
+
+    &:hover {
+        height: 100px;
+        background: blue;
+    }
 }
