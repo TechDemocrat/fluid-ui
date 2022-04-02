@@ -12,7 +12,9 @@
     "build": "rollup --config rollup.config.ts --configPlugin @rollup/plugin-typescript",
     "storybook": "start-storybook -p 6006",
     "build-storybook": "build-storybook",
-    "stylelint:fix": "npx stylelint \"**/*.scss\" --fix"
+    "stylelint:fix": "npx stylelint \"**/*.scss\" --fix",
+    "lint": "eslint src --max-warnings 0",
+    "lint:fix": "eslint src --fix --max-warnings 0"
   },
   "devDependencies": {
     "@babel/core": "^7.17.8",
@@ -27,8 +29,16 @@
     "@storybook/testing-library": "^0.0.9",
     "@types/react": "^17.0.43",
     "@types/rollup-plugin-peer-deps-external": "^2.2.1",
+    "@typescript-eslint/eslint-plugin": "^5.17.0",
+    "@typescript-eslint/parser": "^5.17.0",
     "babel-loader": "^8.2.4",
     "css-loader": "5.2.7",
+    "eslint": "^8.12.0",
+    "eslint-config-prettier": "^8.5.0",
+    "eslint-plugin-import": "^2.25.4",
+    "eslint-plugin-prettier": "^4.0.0",
+    "eslint-plugin-react": "^7.29.4",
+    "eslint-plugin-react-hooks": "^4.4.0",
     "postcss": "^8.4.12",
     "react": "^18.0.0",
     "react-dom": "^18.0.0",

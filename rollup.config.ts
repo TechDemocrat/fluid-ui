@@ -8,6 +8,7 @@ import peerDepsExternal from "rollup-plugin-peer-deps-external";
 import postCss from "rollup-plugin-postcss";
 
 import packageJSON from "./package.json";
+import tsConfigJSON from "./tsconfig.json";
 
 const rollupOptions: RollupOptions[] = [
   {
@@ -33,6 +34,12 @@ const rollupOptions: RollupOptions[] = [
       commonjs(),
       typescript({
         tsconfig: "./tsconfig.json",
+        // exclude stories.tsx and test.tsx files
+        exclude: [
+          ...tsConfigJSON.exclude,
+          "src/**/*.test.tsx",
+          "src/**/*.stories.tsx",
+        ],
       }),
       terser(),
     ],
