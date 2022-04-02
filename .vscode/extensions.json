@@ -1,0 +1,10 @@
+{
+  "recommendations": [
+    "stylelint.vscode-stylelint",
+    "clinyong.vscode-css-modules",
+    "dbaeumer.vscode-eslint",
+    "esbenp.prettier-vscode",
+    "jakob101.relativepath",
+    "mrmlnc.vscode-scss"
+  ]
+}
