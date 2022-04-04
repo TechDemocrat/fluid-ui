@@ -1,0 +1,30 @@
+/* we will be getting values from css varianbles , this would help in themeing  */
+
+// core
+$primary-color: var(--color-primary);
+$secondary-color: var(--color-secondary);
+
+// foreground
+$foregroundPrimary-color: var(--color-foregroundPrimary);
+$foregroundSecondary-color: var(--color-foregroundSecondary);
+$foregroundTertiary-color: var(--color-foregroundTertiary);
+
+// background
+$backgroundPrimary-color: var(--color-backgroundPrimary);
+$backgroundSecondary-color: var(--color-backgroundSecondary);
+$backgroundTertiary-color: var(--color-backgroundTertiary);
+
+// essentials
+$success-color: var(--color-success);
+$info-color: var(--color-info);
+$warning-color: var(--color-warning);
+$danger-color: var(--color-danger);
+$link-color: var(--color-link);
+
+// brand colors
+$brandColor1-color: var(--color-brandColor1);
+$brandColor2-color: var(--color-brandColor2);
+$brandColor3-color: var(--color-brandColor3);
+$brandColor4-color: var(--color-brandColor4);
+$brandColor5-color: var(--color-brandColor5);
+$brandColor6-color: var(--color-brandColor6);

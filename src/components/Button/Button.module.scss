@@ -13,233 +13,233 @@ $info: #41c2f5;
 $link: #3b6fee;
 
 .buttonWrapper {
-  display: flex;
-  box-sizing: border-box;
-  border-radius: 4px;
-  cursor: pointer;
+    display: flex;
+    box-sizing: border-box;
+    border-radius: 4px;
+    cursor: pointer;
 }
 
 .disabled {
-  cursor: default;
-  opacity: 0.5;
-  pointer-events: none;
+    cursor: default;
+    opacity: 0.5;
+    pointer-events: none;
 }
 
 .small {
-  padding: 6px 20px;
-  font-size: 12px;
+    padding: 6px 20px;
+    font-size: 12px;
 }
 
 .medium {
-  padding: 8px 30px;
-  font-size: 14px;
+    padding: 8px 30px;
+    font-size: 14px;
 }
 
 .large {
-  padding: 10px 40px;
-  font-size: 16px;
+    padding: 10px 40px;
+    font-size: 16px;
 }
 
 .containedPrimary {
-  border: 1px solid $primary-color;
-  background-color: $primary-color;
-  color: $primary-background;
-  filter: drop-shadow(0 0 1px $primary-color);
+    border: 1px solid $primary-color;
+    background-color: $primary-color;
+    color: $primary-background;
+    filter: drop-shadow(0 0 1px $primary-color);
 
-  &:hover {
-    filter: drop-shadow(0 0 2px $primary-color);
-    transition: all 0.2s ease-in-out;
-  }
+    &:hover {
+        filter: drop-shadow(0 0 2px $primary-color);
+        transition: all 0.2s ease-in-out;
+    }
 }
 
 .outlinedPrimary {
-  border: 1px solid $primary-color;
-  background-color: transparent;
-  color: $primary-color;
+    border: 1px solid $primary-color;
+    background-color: transparent;
+    color: $primary-color;
 
-  &:hover {
-    background-color: rgb($primary-color, 0.1);
-    transition: all 0.2s ease-in-out;
-  }
+    &:hover {
+        background-color: rgb($primary-color, 0.1);
+        transition: all 0.2s ease-in-out;
+    }
 }
 
 .textPrimary {
-  border: none;
-  background-color: transparent;
-  color: $primary-color;
+    border: none;
+    background-color: transparent;
+    color: $primary-color;
 
-  &:hover {
-    background-color: rgb($primary-color, 0.1);
-    transition: all 0.2s ease-in-out;
-  }
+    &:hover {
+        background-color: rgb($primary-color, 0.1);
+        transition: all 0.2s ease-in-out;
+    }
 }
 
 .containedSecondary {
-  border: 1px solid $secondary-color;
-  background-color: $secondary-color;
-  color: $secondary-background;
-  filter: drop-shadow(0 0 1px $secondary-color);
+    border: 1px solid $secondary-color;
+    background-color: $secondary-color;
+    color: $secondary-background;
+    filter: drop-shadow(0 0 1px $secondary-color);
 
-  &:hover {
-    filter: drop-shadow(0 0 2px $secondary-color);
-    transition: all 0.2s ease-in-out;
-  }
+    &:hover {
+        filter: drop-shadow(0 0 2px $secondary-color);
+        transition: all 0.2s ease-in-out;
+    }
 }
 
 .outlinedSecondary {
-  border: 1px solid $secondary-color;
-  background-color: transparent;
-  color: $secondary-color;
+    border: 1px solid $secondary-color;
+    background-color: transparent;
+    color: $secondary-color;
 
-  &:hover {
-    background-color: rgb($secondary-color, 0.1);
-    transition: all 0.2s ease-in-out;
-  }
+    &:hover {
+        background-color: rgb($secondary-color, 0.1);
+        transition: all 0.2s ease-in-out;
+    }
 }
 
 .textSecondary {
-  border: none;
-  background-color: transparent;
-  color: $secondary-color;
+    border: none;
+    background-color: transparent;
+    color: $secondary-color;
 
-  &:hover {
-    background-color: rgb($secondary-color, 0.1);
-    transition: all 0.2s ease-in-out;
-  }
+    &:hover {
+        background-color: rgb($secondary-color, 0.1);
+        transition: all 0.2s ease-in-out;
+    }
 }
 
 .containedSuccess {
-  border: 1px solid $success;
-  background-color: $success;
-  color: $primary-background;
-  filter: drop-shadow(0 0 1px $success);
+    border: 1px solid $success;
+    background-color: $success;
+    color: $primary-background;
+    filter: drop-shadow(0 0 1px $success);
 
-  &:hover {
-    filter: drop-shadow(0 0 2px $success);
-    transition: all 0.2s ease-in-out;
-  }
+    &:hover {
+        filter: drop-shadow(0 0 2px $success);
+        transition: all 0.2s ease-in-out;
+    }
 }
 
 .outlinedSuccess {
-  border: 1px solid $success;
-  background-color: transparent;
-  color: $success;
+    border: 1px solid $success;
+    background-color: transparent;
+    color: $success;
 
-  &:hover {
-    background-color: rgb($success, 0.1);
-    transition: all 0.2s ease-in-out;
-  }
+    &:hover {
+        background-color: rgb($success, 0.1);
+        transition: all 0.2s ease-in-out;
+    }
 }
 
 .textSuccess {
-  border: none;
-  background-color: transparent;
-  color: $success;
+    border: none;
+    background-color: transparent;
+    color: $success;
 
-  &:hover {
-    background-color: rgb($success, 0.1);
-    transition: all 0.2s ease-in-out;
-  }
+    &:hover {
+        background-color: rgb($success, 0.1);
+        transition: all 0.2s ease-in-out;
+    }
 }
 
 .containedDanger {
-  border: 1px solid $danger;
-  background-color: $danger;
-  color: $primary-background;
-  filter: drop-shadow(0 0 1px $danger);
+    border: 1px solid $danger;
+    background-color: $danger;
+    color: $primary-background;
+    filter: drop-shadow(0 0 1px $danger);
 
-  &:hover {
-    filter: drop-shadow(0 0 2px $danger);
-    transition: all 0.2s ease-in-out;
-  }
+    &:hover {
+        filter: drop-shadow(0 0 2px $danger);
+        transition: all 0.2s ease-in-out;
+    }
 }
 
 .outlinedDanger {
-  border: 1px solid $danger;
-  background-color: transparent;
-  color: $danger;
+    border: 1px solid $danger;
+    background-color: transparent;
+    color: $danger;
 
-  &:hover {
-    background-color: rgb($danger, 0.1);
-    transition: all 0.2s ease-in-out;
-  }
+    &:hover {
+        background-color: rgb($danger, 0.1);
+        transition: all 0.2s ease-in-out;
+    }
 }
 
 .textDanger {
-  border: none;
-  background-color: transparent;
-  color: $danger;
+    border: none;
+    background-color: transparent;
+    color: $danger;
 
-  &:hover {
-    background-color: rgb($danger, 0.1);
-    transition: all 0.2s ease-in-out;
-  }
+    &:hover {
+        background-color: rgb($danger, 0.1);
+        transition: all 0.2s ease-in-out;
+    }
 }
 
 .containedInfo {
-  border: 1px solid $info;
-  background-color: $info;
-  color: $primary-background;
-  filter: drop-shadow(0 0 1px $info);
+    border: 1px solid $info;
+    background-color: $info;
+    color: $primary-background;
+    filter: drop-shadow(0 0 1px $info);
 
-  &:hover {
-    filter: drop-shadow(0 0 2px $info);
-    transition: all 0.2s ease-in-out;
-  }
+    &:hover {
+        filter: drop-shadow(0 0 2px $info);
+        transition: all 0.2s ease-in-out;
+    }
 }
 
 .outlinedInfo {
-  border: 1px solid $info;
-  background-color: transparent;
-  color: $info;
+    border: 1px solid $info;
+    background-color: transparent;
+    color: $info;
 
-  &:hover {
-    background-color: rgb($info, 0.1);
-    transition: all 0.2s ease-in-out;
-  }
+    &:hover {
+        background-color: rgb($info, 0.1);
+        transition: all 0.2s ease-in-out;
+    }
 }
 
 .textInfo {
-  border: none;
-  background-color: transparent;
-  color: $info;
+    border: none;
+    background-color: transparent;
+    color: $info;
 
-  &:hover {
-    background-color: rgb($info, 0.1);
-    transition: all 0.2s ease-in-out;
-  }
+    &:hover {
+        background-color: rgb($info, 0.1);
+        transition: all 0.2s ease-in-out;
+    }
 }
 
 .containedWarning {
-  border: 1px solid $warning;
-  background-color: $warning;
-  color: $primary-background;
-  filter: drop-shadow(0 0 1px $warning);
+    border: 1px solid $warning;
+    background-color: $warning;
+    color: $primary-background;
+    filter: drop-shadow(0 0 1px $warning);
 
-  &:hover {
-    filter: drop-shadow(0 0 2px $warning);
-    transition: all 0.2s ease-in-out;
-  }
+    &:hover {
+        filter: drop-shadow(0 0 2px $warning);
+        transition: all 0.2s ease-in-out;
+    }
 }
 
 .outlinedWarning {
-  border: 1px solid $warning;
-  background-color: transparent;
-  color: $warning;
+    border: 1px solid $warning;
+    background-color: transparent;
+    color: $warning;
 
-  &:hover {
-    background-color: rgb($warning, 0.1);
-    transition: all 0.2s ease-in-out;
-  }
+    &:hover {
+        background-color: rgb($warning, 0.1);
+        transition: all 0.2s ease-in-out;
+    }
 }
 
 .textWarning {
-  border: none;
-  background-color: transparent;
-  color: $warning;
+    border: none;
+    background-color: transparent;
+    color: $warning;
 
-  &:hover {
-    background-color: rgb($warning, 0.1);
-    transition: all 0.2s ease-in-out;
-  }
+    &:hover {
+        background-color: rgb($warning, 0.1);
+        transition: all 0.2s ease-in-out;
+    }
 }

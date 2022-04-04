@@ -5,6 +5,7 @@ import cn from 'classnames';
 import { capitalize } from 'lodash';
 
 export const Button = (props: IButtonProps) => {
+    // props
     const {
         label,
         title,
@@ -15,6 +16,8 @@ export const Button = (props: IButtonProps) => {
         disabled,
         onClick,
     } = props;
+
+    // compute
     const classnames = cn(
         styles.buttonWrapper,
         styles[`${variant}${capitalize(color)}`],
@@ -24,6 +27,7 @@ export const Button = (props: IButtonProps) => {
         },
     );
 
+    // paint
     return (
         <button className={classnames} title={title} onClick={onClick}>
             {children ?? label}
