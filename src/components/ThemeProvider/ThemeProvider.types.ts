@@ -1,3 +1,5 @@
+import { ReactElement } from 'react';
+
 export interface IThemeColors {
     primary: string;
     secondary: string;
@@ -41,4 +43,9 @@ export interface IThemeFontSizes {
 export interface ITheme {
     colors: IThemeColors;
     fontSizes: IThemeFontSizes;
+}
+
+export interface IThemeProviderProps {
+    theme?: ITheme;
+    children?: ReactElement | ReactElement[] | string | number;
 }

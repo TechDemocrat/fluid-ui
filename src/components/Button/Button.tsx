@@ -3,6 +3,7 @@ import { IButtonProps } from './Button.types';
 import styles from './Button.module.scss';
 import cn from 'classnames';
 import { capitalize } from 'lodash';
+import { useTheme } from '../ThemeProvider/ThemeProvider';
 
 export const Button = (props: IButtonProps) => {
     // props
@@ -16,6 +17,9 @@ export const Button = (props: IButtonProps) => {
         disabled,
         onClick,
     } = props;
+
+    const { theme } = useTheme();
+    console.log(theme);
 
     // compute
     const classnames = cn(

@@ -1,4 +1,4 @@
-import { ITheme, IThemeColors, IThemeFontSizes } from '../types/theme';
+import { IThemeColors, IThemeFontSizes } from '../components/ThemeProvider/ThemeProvider.types';
 
 export const defaultColors: IThemeColors = {
     primary: '#0F307F',

@@ -1,3 +1,7 @@
+@import "./fontWeights";
+@import "./fontSizes";
+@import "./colors";
+
 :root {
     // variables will be populated by theme provider based on the current theme
 
@@ -43,4 +47,60 @@
     --font-size-medium: 0.875rem;
     --font-size-caption: 0.75rem;
     --font-size-small: 0.625rem;
+}
+
+* {
+    box-sizing: border-box;
+    padding: 0;
+    margin: 0;
+    font-family: Inter, Helvetica, sans-serif;
+    scroll-behavior: smooth;
+    vertical-align: baseline;
+}
+
+body {
+    overflow: hidden;
+    width: 100vw;
+    height: 100vh;
+
+    // global color for all elements in the app, if not specified explicitly throught available variables
+    color: $foregroundPrimary-color;
+
+    // all component will have p tag's font-size as base font-size,
+    font-size: $bodyMain-fontsize;
+}
+
+h1 {
+    font-size: $h1-fontsize;
+    font-weight: $bold-fontweight;
+}
+
+h2 {
+    font-size: $h2-fontsize;
+    font-weight: $bold-fontweight;
+}
+
+h3 {
+    font-size: $h3-fontsize;
+    font-weight: $bold-fontweight;
+}
+
+h4 {
+    font-size: $h4-fontsize;
+    font-weight: $semibold-fontweight;
+}
+
+h5 {
+    font-size: $h5-fontsize;
+    font-weight: $semibold-fontweight;
+}
+
+h6 {
+    font-size: $h6-fontsize;
+    font-weight: $semibold-fontweight;
+}
+
+p {
+    font-size: $bodyMain-fontsize;
+    font-weight: $normal-fontweight;
 }
