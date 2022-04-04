@@ -1,27 +1,245 @@
-.buttonWrapper {
-    display: grid;
-    width: 100px;
-    height: 50px;
-    box-sizing: border-box;
-    background: darkblue;
-    grid-template-columns: reapt(auto-fit, minmax(100px, 1fr));
+$primary-color: #0f307f;
+$secondary-color: #9dadd0;
+$primary-foreground: #212121;
+$secondary-foreground: #666;
+$tertiary-foreground: #9e9e9e;
+$primary-background: #fff;
+$secondary-background: #f5f5f5;
+$tertiary-background: #e0e0e0;
+$danger: #e97375;
+$success: #7cc887;
+$warning: #ffb857;
+$info: #41c2f5;
+$link: #3b6fee;
 
-    &:hover {
-        height: 100px;
-        background: blue;
-    }
+.buttonWrapper {
+  display: flex;
+  box-sizing: border-box;
+  border-radius: 4px;
+  cursor: pointer;
 }
 
-.buttonStyle {
-    display: grid;
-    width: 100px;
-    height: 50px;
-    box-sizing: border-box;
-    background: darkblue;
-    grid-template-columns: reapt(auto-fit, minmax(100px, 1fr));
+.disabled {
+  cursor: default;
+  opacity: 0.5;
+  pointer-events: none;
+}
 
-    &:hover {
-        height: 100px;
-        background: blue;
-    }
+.small {
+  padding: 6px 20px;
+  font-size: 12px;
+}
+
+.medium {
+  padding: 8px 30px;
+  font-size: 14px;
+}
+
+.large {
+  padding: 10px 40px;
+  font-size: 16px;
+}
+
+.containedPrimary {
+  border: 1px solid $primary-color;
+  background-color: $primary-color;
+  color: $primary-background;
+  filter: drop-shadow(0 0 1px $primary-color);
+
+  &:hover {
+    filter: drop-shadow(0 0 2px $primary-color);
+    transition: all 0.2s ease-in-out;
+  }
+}
+
+.outlinedPrimary {
+  border: 1px solid $primary-color;
+  background-color: transparent;
+  color: $primary-color;
+
+  &:hover {
+    background-color: rgb($primary-color, 0.1);
+    transition: all 0.2s ease-in-out;
+  }
+}
+
+.textPrimary {
+  border: none;
+  background-color: transparent;
+  color: $primary-color;
+
+  &:hover {
+    background-color: rgb($primary-color, 0.1);
+    transition: all 0.2s ease-in-out;
+  }
+}
+
+.containedSecondary {
+  border: 1px solid $secondary-color;
+  background-color: $secondary-color;
+  color: $secondary-background;
+  filter: drop-shadow(0 0 1px $secondary-color);
+
+  &:hover {
+    filter: drop-shadow(0 0 2px $secondary-color);
+    transition: all 0.2s ease-in-out;
+  }
+}
+
+.outlinedSecondary {
+  border: 1px solid $secondary-color;
+  background-color: transparent;
+  color: $secondary-color;
+
+  &:hover {
+    background-color: rgb($secondary-color, 0.1);
+    transition: all 0.2s ease-in-out;
+  }
+}
+
+.textSecondary {
+  border: none;
+  background-color: transparent;
+  color: $secondary-color;
+
+  &:hover {
+    background-color: rgb($secondary-color, 0.1);
+    transition: all 0.2s ease-in-out;
+  }
+}
+
+.containedSuccess {
+  border: 1px solid $success;
+  background-color: $success;
+  color: $primary-background;
+  filter: drop-shadow(0 0 1px $success);
+
+  &:hover {
+    filter: drop-shadow(0 0 2px $success);
+    transition: all 0.2s ease-in-out;
+  }
+}
+
+.outlinedSuccess {
+  border: 1px solid $success;
+  background-color: transparent;
+  color: $success;
+
+  &:hover {
+    background-color: rgb($success, 0.1);
+    transition: all 0.2s ease-in-out;
+  }
+}
+
+.textSuccess {
+  border: none;
+  background-color: transparent;
+  color: $success;
+
+  &:hover {
+    background-color: rgb($success, 0.1);
+    transition: all 0.2s ease-in-out;
+  }
+}
+
+.containedDanger {
+  border: 1px solid $danger;
+  background-color: $danger;
+  color: $primary-background;
+  filter: drop-shadow(0 0 1px $danger);
+
+  &:hover {
+    filter: drop-shadow(0 0 2px $danger);
+    transition: all 0.2s ease-in-out;
+  }
+}
+
+.outlinedDanger {
+  border: 1px solid $danger;
+  background-color: transparent;
+  color: $danger;
+
+  &:hover {
+    background-color: rgb($danger, 0.1);
+    transition: all 0.2s ease-in-out;
+  }
+}
+
+.textDanger {
+  border: none;
+  background-color: transparent;
+  color: $danger;
+
+  &:hover {
+    background-color: rgb($danger, 0.1);
+    transition: all 0.2s ease-in-out;
+  }
+}
+
+.containedInfo {
+  border: 1px solid $info;
+  background-color: $info;
+  color: $primary-background;
+  filter: drop-shadow(0 0 1px $info);
+
+  &:hover {
+    filter: drop-shadow(0 0 2px $info);
+    transition: all 0.2s ease-in-out;
+  }
+}
+
+.outlinedInfo {
+  border: 1px solid $info;
+  background-color: transparent;
+  color: $info;
+
+  &:hover {
+    background-color: rgb($info, 0.1);
+    transition: all 0.2s ease-in-out;
+  }
+}
+
+.textInfo {
+  border: none;
+  background-color: transparent;
+  color: $info;
+
+  &:hover {
+    background-color: rgb($info, 0.1);
+    transition: all 0.2s ease-in-out;
+  }
+}
+
+.containedWarning {
+  border: 1px solid $warning;
+  background-color: $warning;
+  color: $primary-background;
+  filter: drop-shadow(0 0 1px $warning);
+
+  &:hover {
+    filter: drop-shadow(0 0 2px $warning);
+    transition: all 0.2s ease-in-out;
+  }
+}
+
+.outlinedWarning {
+  border: 1px solid $warning;
+  background-color: transparent;
+  color: $warning;
+
+  &:hover {
+    background-color: rgb($warning, 0.1);
+    transition: all 0.2s ease-in-out;
+  }
+}
+
+.textWarning {
+  border: none;
+  background-color: transparent;
+  color: $warning;
+
+  &:hover {
+    background-color: rgb($warning, 0.1);
+    transition: all 0.2s ease-in-out;
+  }
 }
