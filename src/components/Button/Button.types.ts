@@ -1,22 +1,22 @@
 export interface IButtonProps {
     /**
-     * default variant is contained
+     * default variant is `contained`
      **/
     variant: 'text' | 'outlined' | 'contained';
     /**
-     * default color is primary
+     * default color is `primary`
      **/
     color: 'primary' | 'secondary' | 'success' | 'info' | 'warning' | 'danger';
     /**
-     * default size is medium
+     * default size is `medium`
      **/
     size: 'small' | 'medium' | 'large';
     /**
-     * default label is Button
+     * default label is `Button`
      **/
     label?: string;
     /**
-     * default boolean is false
+     * default boolean is `false`
      **/
     disabled?: boolean;
     /**
@@ -24,7 +24,5 @@ export interface IButtonProps {
      **/
     title?: string;
     children?: React.ReactNode;
-    startIcon?: React.ReactNode;
-    endIcon?: React.ReactNode;
     onClick?: (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;
 }

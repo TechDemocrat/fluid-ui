@@ -14,5 +14,5 @@ const Template: Story<IButtonProps> = (args) => <Button {...args} />;
 
 export const Primary = Template.bind({});
 Primary.args = {
-    label: 'Woah!',
+    label: 'Button',
 } as IButtonProps;

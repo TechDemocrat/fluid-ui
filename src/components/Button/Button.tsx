@@ -3,8 +3,10 @@ import { IButtonProps } from './Button.types';
 import styles from './Button.module.scss';
 import cn from 'classnames';
 import { capitalize } from 'lodash';
+import { useTheme } from '../ThemeProvider/ThemeProvider';
 
 export const Button = (props: IButtonProps) => {
+    // props
     const {
         label,
         title,
@@ -15,6 +17,11 @@ export const Button = (props: IButtonProps) => {
         disabled,
         onClick,
     } = props;
+
+    const { theme } = useTheme();
+    console.log(theme);
+
+    // compute
     const classnames = cn(
         styles.buttonWrapper,
         styles[`${variant}${capitalize(color)}`],
@@ -24,6 +31,7 @@ export const Button = (props: IButtonProps) => {
         },
     );
 
+    // paint
     return (
         <button className={classnames} title={title} onClick={onClick}>
             {children ?? label}
