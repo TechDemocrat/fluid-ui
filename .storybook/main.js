@@ -1,7 +1,15 @@
 const path = require('path');
+const glob = require('glob');
+
+const appDirectory = path.resolve(__dirname, '../src');
+
+const getStories = () =>
+    glob.sync(`${appDirectory}/**/**/*.stories.@(js|jsx|ts|tsx|mdx)`, {
+        ignore: `${appDirectory}/**/**/Template.stories.@(js|jsx|ts|tsx|mdx)`,
+    });
 
 module.exports = {
-    stories: ['../src/**/**/*.stories.mdx', '../src/**/**/*.stories.@(js|jsx|ts|tsx)'],
+    stories: async (list) => [...list, ...getStories()],
     addons: [
         '@storybook/addon-links',
         '@storybook/addon-essentials',
