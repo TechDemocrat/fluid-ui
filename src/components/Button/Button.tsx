@@ -18,7 +18,9 @@ export const Button = (props: IButtonProps) => {
         onClick,
     } = props;
 
-    const { theme } = useTheme();
+    // theme usage would be like this in the future in parent apps
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    const { theme, setTheme } = useTheme();
     console.log(theme);
 
     // compute
