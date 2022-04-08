@@ -5,7 +5,7 @@ const appDirectory = path.resolve(__dirname, '../src');
 
 const getStories = () =>
     glob.sync(`${appDirectory}/**/**/*.stories.@(js|jsx|ts|tsx|mdx)`, {
-        ignore: `${appDirectory}/**/**/Template.stories.@(js|jsx|ts|tsx|mdx)`,
+        ignore: `${appDirectory}/**/**/TemplateComponent.stories.@(js|jsx|ts|tsx|mdx)`,
     });
 
 module.exports = {
