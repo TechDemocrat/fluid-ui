@@ -22,7 +22,9 @@
         "lint-staged": "lint-staged",
         "husky:install": "husky install",
         "prepare": "yarn husky:install",
-        "husky:pre-commit": "yarn lint-staged"
+        "husky:pre-commit": "yarn lint-staged",
+        "chromatic": "chromatic --exit-zero-on-changes",
+        "cc": "node scripts/createComponent.js"
     },
     "devDependencies": {
         "@babel/core": "^7.17.8",
@@ -41,6 +43,7 @@
         "@typescript-eslint/eslint-plugin": "^5.17.0",
         "@typescript-eslint/parser": "^5.17.0",
         "babel-loader": "^8.2.4",
+        "chromatic": "^6.5.4",
         "css-loader": "5.2.7",
         "eslint": "^8.2.0",
         "eslint-config-airbnb": "19.0.4",
