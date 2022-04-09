@@ -6,7 +6,7 @@ import {
     baselineHeadphones,
     baselinePodcasts,
     baselineRssFeed,
-} from '../../utilities/icons/Iconify/index';
+} from '../../utilities/icons/iconify';
 import { IThemeColors } from '../ThemeProvider/ThemeProvider.types';
 
 interface IContentTypeMeta {
