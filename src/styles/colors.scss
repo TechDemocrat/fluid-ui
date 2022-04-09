@@ -2,13 +2,15 @@
 
 // core
 $color-primary: var(--color-primary);
+$color-primaryLight: var(--color-primaryLight);
 $color-secondary: var(--color-secondary);
+$color-secondaryLight: var(--color-secondaryLight);
 
 // foreground
 $color-foregroundPrimary: var(--color-foregroundPrimary);
+$color-foregroundPrimaryLight: var(--color-foregroundPrimaryLight);
 $color-foregroundSecondary: var(--color-foregroundSecondary);
 $color-foregroundTertiary: var(--color-foregroundTertiary);
-$color-foregroundPrimaryLight: var(--color-foregroundPrimaryLight);
 
 // background
 $color-backgroundPrimary: var(--color-backgroundPrimary);
@@ -17,10 +19,15 @@ $color-backgroundTertiary: var(--color-backgroundTertiary);
 
 // essentials
 $color-success: var(--color-success);
+$color-successLight: var(--color-successLight);
 $color-info: var(--color-info);
+$color-infoLight: var(--color-infoLight);
 $color-warning: var(--color-warning);
+$color-warningLight: var(--color-warningLight);
 $color-danger: var(--color-danger);
+$color-dangerLight: var(--color-dangerLight);
 $color-link: var(--color-link);
+$color-linkLight: var(--color-linkLight);
 
 // brand colors
 $color-contentVideo: var(--color-contentVideo);

@@ -6,9 +6,10 @@
 .buttonWrapper {
     display: flex;
     box-sizing: border-box;
+    border: none;
     border-radius: 4px;
     cursor: pointer;
-    font-weight: $medium-fontweight;
+    font-weight: $fontweight-medium;
 }
 
 .disabled {
@@ -17,38 +18,41 @@
 
 .large {
     padding: 10px 40px;
-    font-size: $bodyIntro-fontsize;
+    font-size: $fontsize-bodyIntro;
 }
 
 .medium {
     padding: 8px 30px;
-    font-size: $bodyMain-fontsize;
+    font-size: $fontsize-bodyMain;
 }
 
 .small {
     padding: 6px 20px;
-    font-size: $caption-fontsize;
+    font-size: $fontsize-caption;
 }
 
 // primary
+.containedOutlined {
+    box-shadow: 0 0 4px $color-foregroundSecondary;
+}
+
 .containedPrimary {
-    background-color: $primary-color;
-    color: $backgroundPrimary-color;
-    filter: drop-shadow(0 0 1px $primary-color);
+    background-color: $color-primary;
+    color: $color-backgroundPrimary;
 
     &:hover {
-        filter: drop-shadow(0 0 2px $primary-color);
+        box-shadow: 0 0 7px $color-foregroundSecondary;
         transition: all 0.2s ease-in-out;
     }
 }
 
 .outlinedPrimary {
-    border: 1px solid $primary-color;
+    border: 1px solid $color-primary;
     background-color: transparent;
-    color: $primary-color;
+    color: $color-primary;
 
     &:hover {
-        background-color: rgb($primary-color, 0.1);
+        background-color: $color-primaryLight;
         transition: all 0.2s ease-in-out;
     }
 }
@@ -56,33 +60,32 @@
 .textPrimary {
     border: none;
     background-color: transparent;
-    color: $primary-color;
+    color: $color-primary;
 
     &:hover {
-        background-color: rgb($primary-color, 0.1);
+        background-color: $color-primaryLight;
         transition: all 0.2s ease-in-out;
     }
 }
 
 // secondary
 .containedSecondary {
-    background-color: $backgroundPrimary-color;
-    color: $primary-color;
-    filter: drop-shadow(0 0 1px $primary-color);
+    background-color: $color-backgroundPrimary;
+    color: $color-primary;
 
     &:hover {
-        filter: drop-shadow(0 0 2px $primary-color);
+        box-shadow: 0 0 7px $color-foregroundSecondary;
         transition: all 0.2s ease-in-out;
     }
 }
 
 .outlinedSecondary {
-    border: 1px solid $secondary-color;
+    border: 1px solid $color-secondary;
     background-color: transparent;
-    color: $secondary-color;
+    color: $color-secondary;
 
     &:hover {
-        background-color: rgb($secondary-color, 0.1);
+        background-color: $color-secondaryLight;
         transition: all 0.2s ease-in-out;
     }
 }
@@ -90,142 +93,146 @@
 .textSecondary {
     border: none;
     background-color: transparent;
-    color: $secondary-color;
+    color: $color-foregroundPrimary;
 
     &:hover {
-        background-color: rgb($secondary-color, 0.1);
+        background-color: $color-backgroundTertiary;
         transition: all 0.2s ease-in-out;
     }
 }
 
 // success
 .containedSuccess {
-    background-color: $success-color;
-    color: $backgroundPrimary-color;
-    filter: drop-shadow(0 0 1px $success-color);
+    background-color: $color-success;
+    color: $color-backgroundPrimary;
 
     &:hover {
-        filter: drop-shadow(0 0 2px $success-color);
+        box-shadow: 0 0 7px $color-foregroundSecondary;
         transition: all 0.2s ease-in-out;
     }
 }
 
 .outlinedSuccess {
-    border: 1px solid $success-color;
+    border: 1px solid $color-success;
     background-color: transparent;
-    color: $success-color;
+    color: $color-success;
 
     &:hover {
-        background-color: rgb($success-color, 0.1);
+        background-color: $color-successLight;
+        color: $color-backgroundPrimary;
         transition: all 0.2s ease-in-out;
     }
 }
 
 .textSuccess {
     background-color: transparent;
-    color: $success-color;
+    color: $color-success;
 
     &:hover {
-        background-color: rgb($success-color, 0.1);
+        background-color: $color-successLight;
+        color: $color-backgroundPrimary;
         transition: all 0.2s ease-in-out;
     }
 }
 
 // danger
 .containedDanger {
-    background-color: $danger-color;
-    color: $backgroundPrimary-color;
-    filter: drop-shadow(0 0 1px $danger-color);
+    background-color: $color-danger;
+    color: $color-backgroundPrimary;
 
     &:hover {
-        filter: drop-shadow(0 0 2px $danger-color);
+        box-shadow: 0 0 7px $color-foregroundSecondary;
         transition: all 0.2s ease-in-out;
     }
 }
 
 .outlinedDanger {
-    border: 1px solid $danger-color;
+    border: 1px solid $color-danger;
     background-color: transparent;
-    color: $danger-color;
+    color: $color-danger;
 
     &:hover {
-        background-color: rgb($danger-color, 0.1);
+        background-color: $color-dangerLight;
+        color: $color-backgroundPrimary;
         transition: all 0.2s ease-in-out;
     }
 }
 
 .textDanger {
     background-color: transparent;
-    color: $danger-color;
+    color: $color-danger;
 
     &:hover {
-        background-color: rgb($danger-color, 0.1);
+        background-color: $color-dangerLight;
+        color: $color-backgroundPrimary;
         transition: all 0.2s ease-in-out;
     }
 }
 
 // info
 .containedInfo {
-    background-color: $info-color;
-    color: $backgroundPrimary-color;
-    filter: drop-shadow(0 0 1px $info-color);
+    background-color: $color-info;
+    color: $color-backgroundPrimary;
 
     &:hover {
-        filter: drop-shadow(0 0 2px $info-color);
+        box-shadow: 0 0 7px $color-foregroundSecondary;
         transition: all 0.2s ease-in-out;
     }
 }
 
 .outlinedInfo {
-    border: 1px solid $info-color;
+    border: 1px solid $color-info;
     background-color: transparent;
-    color: $info-color;
+    color: $color-info;
 
     &:hover {
-        background-color: rgb($info-color, 0.1);
+        background-color: $color-infoLight;
+        color: $color-backgroundPrimary;
         transition: all 0.2s ease-in-out;
     }
 }
 
 .textInfo {
     background-color: transparent;
-    color: $info-color;
+    color: $color-info;
 
     &:hover {
-        background-color: rgb($info-color, 0.1);
+        background-color: $color-infoLight;
+        color: $color-backgroundPrimary;
         transition: all 0.2s ease-in-out;
     }
 }
 
 // warning
 .containedWarning {
-    background-color: $warning-color;
-    color: $backgroundPrimary-color;
-    filter: drop-shadow(0 0 1px $warning-color);
+    background-color: $color-warning;
+    color: $color-backgroundPrimary;
 
     &:hover {
-        filter: drop-shadow(0 0 2px $warning-color);
+        box-shadow: 0 0 7px $color-foregroundSecondary;
         transition: all 0.2s ease-in-out;
     }
 }
 
 .outlinedWarning {
-    border: 1px solid $warning-color;
+    border: 1px solid $color-warning;
     background-color: transparent;
-    color: $warning-color;
+    color: $color-warning;
 
     &:hover {
-        background-color: rgb($warning-color, 0.1);
+        background-color: $color-warningLight;
+        color: $color-backgroundPrimary;
         transition: all 0.2s ease-in-out;
     }
 }
 
 .textWarning {
     background-color: transparent;
-    color: $warning-color;
+    color: $color-warning;
 
     &:hover {
-        background-color: rgb($warning-color, 0.1);
+        background-color: $color-warningLight;
+        color: $color-backgroundPrimary;
         transition: all 0.2s ease-in-out;
     }
 }

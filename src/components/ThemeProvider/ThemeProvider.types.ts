@@ -2,22 +2,29 @@ import { ReactElement } from 'react';
 
 export interface IThemeColors {
     primary: string;
+    primaryLight: string;
     secondary: string;
+    secondaryLight: string;
 
     foregroundPrimary: string;
+    foregroundPrimaryLight: string;
     foregroundSecondary: string;
     foregroundTertiary: string;
-    foregroundPrimaryLight: string;
 
     backgroundPrimary: string;
     backgroundSecondary: string;
     backgroundTertiary: string;
 
     success: string;
+    successLight: string;
     info: string;
+    infoLight: string;
     warning: string;
+    warningLight: string;
     danger: string;
+    dangerLight: string;
     link: string;
+    linkLight: string;
 
     contentVideo: string;
     contentBlog: string;

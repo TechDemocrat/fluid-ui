@@ -3,7 +3,6 @@ import { IButtonProps } from './Button.types';
 import styles from './Button.module.scss';
 import cn from 'classnames';
 import { capitalize } from 'lodash';
-import { useTheme } from '../ThemeProvider/ThemeProvider';
 
 export const Button = (props: IButtonProps) => {
     // props
@@ -18,11 +17,6 @@ export const Button = (props: IButtonProps) => {
         onClick,
     } = props;
 
-    // theme usage would be like this in the future in parent apps
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    const { theme, setTheme } = useTheme();
-    console.log(theme);
-
     // compute
     const classnames = cn(
         styles.buttonWrapper,
@@ -30,6 +24,7 @@ export const Button = (props: IButtonProps) => {
         styles[`${size}`],
         {
             [styles.disabled]: disabled,
+            [styles.containedOutlined]: variant === 'contained' || variant === 'outlined',
         },
     );
 
