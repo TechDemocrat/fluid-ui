@@ -8,7 +8,9 @@
     /* colors */
     // core
     --color-primary: #0f307f;
+    --color-primary-light: #0f307f1a;
     --color-secondary: #9dadd0;
+    --color-secondary-light: #9dadd07c;
 
     // foreground
     --color-foregroundPrimary: #212121;
@@ -22,10 +24,15 @@
 
     // essentials
     --color-success: #7cc887;
+    --color-success-light: #7cc8877e;
     --color-info: #41c2f5;
+    --color-info-light: #41c2f580;
     --color-warning: #ffb857;
+    --color-warning-light: #ffb95780;
     --color-danger: #e97375;
+    --color-danger-light: #e973757c;
     --color-link: #3b6fee;
+    --color-link-light: #3b6eee7a;
 
     // brand colors
     --color-brandColor1: #0086ce;
