@@ -6,7 +6,9 @@ import {
 
 export const defaultColors: IThemeColors = {
     primary: '#0F307F',
+    primaryLight: '#0f307f1a',
     secondary: '#9DADD0',
+    secondaryLight: '#9dadd07c',
 
     foregroundPrimary: '#212121',
     foregroundSecondary: '#666666',
@@ -17,10 +19,15 @@ export const defaultColors: IThemeColors = {
     backgroundTertiary: '#E0E0E0',
 
     success: '#7CC887',
+    successLight: '#7cc8877e',
     info: '#41C2F5',
+    infoLight: '#41c2f580',
     warning: '#FFB857',
+    warningLight: '#ffb95780',
     danger: '#E97375',
+    dangerLight: '#e973757c',
     link: '#3B6FEE',
+    linkLight: '#3b6eee7a',
 
     brandColor1: '#0086CE',
     brandColor2: '#FFB857',
