@@ -1,3 +1,3 @@
 export interface ITemplateComponentProps {
-    title?: string;
+    title: string;
 }

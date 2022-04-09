@@ -5,11 +5,11 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    color: $primary-color;
+    color: $color-primary;
     cursor: pointer;
 
     &:hover {
-        background-color: $backgroundTertiary-color;
+        background-color: $color-backgroundTertiary;
         border-radius: 50%;
     }
 

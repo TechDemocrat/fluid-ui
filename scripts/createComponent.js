@@ -5,6 +5,8 @@ const fs = require('fs');
 const tempalteName = 'TemplateComponent';
 const componentsDirectory = path.resolve(__dirname, '../src/components');
 const templateDirectory = path.resolve(componentsDirectory, `./_${tempalteName}`);
+const exportIndexDirectory = path.resolve(__dirname, '../src/index.ts');
+const indexEntryTemplate = `export { TemplateComponent } from './components/TemplateComponent/TemplateComponent';`;
 
 // read all files from the templateDirectory
 const templateFiles = fs.readdirSync(templateDirectory);
@@ -40,10 +42,10 @@ const componentToBeCreatedDirectory = path.resolve(componentsDirectory, componen
 fs.mkdirSync(componentToBeCreatedDirectory);
 
 // iterate over template files and replace any string named with all the occurence of tempalteName with the name of the componentToBeCreated and create the file to the componentToBeCreatedDirectory with the componentToBeCreated name
+const templateNameRegExp = new RegExp(tempalteName, 'g');
 templateFiles.forEach((templateFile) => {
     const templateFilePath = path.resolve(templateDirectory, templateFile);
     const templateFileContent = fs.readFileSync(templateFilePath, 'utf8');
-    const templateNameRegExp = new RegExp(tempalteName, 'g');
     const newFileContent = templateFileContent.replace(templateNameRegExp, componentToBeCreated);
     const newFilePath = path.resolve(
         componentToBeCreatedDirectory,
@@ -51,3 +53,10 @@ templateFiles.forEach((templateFile) => {
     );
     fs.writeFileSync(newFilePath, newFileContent);
 });
+
+// add componentToBeCreated entry in the exportIndexDirectory by replacing the indexEntryTemplate with the componentToBeCreated name
+const indexEntry = indexEntryTemplate.replace(templateNameRegExp, componentToBeCreated);
+const indexFileContent = fs.readFileSync(exportIndexDirectory, 'utf8');
+// insert indexEntry at atlast index of the indexFileContent
+const newIndexFileContent = indexFileContent.replace(/\n$/, `\n${indexEntry}\n`);
+fs.writeFileSync(exportIndexDirectory, newIndexFileContent);

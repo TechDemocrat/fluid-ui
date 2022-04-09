@@ -7,6 +7,7 @@ export interface IThemeColors {
     secondaryLight: string;
 
     foregroundPrimary: string;
+    foregroundPrimaryLight: string;
     foregroundSecondary: string;
     foregroundTertiary: string;
 
@@ -25,12 +26,11 @@ export interface IThemeColors {
     link: string;
     linkLight: string;
 
-    brandColor1: string;
-    brandColor2: string;
-    brandColor3: string;
-    brandColor4: string;
-    brandColor5: string;
-    brandColor6: string;
+    contentVideo: string;
+    contentBlog: string;
+    contentPodcast: string;
+    contentMusic: string;
+    contentPhoto: string;
 }
 
 export interface IThemeFontSizes {

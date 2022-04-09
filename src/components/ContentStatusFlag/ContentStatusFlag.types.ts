@@ -1,3 +1,3 @@
 export interface IContentStatusFlagProps {
-    title?: string;
+    title: string;
 }

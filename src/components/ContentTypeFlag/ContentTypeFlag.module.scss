@@ -1,6 +1,26 @@
 @import "../../styles/fontSizes";
 @import "../../styles/colors";
+@import "../../styles/fontWeights";
+@import "../../styles/mixins";
+@import "../../styles/mediaQueries";
 
 .wrapper {
-    display: block;
+    display: flex;
+    width: min-content;
+    align-items: center;
+    justify-content: center;
+    padding: 6px 12px;
+    border-radius: 5px;
+    color: $color-foregroundPrimaryLight;
+    cursor: default;
+    font-size: $fontsize-small;
+    font-weight: $fontweight-semibold;
+    gap: 5px;
+
+    .icon {
+        font-size: calc($fontsize-small * 1.8);
+    }
+
+    // .text {
+    // }
 }

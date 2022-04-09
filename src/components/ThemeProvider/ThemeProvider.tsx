@@ -34,14 +34,14 @@ export function ThemeProvider(props: IThemeProviderProps): ReactElement {
 
         Object.keys(colors).forEach((key) => {
             document.documentElement.style.setProperty(
-                `--${key}-color`,
+                `--color-${key}`,
                 colors[key as keyof IThemeColors],
             );
         });
 
         Object.keys(fontSizes).forEach((key) => {
             document.documentElement.style.setProperty(
-                `--${key}-fontsize`,
+                `--fontsize-${key}`,
                 fontSizes[key as keyof IThemeFontSizes],
             );
         });
