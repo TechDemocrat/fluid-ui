@@ -20,10 +20,8 @@ export class ContentTypeFlagService {
         themeColors: IThemeColors,
         type?: EContentType,
     ): IContentTypeMeta {
-        console.log(typeof type, typeof EContentType.BLOG);
         switch (Number(type)) {
             case EContentType.BLOG: {
-                console.log('hitis');
                 return {
                     label: 'Blog',
                     icon: baselineRssFeed,
@@ -53,7 +51,6 @@ export class ContentTypeFlagService {
             }
             case EContentType.VIDEO:
             default: {
-                console.log('hits video');
                 return {
                     label: 'Video',
                     icon: baselineVideocam,
