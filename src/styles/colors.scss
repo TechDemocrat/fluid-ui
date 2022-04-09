@@ -1,30 +1,30 @@
 /* we will be getting values from css varianbles , this would help in themeing  */
 
 // core
-$primary-color: var(--color-primary);
-$secondary-color: var(--color-secondary);
+$color-primary: var(--color-primary);
+$color-secondary: var(--color-secondary);
 
 // foreground
-$foregroundPrimary-color: var(--color-foregroundPrimary);
-$foregroundSecondary-color: var(--color-foregroundSecondary);
-$foregroundTertiary-color: var(--color-foregroundTertiary);
-$foregroundPrimaryLight-color: var(--color-foregroundPrimaryLight);
+$color-foregroundPrimary: var(--color-foregroundPrimary);
+$color-foregroundSecondary: var(--color-foregroundSecondary);
+$color-foregroundTertiary: var(--color-foregroundTertiary);
+$color-foregroundPrimaryLight: var(--color-foregroundPrimaryLight);
 
 // background
-$backgroundPrimary-color: var(--color-backgroundPrimary);
-$backgroundSecondary-color: var(--color-backgroundSecondary);
-$backgroundTertiary-color: var(--color-backgroundTertiary);
+$color-backgroundPrimary: var(--color-backgroundPrimary);
+$color-backgroundSecondary: var(--color-backgroundSecondary);
+$color-backgroundTertiary: var(--color-backgroundTertiary);
 
 // essentials
-$success-color: var(--color-success);
-$info-color: var(--color-info);
-$warning-color: var(--color-warning);
-$danger-color: var(--color-danger);
-$link-color: var(--color-link);
+$color-success: var(--color-success);
+$color-info: var(--color-info);
+$color-warning: var(--color-warning);
+$color-danger: var(--color-danger);
+$color-link: var(--color-link);
 
 // brand colors
-$contentVideo-color: var(--color-contentVideo);
-$contentBlog-color: var(--color-contentBlog);
-$contentPodcast-color: var(--color-contentPodcast);
-$contentMusic-color: var(--color-contentMusic);
-$contentPhoto-color: var(--color-contentPhoto);
+$color-contentVideo: var(--color-contentVideo);
+$color-contentBlog: var(--color-contentBlog);
+$color-contentPodcast: var(--color-contentPodcast);
+$color-contentMusic: var(--color-contentMusic);
+$color-contentPhoto: var(--color-contentPhoto);

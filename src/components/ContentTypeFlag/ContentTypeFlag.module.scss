@@ -11,14 +11,14 @@
     justify-content: center;
     padding: 6px 12px;
     border-radius: 5px;
-    color: $foregroundPrimaryLight-color;
+    color: $color-foregroundPrimaryLight;
     cursor: default;
-    font-size: $small-fontsize;
-    font-weight: $semibold-fontweight;
+    font-size: $fontsize-small;
+    font-weight: $fontweight-semibold;
     gap: 5px;
 
     .icon {
-        font-size: calc($small-fontsize * 1.8);
+        font-size: calc($fontsize-small * 1.8);
     }
 
     // .text {

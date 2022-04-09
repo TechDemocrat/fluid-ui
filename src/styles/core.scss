@@ -71,43 +71,43 @@ body {
     height: 100vh;
 
     // global color for all elements in the app, if not specified explicitly throught available variables
-    color: $foregroundPrimary-color;
+    color: $color-foregroundPrimary;
 
     // all component will have p tag's font-size as base font-size,
-    font-size: $bodyMain-fontsize;
+    font-size: $fontsize-bodyMain;
 }
 
 h1 {
-    font-size: $h1-fontsize;
-    font-weight: $bold-fontweight;
+    font-size: $fontsize-h1;
+    font-weight: $fontweight-bold;
 }
 
 h2 {
-    font-size: $h2-fontsize;
-    font-weight: $bold-fontweight;
+    font-size: $fontsize-h2;
+    font-weight: $fontweight-bold;
 }
 
 h3 {
-    font-size: $h3-fontsize;
-    font-weight: $bold-fontweight;
+    font-size: $fontsize-h3;
+    font-weight: $fontweight-bold;
 }
 
 h4 {
-    font-size: $h4-fontsize;
-    font-weight: $semibold-fontweight;
+    font-size: $fontsize-h4;
+    font-weight: $fontweight-semibold;
 }
 
 h5 {
-    font-size: $h5-fontsize;
-    font-weight: $semibold-fontweight;
+    font-size: $fontsize-h5;
+    font-weight: $fontweight-semibold;
 }
 
 h6 {
-    font-size: $h6-fontsize;
-    font-weight: $semibold-fontweight;
+    font-size: $fontsize-h6;
+    font-weight: $fontweight-semibold;
 }
 
 p {
-    font-size: $bodyMain-fontsize;
-    font-weight: $normal-fontweight;
+    font-size: $fontsize-bodyMain;
+    font-weight: $fontweight-normal;
 }
