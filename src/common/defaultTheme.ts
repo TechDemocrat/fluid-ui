@@ -11,6 +11,7 @@ export const defaultColors: IThemeColors = {
     foregroundPrimary: '#212121',
     foregroundSecondary: '#666666',
     foregroundTertiary: '#9E9E9E',
+    foregroundPrimaryLight: '#FFFFFF',
 
     backgroundPrimary: '#FFFFFF',
     backgroundSecondary: '#F5F5F5',
@@ -22,12 +23,11 @@ export const defaultColors: IThemeColors = {
     danger: '#E97375',
     link: '#3B6FEE',
 
-    brandColor1: '#0086CE',
-    brandColor2: '#FFB857',
-    brandColor3: '#8E7CC3',
-    brandColor4: '#8E7CC3',
-    brandColor5: '#FA453C',
-    brandColor6: '#3A6FEE',
+    contentVideo: '#0086CE',
+    contentBlog: '#FFB857',
+    contentPodcast: '#8E7CC3',
+    contentMusic: '#5EBC6E',
+    contentPhoto: '#FA453C',
 };
 
 export const defaultFontSizes: IThemeFontSizes = {

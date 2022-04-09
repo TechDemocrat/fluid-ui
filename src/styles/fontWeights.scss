@@ -1,5 +1,5 @@
-$light-fontweight: 300;
-$normal-fontweight: 400;
-$medium-fontweight: 500;
-$bold-fontweight: 700;
-$semibold-fontweight: 600;
+$light-fontweight: var(--fontweight-light);
+$normal-fontweight: var(--fontweight-normal);
+$medium-fontweight: var(--fontweight-medium);
+$bold-fontweight: var(--fontweight-bold);
+$semibold-fontweight: var(--fontweight-semibold);

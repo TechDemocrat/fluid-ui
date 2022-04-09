@@ -14,6 +14,7 @@
     --color-foregroundPrimary: #212121;
     --color-foregroundSecondary: #666;
     --color-foregroundTertiary: #9e9e9e;
+    --color-foregroundPrimaryLight: #fff;
 
     // background
     --color-backgroundPrimary: #fff;
@@ -28,25 +29,31 @@
     --color-link: #3b6fee;
 
     // brand colors
-    --color-brandColor1: #0086ce;
-    --color-brandColor2: #ffb857;
-    --color-brandColor3: #8e7cc3;
-    --color-brandColor4: #8e7cc3;
-    --color-brandColor5: #fa453c;
-    --color-brandColor6: #3a6fee;
+    --color-contentVideo: #0086ce;
+    --color-contentBlog: #ffb857;
+    --color-contentPodcast: #8e7cc3;
+    --color-contentMusic: #5ebc6e;
+    --color-contentPhoto: #fa453c;
 
-    /* font-sizes */
-    --font-size-h1: 3rem;
-    --font-size-h2: 2.5rem;
-    --font-size-h3: 2rem;
-    --font-size-h4: 1.75rem;
-    --font-size-h5: 1.5rem;
-    --font-size-h6: 1.25rem;
-    --font-size-bodyIntro: 1.125rem;
-    --font-size-bodyMain: 1rem;
-    --font-size-medium: 0.875rem;
-    --font-size-caption: 0.75rem;
-    --font-size-small: 0.625rem;
+    // font sizes
+    --fontsize-h1: 3rem;
+    --fontsize-h2: 2.5rem;
+    --fontsize-h3: 2rem;
+    --fontsize-h4: 1.75rem;
+    --fontsize-h5: 1.5rem;
+    --fontsize-h6: 1.25rem;
+    --fontsize-bodyIntro: 1.125rem;
+    --fontsize-bodyMain: 1rem;
+    --fontsize-medium: 0.875rem;
+    --fontsize-caption: 0.75rem;
+    --fontsize-small: 0.625rem;
+
+    // font weights
+    --fontweight-light: 300;
+    --fontweight-normal: 400;
+    --fontweight-medium: 500;
+    --fontweight-bold: 700;
+    --fontweight-semibold: 600;
 }
 
 * {
