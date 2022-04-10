@@ -18,45 +18,42 @@ interface IContentTypeMeta {
 export class ContentTypeFlagService {
     public static getContentTypeMeta(
         themeColors: IThemeColors,
-        type?: EContentType,
+        type: EContentType,
     ): IContentTypeMeta {
-        switch (Number(type)) {
-            case EContentType.BLOG: {
-                return {
-                    label: 'Blog',
-                    icon: baselineRssFeed,
-                    color: themeColors.contentBlog,
-                };
-            }
-            case EContentType.MUSIC: {
-                return {
-                    label: 'Music',
-                    icon: baselineHeadphones,
-                    color: themeColors.contentMusic,
-                };
-            }
-            case EContentType.PODCAST: {
-                return {
-                    label: 'Podcast',
-                    icon: baselinePodcasts,
-                    color: themeColors.contentPodcast,
-                };
-            }
-            case EContentType.PHOTO: {
-                return {
-                    label: 'Photo',
-                    icon: baselineCameraAlt,
-                    color: themeColors.contentPhoto,
-                };
-            }
+        const meta: IContentTypeMeta = {
+            label: '',
+            color: '',
+            icon: null as unknown as IconifyIcon,
+        };
+        switch (type) {
+            case EContentType.BLOG:
+                meta.label = 'Blog';
+                meta.icon = baselineRssFeed;
+                meta.color = themeColors.contentBlog;
+                break;
+            case EContentType.MUSIC:
+                meta.label = 'Music';
+                meta.icon = baselineHeadphones;
+                meta.color = themeColors.contentMusic;
+                break;
+            case EContentType.PODCAST:
+                meta.label = 'Podcast';
+                meta.icon = baselinePodcasts;
+                meta.color = themeColors.contentPodcast;
+                break;
+            case EContentType.PHOTO:
+                meta.label = 'Photo';
+                meta.icon = baselineCameraAlt;
+                meta.color = themeColors.contentPhoto;
+                break;
             case EContentType.VIDEO:
-            default: {
-                return {
-                    label: 'Video',
-                    icon: baselineVideocam,
-                    color: themeColors.contentVideo,
-                };
-            }
+            default:
+                meta.label = 'Video';
+                meta.icon = baselineVideocam;
+                meta.color = themeColors.contentVideo;
+                break;
         }
+
+        return meta;
     }
 }

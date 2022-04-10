@@ -16,6 +16,7 @@
     font-size: $fontsize-small;
     font-weight: $fontweight-semibold;
     gap: 5px;
+    user-select: none;
 
     .icon {
         font-size: calc($fontsize-small * 1.8);

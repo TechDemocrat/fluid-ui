@@ -17,18 +17,18 @@ export const ContentTypeFlag = (props: IContentTypeFlagProps) => {
     } = useTheme();
 
     // compute
-    const contentTypeMeta = ContentTypeFlagService.getContentTypeMeta(colors, type);
+    const { color, icon, label } = ContentTypeFlagService.getContentTypeMeta(colors, type);
 
     // styles
     const wrapperStyle: CSSProperties = {
-        backgroundColor: contentTypeMeta.color,
+        backgroundColor: color,
     };
 
     // paint
     return (
         <div className={cn(styles.wrapper)} style={wrapperStyle}>
-            <Icon icon={contentTypeMeta.icon} className={cn(styles.icon)} />
-            <span className={cn(styles.text)}>{contentTypeMeta.label}</span>
+            <Icon icon={icon} className={cn(styles.icon)} />
+            <span className={cn(styles.text)}>{label}</span>
         </div>
     );
 };

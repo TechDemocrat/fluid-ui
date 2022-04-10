@@ -1,14 +1,11 @@
 export enum EContentType {
-    VIDEO,
-    BLOG,
-    MUSIC,
-    PODCAST,
-    PHOTO,
+    VIDEO = 'VIDEO',
+    BLOG = 'BLOG',
+    MUSIC = 'MUSIC',
+    PODCAST = 'PODCAST',
+    PHOTO = 'PHOTO',
 }
 
 export interface IContentTypeFlagProps {
-    /**
-     * @default EContentType.VIDEO
-     */
-    type?: EContentType;
+    type: EContentType;
 }
