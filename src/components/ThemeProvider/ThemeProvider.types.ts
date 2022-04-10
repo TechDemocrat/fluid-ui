@@ -14,6 +14,7 @@ export interface IThemeColors {
     backgroundPrimary: string;
     backgroundSecondary: string;
     backgroundTertiary: string;
+    backgroundPrimaryDark: string;
 
     success: string;
     successLight: string;
