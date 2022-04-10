@@ -5,5 +5,25 @@
 @import "../../styles/mediaQueries";
 
 .wrapper {
-    display: block;
+    display: flex;
+    width: min-content;
+    align-items: center;
+    justify-content: center;
+    padding: 0 5px;
+    color: $color-foregroundSecondary;
+    cursor: default;
+    font-size: $fontsize-small;
+    font-weight: $fontweight-medium;
+    gap: 5px;
+    user-select: none;
+
+    .indicator {
+        width: calc($fontsize-small * 1.2);
+        height: calc($fontsize-small * 1.2);
+        border-radius: 50%;
+    }
+
+    .text {
+        white-space: nowrap;
+    }
 }
