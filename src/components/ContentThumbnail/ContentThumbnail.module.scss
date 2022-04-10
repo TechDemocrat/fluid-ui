@@ -1,0 +1,95 @@
+@import "../../styles/fontSizes";
+@import "../../styles/colors";
+@import "../../styles/fontWeights";
+@import "../../styles/mixins";
+@import "../../styles/mediaQueries";
+
+.wrapper {
+    display: flex;
+    width: 250px;
+    height: auto;
+    flex-direction: column;
+    cursor: pointer;
+    gap: 5px;
+
+    .thumbnailImageWrapper {
+        position: relative;
+        overflow: hidden;
+        width: 100%;
+        height: 160px;
+        background-color: $color-foregroundPrimary;
+        border-radius: 2px;
+
+        .imageHolder {
+            width: 100%;
+            height: 100%;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-size: contain;
+            transition: all 0.3s ease-in-out;
+        }
+
+        .contentTypeFlagWrapper {
+            position: absolute;
+            z-index: 1;
+            top: 5px;
+            left: 5px;
+        }
+
+        .contentTimerWrapper {
+            position: absolute;
+            z-index: 1;
+            right: 5px;
+            bottom: 5px;
+            padding: 5px;
+            background-color: $color-backgroundPrimaryDark;
+            border-radius: 2px;
+            color: $color-foregroundPrimaryLight;
+            font-size: $fontsize-small;
+            font-weight: $fontweight-normal;
+        }
+    }
+
+    .contentMeta {
+        display: grid;
+        gap: 5px;
+        grid-template-rows: auto auto;
+
+        .contentTitle {
+            /* stylelint-disable-next-line value-no-vendor-prefix */
+            display: -webkit-box;
+            overflow: hidden;
+            max-width: 100%;
+            -webkit-box-orient: vertical;
+            font-size: $fontsize-medium;
+            font-weight: $fontweight-semibold;
+            -webkit-line-clamp: 2;
+            text-overflow: ellipsis;
+        }
+
+        .contentInfoWrapper {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            justify-content: space-between;
+            gap: 5px;
+
+            .contentUploadedTime {
+                color: $color-foregroundSecondary;
+                font-size: $fontsize-small;
+            }
+
+            // .contentStatusFlagWrapper{
+
+            // }
+        }
+    }
+
+    &:hover {
+        .thumbnailImageWrapper {
+            .imageHolder {
+                filter: brightness(0.8);
+            }
+        }
+    }
+}

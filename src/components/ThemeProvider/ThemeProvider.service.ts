@@ -15,6 +15,7 @@ export class ThemeProviderService {
         backgroundPrimary: '#FFFFFF',
         backgroundSecondary: '#F5F5F5',
         backgroundTertiary: '#E0E0E0',
+        backgroundPrimaryDark: '#212121',
 
         success: '#7CC887',
         successLight: '#7cc8877e',
