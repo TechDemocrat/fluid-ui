@@ -1,5 +1,6 @@
 const path = require('path');
 const fs = require('fs');
+const exec = require('child_process').exec;
 
 // essentials
 const tempalteName = 'TemplateComponent';
@@ -60,3 +61,6 @@ const indexFileContent = fs.readFileSync(exportIndexDirectory, 'utf8');
 // insert indexEntry at atlast index of the indexFileContent
 const newIndexFileContent = indexFileContent.replace(/\n$/, `\n${indexEntry}\n`);
 fs.writeFileSync(exportIndexDirectory, newIndexFileContent);
+
+// open the componentToBeCreated.tsx file with code -g command at 16:12 (at return statement start) position
+exec(`code -g ${componentToBeCreatedDirectory}/${componentToBeCreated}.tsx:16:12`);

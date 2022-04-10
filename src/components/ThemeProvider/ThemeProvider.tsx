@@ -1,7 +1,8 @@
-import React, { createContext, ReactElement, useContext, useEffect, useState } from 'react';
-import { defaultTheme } from '../../common/defaultTheme';
+import React, { createContext, ReactElement, useContext, useEffect, useRef, useState } from 'react';
 import '../../styles/core.scss';
 import { IThemeColors, IThemeFontSizes, ITheme, IThemeProviderProps } from './ThemeProvider.types';
+import { ThemeProviderService } from './ThemeProvider.service';
+import { isEqual } from 'lodash';
 
 interface IThemeContext {
     theme: ITheme;
@@ -9,7 +10,7 @@ interface IThemeContext {
 }
 
 export const ThemeContext = createContext<IThemeContext>({
-    theme: defaultTheme,
+    theme: ThemeProviderService.getDefaultTheme(),
     setTheme: () => {},
 });
 
@@ -17,7 +18,10 @@ export const useTheme = () => useContext(ThemeContext);
 
 export function ThemeProvider(props: IThemeProviderProps): ReactElement {
     // props
-    const { children, theme = defaultTheme } = props;
+    const { children, theme = ThemeProviderService.getDefaultTheme() } = props;
+
+    // refs
+    const previousTheme = useRef<ITheme | null>(null); // | null to mutate the ref directly
 
     // state
     const [currentTheme, setCurrentTheme] = useState<ITheme>(theme);
@@ -25,7 +29,10 @@ export function ThemeProvider(props: IThemeProviderProps): ReactElement {
     // effects
     // on theme change
     useEffect(() => {
-        setCurrentTheme(theme);
+        if (!isEqual(theme, previousTheme.current)) {
+            previousTheme.current = theme;
+            setCurrentTheme(theme);
+        }
     }, [theme]);
 
     // writes theme colors / fontsizes to the css variables on theme change
