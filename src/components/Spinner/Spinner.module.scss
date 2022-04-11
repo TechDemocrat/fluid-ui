@@ -1,0 +1,113 @@
+@import "../../styles/fontSizes";
+@import "../../styles/colors";
+@import "../../styles/fontWeights";
+@import "../../styles/mixins";
+@import "../../styles/mediaQueries";
+
+.spin {
+    animation-duration: 2000ms;
+    animation-iteration-count: infinite;
+    animation-name: spin;
+    animation-timing-function: linear;
+}
+
+@keyframes spin {
+    from {
+        transform: rotate(0deg);
+    }
+
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+.wrapper {
+    display: block;
+    width: min-content;
+    height: min-content;
+
+    // create loader with border and clip path
+    .spinner {
+        position: relative;
+        width: $fontsize-small;
+        height: $fontsize-small;
+
+        // track
+        &::before {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border: 2px solid $color-secondary;
+            border-radius: 50%;
+            content: "";
+        }
+
+        // spinner
+        &::after {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border: 2px solid $color-secondary;
+            border-color: $color-primary $color-primary transparent transparent;
+            animation: spin 1.2s cubic-bezier(0.5, 0, 0.5, 1) infinite;
+            border-radius: 50%;
+            content: "";
+        }
+
+        // sizes
+        &.small {
+            width: $fontsize-small;
+            height: $fontsize-small;
+
+            &::before,
+            &::after {
+                border-width: 2px;
+            }
+        }
+
+        &.medium {
+            width: $fontsize-bodyMain;
+            height: $fontsize-bodyMain;
+
+            &::before,
+            &::after {
+                border-width: 3px;
+            }
+        }
+
+        &.large {
+            width: $fontsize-h5;
+            height: $fontsize-h5;
+
+            &::before,
+            &::after {
+                border-width: 4px;
+            }
+        }
+
+        // colors
+        &.primary {
+            &::before {
+                border-color: $color-secondary;
+            }
+
+            &::after {
+                border-color: $color-primary $color-primary transparent transparent;
+            }
+        }
+
+        &.secondary {
+            &::before {
+                border-color: $color-foregroundTertiary;
+            }
+
+            &::after {
+                border-color: $color-backgroundTertiary $color-backgroundTertiary transparent transparent;
+            }
+        }
+    }
+}
