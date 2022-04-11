@@ -30,6 +30,10 @@
     border: 0 solid $color-foregroundTertiary;
     background: $color-backgroundSecondary;
     border-radius: 4px;
+
+    &:hover {
+        outline: 1px solid $color-foregroundTertiary;
+    }
 }
 
 .placeholder {
@@ -42,7 +46,7 @@
     background-image: linear-gradient(to bottom, $color-backgroundPrimary 50%, $color-backgroundSecondary 50%);
     font-size: 12px;
     opacity: 0;
-    transition: opacity 0.5s ease-in-out;
+    transition: opacity 0.3s ease-in-out;
     visibility: hidden;
 }
 
