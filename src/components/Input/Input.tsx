@@ -11,7 +11,7 @@ import { useTheme } from '../ThemeProvider/ThemeProvider';
 export const Input = (props: IInputProps) => {
     // props
     const {
-        placeholder,
+        placeholder = 'Text',
         value,
         type = EInputType.TEXT,
         size = EInputSize.MEDIUM,
@@ -58,12 +58,12 @@ export const Input = (props: IInputProps) => {
                 <input
                     className={cn(styles.input, { [styles.disabled]: disabled })}
                     // disabled={disabled}
-                    type={type ?? 'text'}
+                    type={type}
                     placeholder={placeholder}
                     value={localValue}
                     onChange={(e) => handleTextChange(e)}
                 />
-                <span className={styles.placeholder}>{placeholder ?? 'Label'}</span>
+                <span className={styles.placeholder}>{placeholder}</span>
                 {showIcon && (
                     <span className={styles.icon}>
                         <Icon
