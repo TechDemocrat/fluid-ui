@@ -1,0 +1,71 @@
+@import "../../styles/fontSizes";
+@import "../../styles/colors";
+@import "../../styles/fontWeights";
+@import "../../styles/mixins";
+@import "../../styles/mediaQueries";
+
+.wrapper {
+    display: flex;
+    width: min-content;
+    flex-direction: row;
+    align-items: center;
+
+    &.smallGap {
+        gap: 5px;
+    }
+
+    &.mediumGap {
+        gap: 10px;
+    }
+
+    .actionNode {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 5px;
+        border-radius: 3px;
+        color: $color-foregroundSecondary;
+        cursor: pointer;
+        font-weight: $fontweight-medium;
+        gap: 5px;
+
+        // user-select: none;
+
+        &:hover {
+            background-color: $color-backgroundTertiary;
+        }
+
+        .actionIcon {
+            font-size: calc($fontsize-small * 1.2);
+
+            &.loveFilledColor {
+                color: $color-danger;
+            }
+        }
+
+        .actionLabel {
+            font-size: $fontsize-small;
+        }
+
+        // sizes
+        &.small {
+            .actionIcon {
+                font-size: calc($fontsize-small * 1.2);
+            }
+
+            .actionLabel {
+                font-size: $fontsize-small;
+            }
+        }
+
+        &.medium {
+            .actionIcon {
+                font-size: calc($fontsize-medium * 1.2);
+            }
+
+            .actionLabel {
+                font-size: $fontsize-medium;
+            }
+        }
+    }
+}
