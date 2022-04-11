@@ -5,3 +5,4 @@ export { Link } from './components/Link/Link';
 export { ContentTypeFlag } from './components/ContentTypeFlag/ContentTypeFlag';
 export { ContentStatusFlag } from './components/ContentStatusFlag/ContentStatusFlag';
 export { HorizontalRule } from './components/HorizontalRule/HorizontalRule';
+export { Input } from './components/Input/Input';
