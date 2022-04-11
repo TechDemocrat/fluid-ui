@@ -6,3 +6,4 @@ export { ContentTypeFlag } from './components/ContentTypeFlag/ContentTypeFlag';
 export { ContentStatusFlag } from './components/ContentStatusFlag/ContentStatusFlag';
 export { ContentThumbnail } from './components/ContentThumbnail/ContentThumbnail';
 export { Spinner } from './components/Spinner/Spinner';
+export { ContentActionGroup } from './components/ContentActionGroup/ContentActionGroup';
