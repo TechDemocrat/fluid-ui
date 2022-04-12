@@ -65,6 +65,12 @@ input:focus + .placeholder {
     visibility: visible;
 }
 
+input:not(:placeholder-shown) + .placeholder {
+    width: unset;
+    opacity: 1;
+    visibility: visible;
+}
+
 .icon {
     position: absolute;
     top: 50%;
