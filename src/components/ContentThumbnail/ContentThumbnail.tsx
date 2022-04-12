@@ -6,14 +6,13 @@ import styles from './ContentThumbnail.module.scss';
 // import { ContentThumbnailService } from './ContentThumbnail.service';
 import { ContentStatusFlag } from '../ContentStatusFlag/ContentStatusFlag';
 import { ContentTypeFlag } from '../ContentTypeFlag/ContentTypeFlag';
-import { getProcessedPublishedTime } from '../../utilities';
+import { TimeFromNow } from '../TimeFromNow/TimeFromNow';
 
 export const ContentThumbnail = (props: IContentThumbnailProps) => {
     // props
     const { type, status, publishedTime, duration, title, thumbnailUrl, onClick } = props;
 
     // compute
-    const formattedPublishedTime = getProcessedPublishedTime(publishedTime);
 
     // styles
     const imageHolderStyle: CSSProperties = {
@@ -35,7 +34,7 @@ export const ContentThumbnail = (props: IContentThumbnailProps) => {
                     {title}
                 </div>
                 <div className={styles.contentInfoWrapper}>
-                    <div className={styles.contentUploadedTime}>{formattedPublishedTime}</div>
+                    <TimeFromNow dateString={publishedTime} />
                     {status && (
                         <div className={styles.contentStatusFlagWrapper}>
                             <ContentStatusFlag type={status} />
