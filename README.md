@@ -18,9 +18,15 @@ Fluid UI components for all your products.
 
 ## Development
 
-### Create New Component
+### [fui-cli](https://github.com/CreatorsView/fluid-ui/blob/main/scripts/fui-cli.js)
 
-```typescript
-    // use the following command to create a new component
-    yarn cc <fluid-component-name>
+```c
+    // to create a new component
+    yarn fui <fluid-component-name>
+
+    // to delete a component
+    yarn fui <fluid-component-name> --delete
+
+    // to rename a component
+    yarn fui <old-component-name> --rename <new-component-name>
 ```
