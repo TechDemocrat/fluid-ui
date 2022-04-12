@@ -13,4 +13,6 @@ export default {
 const Template: Story<ITimeFromNowProps> = (args) => <TimeFromNow {...args} />;
 
 export const Default = Template.bind({});
-Default.args = {} as ITimeFromNowProps;
+Default.args = {
+    dateString: '2020-01-01T00:00:00.000Z',
+} as ITimeFromNowProps;
