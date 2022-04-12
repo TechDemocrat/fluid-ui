@@ -9,7 +9,7 @@ export const Spinner = (props: ISpinnerProps) => {
     // props
     const { size = 'medium', color = 'primary' } = props;
 
-    // paintF
+    // paint
     return (
         <div className={cn(styles.wrapper)}>
             <div

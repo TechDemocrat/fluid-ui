@@ -7,3 +7,4 @@ export { ContentStatusFlag } from './components/ContentStatusFlag/ContentStatusF
 export { ContentThumbnail } from './components/ContentThumbnail/ContentThumbnail';
 export { Spinner } from './components/Spinner/Spinner';
 export { ContentActionGroup } from './components/ContentActionGroup/ContentActionGroup';
+export { TimeFromNow } from './components/TimeFromNow/TimeFromNow';
