@@ -1,17 +1,17 @@
 import { MouseEventHandler } from 'react';
 
 export interface IContentActionGroupOptions {
-    love: {
+    love?: {
         active: boolean;
         onClick: MouseEventHandler<HTMLDivElement>;
     };
-    comment: {
+    comment?: {
         onClick: MouseEventHandler<HTMLDivElement>;
     };
-    share: {
+    share?: {
         onClick: MouseEventHandler<HTMLDivElement>;
     };
-    reply: {
+    reply?: {
         onClick: MouseEventHandler<HTMLDivElement>;
     };
 }
@@ -24,5 +24,5 @@ export interface IContentActionGroupProps {
     /**
      * order of the render  will be based on the order of the keys in the object
      */
-    options: Partial<IContentActionGroupOptions>;
+    options: IContentActionGroupOptions;
 }
