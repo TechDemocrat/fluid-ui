@@ -1,0 +1,39 @@
+@import "../../styles/fontSizes";
+@import "../../styles/colors";
+@import "../../styles/fontWeights";
+@import "../../styles/mixins";
+@import "../../styles/mediaQueries";
+
+.wrapper {
+    display: flex;
+    width: 100%;
+    height: auto;
+    flex-direction: column;
+    gap: 5px;
+
+    .contentTitleTypeWrapper {
+        display: grid;
+        align-items: center;
+        justify-content: center;
+        gap: 10px;
+        grid-template-columns: 1fr auto;
+    }
+
+    .contentMetaActionWrapper {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: space-between;
+        gap: 10px;
+
+        .contentMetaWrapper {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            justify-content: center;
+            color: $color-foregroundSecondary;
+            font-size: $fontsize-medium;
+            gap: 5px;
+        }
+    }
+}

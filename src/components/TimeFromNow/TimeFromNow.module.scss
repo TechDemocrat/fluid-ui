@@ -6,5 +6,12 @@
 
 .wrapper {
     color: $color-foregroundSecondary;
-    font-size: $fontsize-small;
+
+    .small {
+        font-size: $fontsize-small;
+    }
+
+    .medium {
+        font-size: $fontsize-medium;
+    }
 }

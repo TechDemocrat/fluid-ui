@@ -7,11 +7,24 @@ import { TimeFromNowService } from './TimeFromNow.service';
 
 export const TimeFromNow = (props: ITimeFromNowProps) => {
     // props
-    const { dateString, className } = props;
+    const { dateString = new Date().toISOString(), size = 'small', className } = props;
 
     // compute
     const formattedDate = TimeFromNowService.getTimeFromNow(dateString);
 
     // paint
-    return <div className={cn(styles.wrapper, className)}>{formattedDate}</div>;
+    return (
+        <div
+            className={cn(
+                styles.wrapper,
+                {
+                    [styles.small]: size === 'small',
+                    [styles.medium]: size === 'medium',
+                },
+                className,
+            )}
+        >
+            {formattedDate}
+        </div>
+    );
 };
