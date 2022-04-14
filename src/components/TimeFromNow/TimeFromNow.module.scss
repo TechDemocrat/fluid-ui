@@ -1,0 +1,17 @@
+@import "../../styles/fontSizes";
+@import "../../styles/colors";
+@import "../../styles/fontWeights";
+@import "../../styles/mixins";
+@import "../../styles/mediaQueries";
+
+.wrapper {
+    color: $color-foregroundSecondary;
+
+    .small {
+        font-size: $fontsize-small;
+    }
+
+    .medium {
+        font-size: $fontsize-medium;
+    }
+}

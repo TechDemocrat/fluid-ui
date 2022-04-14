@@ -24,7 +24,7 @@
         "prepare": "yarn husky:install",
         "husky:pre-commit": "yarn lint-staged",
         "chromatic": "chromatic --exit-zero-on-changes",
-        "cc": "node scripts/createComponent.js"
+        "fui": "node scripts/fui-cli.js"
     },
     "devDependencies": {
         "@babel/core": "^7.17.8",
@@ -32,11 +32,11 @@
         "@rollup/plugin-commonjs": "^21.0.3",
         "@rollup/plugin-node-resolve": "^13.1.3",
         "@rollup/plugin-typescript": "^8.3.1",
-        "@storybook/addon-actions": "^6.4.20",
-        "@storybook/addon-essentials": "^6.4.20",
-        "@storybook/addon-interactions": "^6.4.20",
-        "@storybook/addon-links": "^6.4.20",
-        "@storybook/react": "^6.4.20",
+        "@storybook/addon-actions": "^6.4.22",
+        "@storybook/addon-essentials": "^6.4.22",
+        "@storybook/addon-interactions": "^6.4.22",
+        "@storybook/addon-links": "^6.4.22",
+        "@storybook/react": "^6.4.22",
         "@storybook/testing-library": "^0.0.9",
         "@types/lodash": "^4.14.181",
         "@types/react": "^17.0.43",
