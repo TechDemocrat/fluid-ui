@@ -1,0 +1,22 @@
+@import "../../styles/fontSizes";
+@import "../../styles/colors";
+@import "../../styles/fontWeights";
+@import "../../styles/mixins";
+@import "../../styles/mediaQueries";
+
+.cardWrapper {
+    width: inherit;
+    height: inherit;
+    padding: 10px;
+    border-radius: 4px;
+    box-shadow: 0 0 4px $color-foregroundSecondary;
+}
+
+.cardTitle {
+    display: flex;
+    width: 100%;
+    margin-bottom: 10px;
+    color: $color-foregroundPrimary;
+    font-size: $fontsize-bodyIntro;
+    font-weight: $fontweight-medium;
+}

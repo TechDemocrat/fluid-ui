@@ -24,7 +24,7 @@ export const Button = (props: IButtonProps) => {
         styles[`${size}`],
         {
             [styles.disabled]: disabled,
-            [styles.containedOutlined]: variant === 'contained' || variant === 'outlined',
+            [styles.containedOutlined]: variant === 'contained',
         },
     );
 
