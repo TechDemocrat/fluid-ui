@@ -7,11 +7,11 @@
 .wrapper {
     color: $color-foregroundSecondary;
 
-    .small {
+    &.small {
         font-size: $fontsize-small;
     }
 
-    .medium {
+    &.medium {
         font-size: $fontsize-medium;
     }
 }
