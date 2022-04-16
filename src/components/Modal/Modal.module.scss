@@ -1,0 +1,116 @@
+@import "../../styles/fontSizes";
+@import "../../styles/colors";
+@import "../../styles/fontWeights";
+@import "../../styles/mixins";
+@import "../../styles/mediaQueries";
+
+@keyframes slide-up {
+    0% {
+        transform: translateY(100%);
+    }
+
+    100% {
+        transform: translateY(0%);
+    }
+}
+
+@keyframes slide-down {
+    0% {
+        transform: translateY(0%);
+    }
+
+    100% {
+        transform: translateY(100%);
+    }
+}
+
+@keyframes fade-out {
+    0% {
+        opacity: 1;
+    }
+
+    100% {
+        opacity: 0;
+    }
+}
+
+@keyframes fade-in {
+    0% {
+        opacity: 0;
+    }
+
+    100% {
+        opacity: 1;
+    }
+}
+
+.modalWrapper {
+    position: fixed;
+    z-index: 9999;
+    top: 0;
+    left: 0;
+    display: flex;
+    width: 100%;
+    height: 100%;
+    align-items: center;
+    justify-content: center;
+    background-color: $color-backgroundTertiary;
+
+    &.open {
+        animation: fade-in 500ms forwards;
+        opacity: 1;
+    }
+
+    .content {
+        width: auto;
+        height: auto;
+        padding: 20px;
+        animation: slide-up 500ms forwards;
+        background-color: #fff;
+        border-radius: 5px;
+        box-shadow: 0 0 10px rgb(0 0 0 / 20%);
+
+        .heading {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+
+            .title {
+                color: $color-foregroundPrimary;
+                font-size: $fontsize-bodyIntro;
+                font-weight: $fontweight-medium;
+            }
+
+            .icon {
+                display: flex;
+                align-items: center;
+                color: $color-foregroundPrimary;
+                font-size: $fontsize-bodyIntro;
+                font-weight: $fontweight-medium;
+                justify-self: center;
+
+                &:hover {
+                    background-color: $color-backgroundTertiary;
+                    border-radius: 50%;
+                    cursor: pointer;
+                }
+            }
+        }
+
+        .body {
+            padding-top: 10px;
+            color: $color-foregroundPrimary;
+            font-size: $fontsize-bodyIntro;
+            font-weight: $fontweight-normal;
+        }
+    }
+
+    &.close {
+        animation: fade-out 500ms forwards;
+        opacity: 0;
+
+        .content {
+            animation: slide-down 500ms forwards;
+        }
+    }
+}
