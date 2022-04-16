@@ -1,0 +1,111 @@
+@import "../../styles/fontSizes";
+@import "../../styles/colors";
+@import "../../styles/fontWeights";
+@import "../../styles/mixins";
+@import "../../styles/mediaQueries";
+
+.wrapper {
+    width: 100%;
+    height: 250px;
+    padding-top: calc($fontsize-medium / 2);
+
+    .core {
+        position: relative;
+        width: 100%;
+        height: 100%;
+        padding: calc($fontsize-medium / 1.5) 5px 5px;
+        background-color: $color-backgroundSecondary;
+        border-radius: 5px;
+
+        .label {
+            position: absolute;
+            top: calc((($fontsize-medium / 2)) * -1);
+            left: 10px;
+            color: $color-foregroundSecondary;
+            font-size: $fontsize-medium;
+            font-weight: $fontweight-bold;
+        }
+
+        .contentWrapper {
+            width: 100%;
+            height: 100%;
+
+            .idleState {
+                display: flex;
+                width: 100%;
+                height: 100%;
+                flex-direction: column;
+                align-items: center;
+                justify-content: center;
+
+                .uploadIcon {
+                    color: $color-secondary;
+                    font-size: 80px;
+                }
+
+                .uploadText {
+                    color: $color-foregroundSecondary;
+                    font-size: $fontsize-bodyMain;
+                    font-weight: $fontweight-bold;
+                }
+
+                .uploadButton {
+                    margin-top: 10px;
+                }
+            }
+
+            .uploadingState {
+                display: grid;
+                width: 100%;
+                height: 100%;
+                gap: 5px;
+                grid-template-rows: 1fr auto;
+
+                .coreUploadProgress {
+                    position: relative;
+                    display: flex;
+                    width: 100%;
+                    height: 100%;
+                    flex-direction: column;
+                    align-items: center;
+                    justify-content: center;
+                    background-color: $color-contentBackground;
+                    border-radius: 5px;
+                    color: $color-foregroundPrimaryLight;
+                    font-size: $fontsize-bodyMain;
+                    gap: 20px;
+
+                    .uploadContentFileTitle {
+                        position: absolute;
+                        top: 10px;
+                        left: 10px;
+                        font-size: $fontsize-medium;
+                    }
+                }
+
+                .uploadProgressDetailedView {
+                    display: flex;
+                    flex-direction: row;
+                    align-items: center;
+                    justify-content: space-between;
+
+                    .uploadProgressMeta {
+                        color: $color-foregroundSecondary;
+                        font-size: $fontsize-medium;
+                    }
+
+                    .uploadProgressAction {
+                        display: flex;
+                        flex-direction: row;
+                        align-items: center;
+                        gap: 5px;
+
+                        .uploadCanceIcon {
+                            font-size: 16px;
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

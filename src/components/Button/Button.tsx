@@ -15,6 +15,7 @@ export const Button = (props: IButtonProps) => {
         size = 'medium',
         disabled,
         onClick,
+        className,
     } = props;
 
     // compute
@@ -26,6 +27,7 @@ export const Button = (props: IButtonProps) => {
             [styles.disabled]: disabled,
             [styles.containedOutlined]: variant === 'contained',
         },
+        className,
     );
 
     // paint
