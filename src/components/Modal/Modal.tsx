@@ -19,7 +19,24 @@ export const Modal = (props: IModalProps) => {
         setShow(open);
     }, [open]);
 
-    if (!show) return null;
+    useEffect(() => {
+        const modal = document.getElementById('modal');
+        if (!show) {
+            if (modal) {
+                modal.addEventListener(
+                    'animationend',
+                    () => {
+                        modal.setAttribute('style', 'display: none');
+                    },
+                    { once: true },
+                );
+            }
+        } else {
+            if (modal) {
+                modal.setAttribute('style', 'display: flex');
+            }
+        }
+    }, [show]);
 
     // handler
     const handleClose = () => {
@@ -32,7 +49,10 @@ export const Modal = (props: IModalProps) => {
 
     // paint
     return (
-        <div className={cn(styles.wrapper)}>
+        <div
+            id="modal"
+            className={cn(styles.modalWrapper, { [styles.open]: show }, { [styles.close]: !show })}
+        >
             <div className={cn(styles.content)}>
                 <div className={cn(styles.heading)}>
                     <div className={cn(styles.title)}>{originalTitle}</div>

@@ -4,7 +4,47 @@
 @import "../../styles/mixins";
 @import "../../styles/mediaQueries";
 
-.wrapper {
+@keyframes slide-up {
+    0% {
+        transform: translateY(100%);
+    }
+
+    100% {
+        transform: translateY(0%);
+    }
+}
+
+@keyframes slide-down {
+    0% {
+        transform: translateY(0%);
+    }
+
+    100% {
+        transform: translateY(100%);
+    }
+}
+
+@keyframes fade-out {
+    0% {
+        opacity: 1;
+    }
+
+    100% {
+        opacity: 0;
+    }
+}
+
+@keyframes fade-in {
+    0% {
+        opacity: 0;
+    }
+
+    100% {
+        opacity: 1;
+    }
+}
+
+.modalWrapper {
     position: fixed;
     z-index: 9999;
     top: 0;
@@ -16,10 +56,16 @@
     justify-content: center;
     background-color: $color-backgroundTertiary;
 
+    &.open {
+        animation: fade-in 500ms forwards;
+        opacity: 1;
+    }
+
     .content {
         width: auto;
         height: auto;
         padding: 20px;
+        animation: slide-up 500ms forwards;
         background-color: #fff;
         border-radius: 5px;
         box-shadow: 0 0 10px rgb(0 0 0 / 20%);
@@ -56,6 +102,15 @@
             color: $color-foregroundPrimary;
             font-size: $fontsize-bodyIntro;
             font-weight: $fontweight-normal;
+        }
+    }
+
+    &.close {
+        animation: fade-out 500ms forwards;
+        opacity: 0;
+
+        .content {
+            animation: slide-down 500ms forwards;
         }
     }
 }
