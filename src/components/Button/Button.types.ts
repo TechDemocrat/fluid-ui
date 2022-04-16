@@ -25,4 +25,8 @@ export interface IButtonProps {
     title?: string;
     children?: React.ReactNode;
     onClick?: (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;
+    /**
+     * className to be applied to the base element
+     */
+    className?: string;
 }

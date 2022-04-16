@@ -12,4 +12,5 @@ export { ContentActionGroup } from './components/ContentActionGroup/ContentActio
 export { Card } from './components/Card/Card';
 export { TimeFromNow } from './components/TimeFromNow/TimeFromNow';
 export { ContentTitleWithAction } from './components/ContentTitleWithAction/ContentTitleWithAction';
+export { ContentUploader } from './components/ContentUploader/ContentUploader';
 export { Modal } from './components/Modal/Modal';

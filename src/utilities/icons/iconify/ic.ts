@@ -15,3 +15,6 @@ export { default as baselineRssFeed } from '@iconify/icons-ic/baseline-rss-feed'
 export { default as baselinePodcasts } from '@iconify/icons-ic/baseline-podcasts';
 export { default as baselineHeadphones } from '@iconify/icons-ic/baseline-headphones';
 export { default as baselineCameraAlt } from '@iconify/icons-ic/baseline-camera-alt';
+
+// upload icon for content upload
+export { default as baselineCloudUpload } from '@iconify/icons-ic/baseline-cloud-upload';
