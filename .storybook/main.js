@@ -15,6 +15,9 @@ module.exports = {
         '@storybook/addon-essentials',
         '@storybook/addon-interactions',
     ],
+    features: {
+        postcss: false,
+    },
     framework: '@storybook/react',
     webpackFinal: async (config, { configType }) => {
         config.module.rules.push({
