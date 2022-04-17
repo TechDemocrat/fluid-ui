@@ -14,3 +14,4 @@ export { TimeFromNow } from './components/TimeFromNow/TimeFromNow';
 export { ContentTitleWithAction } from './components/ContentTitleWithAction/ContentTitleWithAction';
 export { ContentUploader } from './components/ContentUploader/ContentUploader';
 export { Modal } from './components/Modal/Modal';
+export { ProfilePhoto } from './components/ProfilePhoto/ProfilePhoto';
