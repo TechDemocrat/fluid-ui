@@ -12,3 +12,6 @@ export { default as heart } from '@iconify/icons-mdi/heart';
 export { default as comment } from '@iconify/icons-mdi/comment';
 export { default as share } from '@iconify/icons-mdi/share';
 export { default as reply } from '@iconify/icons-mdi/reply';
+
+// Profile
+export { default as account } from '@iconify/icons-mdi/account-circle-outline';
