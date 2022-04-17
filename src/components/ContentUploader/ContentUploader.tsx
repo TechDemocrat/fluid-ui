@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useRef } from 'react';
 import cn from 'classnames';
 
 import { IContentUploaderProps } from './ContentUploader.types';
@@ -8,14 +8,21 @@ import { baselineCloudUpload, close } from '../../utilities/icons/iconify';
 import { Button } from '../Button/Button';
 import { Spinner } from '../Spinner/Spinner';
 import { IconButton } from '../IconButton/IconButton';
-// import { ContentUploaderService } from './ContentUploader.service';
+import { TimeFromNow } from '../TimeFromNow/TimeFromNow';
+import { ContentUploaderService } from './ContentUploader.service';
 
 export const ContentUploader = (props: IContentUploaderProps) => {
     // props
-    const { status = 'uploaded' } = props;
+    const { status = 'idle', uploadedContentMeta, uploadProgress } = props;
+    const { previewArea, uploadedAt = '', onDelete } = uploadedContentMeta ?? {};
+    const { loaded, total, fileName, onCancel } = uploadProgress ?? {};
+
+    // refs
+    const previousLoaded = useRef<number>(0);
 
     // compute
-    // const originalTitle = ContentUploaderService.getTitle(title);
+    const { formattedLoaded, formattedTotal, percentage, remainingTime } =
+        ContentUploaderService.getUploadProgressInfo(status, previousLoaded, loaded, total);
 
     // paint
     return (
@@ -41,18 +48,21 @@ export const ContentUploader = (props: IContentUploaderProps) => {
                     {status === 'uploading' && (
                         <div className={styles.uploadingState}>
                             <div className={styles.coreUploadProgress}>
-                                <span className={styles.uploadContentFileTitle}>
-                                    Video file.mp4
-                                </span>
+                                <span className={styles.uploadContentFileTitle}>{fileName}</span>
                                 <Spinner size="large" color="primary" />
-                                <span>Uploading 10%</span>
+                                <span>Uploading {percentage}%</span>
                             </div>
                             <div className={styles.uploadProgressDetailedView}>
                                 <div className={styles.uploadProgressMeta}>
-                                    Uploaded 100MB / 1.5GB | 5 minutes left
+                                    Uploaded {formattedLoaded} / {formattedTotal} | {remainingTime}{' '}
+                                    left
                                 </div>
                                 <div className={styles.uploadProgressAction}>
-                                    <IconButton size="large" title="Cancel upload">
+                                    <IconButton
+                                        size="large"
+                                        title="Cancel upload"
+                                        onClick={onCancel}
+                                    >
                                         <Icon icon={close} className={styles.uploadCanceIcon} />
                                     </IconButton>
                                 </div>
@@ -61,13 +71,18 @@ export const ContentUploader = (props: IContentUploaderProps) => {
                     )}
                     {status === 'uploaded' && (
                         <div className={styles.uploadingState}>
-                            <div className={styles.coreUploadProgress}>Content preview area</div>
+                            <div className={styles.coreUploadProgress}>{previewArea}</div>
                             <div className={styles.uploadProgressDetailedView}>
                                 <div className={styles.uploadProgressMeta}>
-                                    Last Uploaded at 5 days ago
+                                    Last Uploaded at{' '}
+                                    <TimeFromNow size="medium" dateString={uploadedAt} />
                                 </div>
                                 <div className={styles.uploadProgressAction}>
-                                    <IconButton size="large" title="Delete content">
+                                    <IconButton
+                                        size="large"
+                                        title="Delete content"
+                                        onClick={onDelete}
+                                    >
                                         <Icon icon={close} className={styles.uploadCanceIcon} />
                                     </IconButton>
                                 </div>
