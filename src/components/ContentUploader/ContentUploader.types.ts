@@ -3,6 +3,40 @@ import { ReactNode } from 'react';
 export type TContentUploadStatus = 'idle' | 'uploading' | 'uploaded';
 export type TAllowedFileTypes = 'mp4' | 'webm' | 'ogg' | 'mp3' | 'wav';
 
+export interface IUploadProgress {
+    /**
+     * on file selection send back the upload file name from parent component
+     */
+    fileName?: string;
+    /**
+     * value should be specified in bytes
+     */
+    loaded: number;
+    /**
+     * value should be specified in bytes
+     */
+    total: number;
+    /**
+     * on upload cancel handler
+     */
+    onCancel?: () => void;
+}
+
+export interface IUploadContentMeta {
+    /**
+     * should be passed if staus is 'uploaded'
+     */
+    previewArea?: ReactNode;
+    /**
+     * uploaded at timestamp
+     */
+    uploadedAt?: string;
+    /**
+     * on delet handler
+     */
+    onDelete?: () => void;
+}
+
 export interface IContentUploaderProps {
     /**
      * label of the field to be displayed (video/Music/Podcast...)
@@ -24,39 +58,9 @@ export interface IContentUploaderProps {
     /**
      * should be passed when the status is 'uploading'
      */
-    uploadProgress?: {
-        /**
-         * on file selection send back the upload file name from parent component
-         */
-        fileName?: string;
-        /**
-         * value should be specified in bytes
-         */
-        loaded: number;
-        /**
-         * value should be specified in bytes
-         */
-        total: number;
-        /**
-         * on upload cancel handler
-         */
-        onCancel?: () => void;
-    };
+    uploadProgress?: IUploadProgress;
     /**
      * should be passed when the status is 'uploaded'
      */
-    uploadedContentMeta?: {
-        /**
-         * should be passed if staus is 'uploaded'
-         */
-        previewArea?: ReactNode;
-        /**
-         * uploaded at timestamp
-         */
-        uploadedAt?: string;
-        /**
-         * on delet handler
-         */
-        onDelete?: () => void;
-    };
+    uploadedContentMeta?: IUploadContentMeta;
 }

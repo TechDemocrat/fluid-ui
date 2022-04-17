@@ -1,8 +1,8 @@
-import React, { useEffect, useReducer } from 'react';
+import React, { Reducer, useEffect, useReducer } from 'react';
 import { Story, Meta } from '@storybook/react';
 
 import { ContentUploader } from './ContentUploader';
-import { IContentUploaderProps } from './ContentUploader.types';
+import { IContentUploaderProps, IUploadProgress } from './ContentUploader.types';
 
 export default {
     title: 'fluid-ui/ContentUploader',
@@ -10,38 +10,57 @@ export default {
     argTypes: {},
 } as Meta<typeof ContentUploader>;
 
+// upload progress helpers
+const uploadProgressInitialState: Omit<IUploadProgress, 'onCancel'> = {
+    loaded: 0,
+    total: 5000000,
+    fileName: 'The Content file.mp4',
+};
+
+const uploadProgressReducer: Reducer<Omit<IUploadProgress, 'onCancel'>, { type: string }> = (
+    state,
+    action,
+) => {
+    switch (action.type) {
+        case 'increment':
+            return { ...state, loaded: state.loaded + 10000 };
+        case 'reset':
+            return { ...uploadProgressInitialState };
+        default:
+            return state;
+    }
+};
+
+// main story
 const Template: Story<IContentUploaderProps> = (args) => {
+    // props
+    const { status } = args;
+
     // state
-    const [progress, dispatch] = useReducer(
-        (state: { loaded: number; total: number }, action: { type: string }) => {
-            switch (action.type) {
-                case 'increment':
-                    return { ...state, loaded: state.loaded + 10000 };
-                default:
-                    return state;
-            }
-        },
-        { loaded: 0, total: 5000000 },
+    const [uploadProgress, dispatch] = useReducer(
+        uploadProgressReducer,
+        uploadProgressInitialState,
     );
 
     // effects
     useEffect(() => {
         const interval = setInterval(() => {
-            if (progress.loaded < progress.total) {
-                dispatch({ type: 'increment' });
+            if (status === 'uploading') {
+                if (uploadProgress.loaded < uploadProgress.total) {
+                    dispatch({ type: 'increment' });
+                }
+            } else {
+                clearInterval(interval);
+                dispatch({ type: 'reset' });
             }
         }, 200);
         return () => clearInterval(interval);
-    });
+    }, [status, uploadProgress]);
 
     // paint
     return (
         <div style={{ width: 500, height: 'auto' }}>
-            <ContentUploader
-                {...args}
-                status="uploading"
-                uploadProgress={{ ...progress, fileName: 'The Content File.mp4' }}
-            />
+            <ContentUploader {...args} uploadProgress={uploadProgress} />
         </div>
     );
 };
