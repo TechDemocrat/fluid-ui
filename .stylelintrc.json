@@ -4,6 +4,7 @@
         "selector-class-pattern": null,
         "custom-property-pattern": null,
         "indentation": 4,
-        "scss/dollar-variable-pattern": null
+        "scss/dollar-variable-pattern": null,
+        "scss/at-function-pattern": null
     }
 }

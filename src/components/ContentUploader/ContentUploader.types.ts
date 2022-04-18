@@ -1,7 +1,22 @@
 import { ReactNode } from 'react';
 
 export type TContentUploadStatus = 'idle' | 'uploading' | 'uploaded';
-export type TAllowedFileTypes = 'mp4' | 'webm' | 'ogg' | 'mp3' | 'wav';
+export type TAllowedFileTypes =
+    | 'video/*'
+    | 'audio/*'
+    | 'video/mp4'
+    | 'video/webm'
+    | 'video/ogg'
+    | 'video/quicktime'
+    | 'video/x-flv'
+    | 'audio/mp3'
+    | 'audio/webm'
+    | 'audio/ogg'
+    | 'audio/mpeg'
+    | 'audio/mp4'
+    | 'audio/x-m4a'
+    | 'audio/x-aac'
+    | 'audio/aac';
 
 export interface IUploadProgress {
     /**

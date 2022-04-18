@@ -1,5 +1,5 @@
 import { MutableRefObject } from 'react';
-import { TContentUploadStatus } from './ContentUploader.types';
+import { TAllowedFileTypes, TContentUploadStatus } from './ContentUploader.types';
 
 interface IUploadProgerssMeta {
     formattedTotal: string;
@@ -43,6 +43,34 @@ export class ContentUploaderService {
             percentage,
             remainingTime,
         };
+    };
+
+    static getFormattedSupportedFileTypes = (allowedFileTypes: TAllowedFileTypes[]): string => {
+        if (!allowedFileTypes) return '';
+        return allowedFileTypes.join(', ');
+    };
+
+    static validateSelectedFile = (
+        files: FileList | null | undefined,
+        allowedFileTypes: TAllowedFileTypes[],
+    ): { validationError?: string | undefined; file?: File } => {
+        if (!files) return { validationError: 'No files selected' };
+
+        if (files.length === 0) return { validationError: 'No files selected' };
+
+        if (files.length > 1) return { validationError: 'Multiple files selected' };
+
+        const file = files[0];
+
+        if (!allowedFileTypes) return { file };
+
+        const fileType = file.type.split('/')[0];
+        const isAllowed = allowedFileTypes.some((allowedType: TAllowedFileTypes) => {
+            return allowedType.includes(fileType);
+        });
+        if (!isAllowed) return { validationError: 'File type not supported' };
+
+        return { file };
     };
 
     private static formatBytes = (bytes: number): string => {

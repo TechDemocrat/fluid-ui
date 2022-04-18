@@ -1,4 +1,4 @@
-import React, { Reducer, useEffect, useReducer } from 'react';
+import React, { Reducer, useEffect, useReducer, useState } from 'react';
 import { Story, Meta } from '@storybook/react';
 
 import { ContentUploader } from './ContentUploader';
@@ -23,7 +23,7 @@ const uploadProgressReducer: Reducer<Omit<IUploadProgress, 'onCancel'>, { type: 
 ) => {
     switch (action.type) {
         case 'increment':
-            return { ...state, loaded: state.loaded + 10000 };
+            return { ...state, loaded: state.loaded + 40000 };
         case 'reset':
             return { ...uploadProgressInitialState };
         default:
@@ -37,17 +37,30 @@ const Template: Story<IContentUploaderProps> = (args) => {
     const { status } = args;
 
     // state
+    const [currentStatus, setCurrentStatus] = useState(status);
     const [uploadProgress, dispatch] = useReducer(
         uploadProgressReducer,
         uploadProgressInitialState,
     );
 
+    // handlers
+    const onUploadHandler = (file: File) => {
+        if (file) {
+            dispatch({ type: 'reset' });
+            setCurrentStatus('uploading');
+        }
+    };
+
     // effects
     useEffect(() => {
         const interval = setInterval(() => {
-            if (status === 'uploading') {
+            if (currentStatus === 'uploading') {
                 if (uploadProgress.loaded < uploadProgress.total) {
                     dispatch({ type: 'increment' });
+                } else {
+                    dispatch({ type: 'reset' });
+                    setCurrentStatus('uploaded');
+                    clearInterval(interval);
                 }
             } else {
                 clearInterval(interval);
@@ -55,15 +68,26 @@ const Template: Story<IContentUploaderProps> = (args) => {
             }
         }, 200);
         return () => clearInterval(interval);
-    }, [status, uploadProgress]);
+    }, [currentStatus, uploadProgress]);
+
+    useEffect(() => {
+        setCurrentStatus(status);
+    }, [status]);
 
     // paint
     return (
         <div style={{ width: 500, height: 'auto' }}>
-            <ContentUploader {...args} uploadProgress={uploadProgress} />
+            <ContentUploader
+                {...args}
+                status={currentStatus}
+                uploadProgress={uploadProgress}
+                onUpload={onUploadHandler}
+            />
         </div>
     );
 };
 
 export const Default = Template.bind({});
-Default.args = {} as IContentUploaderProps;
+Default.args = {
+    allowedFileTypes: ['video/*'],
+} as IContentUploaderProps;
