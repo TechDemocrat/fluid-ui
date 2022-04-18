@@ -61,7 +61,7 @@ export const Input = (props: IInputProps) => {
                     type={type}
                     placeholder={placeholder}
                     value={localValue}
-                    onChange={(e) => handleTextChange(e)}
+                    onChange={handleTextChange}
                 />
                 <span className={styles.placeholder}>{placeholder}</span>
                 {showIcon && (

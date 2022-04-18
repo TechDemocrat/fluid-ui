@@ -80,27 +80,12 @@
                 font-size: $fontsize-bodyIntro;
                 font-weight: $fontweight-medium;
             }
-
-            .icon {
-                display: flex;
-                align-items: center;
-                color: $color-foregroundPrimary;
-                font-size: $fontsize-bodyIntro;
-                font-weight: $fontweight-medium;
-                justify-self: center;
-
-                &:hover {
-                    background-color: $color-backgroundTertiary;
-                    border-radius: 50%;
-                    cursor: pointer;
-                }
-            }
         }
 
         .body {
             padding-top: 10px;
             color: $color-foregroundPrimary;
-            font-size: $fontsize-bodyIntro;
+            font-size: $fontsize-bodyMain;
             font-weight: $fontweight-normal;
         }
     }

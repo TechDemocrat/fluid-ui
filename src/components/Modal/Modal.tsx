@@ -6,6 +6,7 @@ import styles from './Modal.module.scss';
 import { ModalService } from './Modal.service';
 import { close } from '../../utilities/icons/iconify';
 import { Icon } from '@iconify/react';
+import { IconButton } from '../IconButton/IconButton';
 
 export const Modal = (props: IModalProps) => {
     // props
@@ -56,9 +57,9 @@ export const Modal = (props: IModalProps) => {
             <div className={cn(styles.content)}>
                 <div className={cn(styles.heading)}>
                     <div className={cn(styles.title)}>{originalTitle}</div>
-                    <div className={cn(styles.icon)} onClick={handleClose}>
+                    <IconButton size="large" title="Close" onClick={handleClose}>
                         <Icon icon={close} color="#000000" className={cn(styles.icon)} />
-                    </div>
+                    </IconButton>
                 </div>
                 <div className={cn(styles.body)}>{children}</div>
             </div>
