@@ -30,3 +30,11 @@ Fluid UI components for all your products.
     // to rename a component
     yarn fui <old-component-name> --rename <new-component-name>
 ```
+
+---
+
+## Commit Message and PR Title Conventions
+
+> ### [Conventional Commits](https://www.conventionalcommits.org/en/v1.0.0/#specification) pattern should be followed for both the commit message and the PR title.
+
+---
