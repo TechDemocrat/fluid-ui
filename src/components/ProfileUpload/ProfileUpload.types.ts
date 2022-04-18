@@ -1,4 +1,4 @@
-export interface IProfilePhotoProps {
+export interface IProfileUploadProps {
     /**
      * title
      * @default ''
@@ -33,7 +33,7 @@ export interface IProfilePhotoProps {
      * @example
      * 'small'
      */
-    size?: 'small' | 'medium' | 'large';
+    size?: 'small' | 'large';
     /**
      * onChange
      * @default () => {}
