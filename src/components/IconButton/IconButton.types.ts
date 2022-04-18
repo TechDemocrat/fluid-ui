@@ -2,7 +2,7 @@ import { MouseEventHandler } from 'react';
 
 export interface IIconButton {
     children: React.ReactNode;
-    size?: 'small' | 'medium' | 'large';
+    padding?: number;
     onClick?: MouseEventHandler<HTMLDivElement>;
     title?: string;
     disabled?: boolean;
