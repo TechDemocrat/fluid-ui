@@ -1,0 +1,102 @@
+@import "../../styles/fontSizes";
+@import "../../styles/colors";
+@import "../../styles/fontWeights";
+@import "../../styles/mixins";
+@import "../../styles/mediaQueries";
+
+// colors
+$player-icon-color: #fff;
+$player-progress-track-Color: #fff;
+$player-progress-track-opacity: 0.2;
+$player-progress-track-buffer-opacity: 0.4;
+$player-progress-track-hover-opacity: 0.3;
+$player-progress-bar-color: $color-primary;
+$player-progress-head-color: #fff;
+$player-track-size: 4px;
+$player-progress-head-size: 10px;
+
+.wrapper {
+    display: grid;
+    width: 100%;
+    height: auto;
+    padding: 10px;
+    gap: 5px;
+    grid-template-rows: auto auto;
+
+    .progressWrapper {
+        position: relative;
+        width: 100%;
+        height: $player-track-size;
+        cursor: pointer;
+
+        .progress {
+            position: absolute;
+            top: 0;
+            left: 0;
+            height: 100%;
+            border-radius: 5px;
+        }
+
+        .progressPadding {
+            top: calc(-50% - $player-track-size / 2);
+            width: 100%;
+            padding: 10px;
+        }
+
+        .progressTrack {
+            z-index: 1;
+            width: 100%;
+            background-color: $player-progress-track-Color;
+            opacity: $player-progress-track-opacity;
+        }
+
+        .progressBuffer {
+            z-index: 2;
+            width: 70%;
+            background-color: $player-progress-track-Color;
+            opacity: $player-progress-track-buffer-opacity;
+        }
+
+        .progressHover {
+            z-index: 3;
+            width: 80%;
+            background-color: $player-progress-track-Color;
+            opacity: $player-progress-track-hover-opacity;
+        }
+
+        .progressBar {
+            z-index: 4;
+            width: 50%;
+            background-color: $player-progress-bar-color;
+        }
+
+        .progressHead {
+            position: absolute;
+            z-index: 5;
+            top: calc(50% - $player-progress-head-size / 2);
+            left: calc(50% - $player-progress-head-size / 2);
+            width: $player-progress-head-size;
+            height: $player-progress-head-size;
+            background-color: $player-progress-head-color;
+            border-radius: 50%;
+            transform: scale(0);
+            transition: transform 60ms ease-in-out;
+        }
+
+        &:hover {
+            height: $player-track-size + 1px;
+
+            .progressHead {
+                transform: scale(1);
+            }
+        }
+    }
+
+    .controlsWrapper {
+        display: grid;
+        align-items: center;
+        justify-content: space-between;
+        gap: 10px;
+        grid-template-columns: auto auto auto;
+    }
+}
