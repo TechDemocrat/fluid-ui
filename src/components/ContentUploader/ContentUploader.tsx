@@ -179,11 +179,7 @@ export const ContentUploader = (props: IContentUploaderProps) => {
                                     left
                                 </div>
                                 <div className={styles.uploadProgressAction}>
-                                    <IconButton
-                                        size="large"
-                                        title="Cancel upload"
-                                        onClick={onCancel}
-                                    >
+                                    <IconButton title="Cancel upload" onClick={onCancel}>
                                         <Icon icon={close} className={styles.uploadCanceIcon} />
                                     </IconButton>
                                 </div>
@@ -199,11 +195,7 @@ export const ContentUploader = (props: IContentUploaderProps) => {
                                     <TimeFromNow size="medium" dateString={uploadedAt} />
                                 </div>
                                 <div className={styles.uploadProgressAction}>
-                                    <IconButton
-                                        size="large"
-                                        title="Delete content"
-                                        onClick={onDelete}
-                                    >
+                                    <IconButton title="Delete content" onClick={onDelete}>
                                         <Icon icon={close} className={styles.uploadCanceIcon} />
                                     </IconButton>
                                 </div>

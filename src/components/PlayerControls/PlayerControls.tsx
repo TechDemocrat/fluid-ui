@@ -1,9 +1,26 @@
 import React, { MouseEvent, useState } from 'react';
 import cn from 'classnames';
+import { Icon } from '@iconify/react';
 
 import { IPlayerControlsProps } from './PlayerControls.types';
 import styles from './PlayerControls.module.scss';
 import { PlayerControlsService } from './PlayerControls.service';
+import {
+    baselinePlayArrow,
+    // baselinePause,
+    baselineRepeat,
+    // baselineRepeatOne,
+    baselineShuffle,
+    baselineSkipPrevious,
+    baselineSkipNext,
+    baselineVolumeUp,
+    // baselineVolumeDown,
+    // baselineVolumeOff,
+    baselineFullscreen,
+    // baselineFullscreenExit,
+    baselineSettings,
+    baselineClosedCaption,
+} from '../../utilities/icons/iconify';
 
 export const PlayerControls = (props: IPlayerControlsProps) => {
     // props
@@ -40,7 +57,31 @@ export const PlayerControls = (props: IPlayerControlsProps) => {
                     }}
                 />
             </div>
-            <div className={cn(styles.controlsWrapper)}></div>
+            <div className={cn(styles.controlsWrapper)}>
+                <div className={cn(styles.controlsStartSectionWrapper)}>
+                    <div className={cn(styles.durationWrapper)}>
+                        <span>10:40</span>
+                        <span>/</span>
+                        <span>30:00</span>
+                    </div>
+                </div>
+                <div className={cn(styles.controlsMiddleSectionWrapper)}>
+                    <Icon icon={baselineShuffle} className={cn(styles.actionIcon)} />
+                    <Icon icon={baselineRepeat} className={cn(styles.actionIcon)} />
+                    <Icon icon={baselineSkipPrevious} className={cn(styles.actionIcon)} />
+                    <Icon
+                        icon={baselinePlayArrow}
+                        className={cn(styles.actionIcon, styles.playPauseIcon)}
+                    />
+                    <Icon icon={baselineSkipNext} className={cn(styles.actionIcon)} />
+                    <Icon icon={baselineClosedCaption} className={cn(styles.actionIcon)} />
+                    <Icon icon={baselineVolumeUp} className={cn(styles.actionIcon)} />
+                </div>
+                <div className={cn(styles.controlsEndSectionWrapper)}>
+                    <Icon icon={baselineSettings} className={cn(styles.actionIcon)} />
+                    <Icon icon={baselineFullscreen} className={cn(styles.actionIcon)} />
+                </div>
+            </div>
         </div>
     );
 };

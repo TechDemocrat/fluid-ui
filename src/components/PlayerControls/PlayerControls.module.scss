@@ -12,6 +12,7 @@ $player-progress-track-buffer-opacity: 0.4;
 $player-progress-track-hover-opacity: 0.3;
 $player-progress-bar-color: $color-primary;
 $player-progress-head-color: #fff;
+$player-duration-color: #ddd;
 $player-track-size: 4px;
 $player-progress-head-size: 10px;
 
@@ -84,7 +85,7 @@ $player-progress-head-size: 10px;
         }
 
         &:hover {
-            height: $player-track-size + 1px;
+            height: $player-track-size + 2px;
 
             .progressHead {
                 transform: scale(1);
@@ -96,7 +97,59 @@ $player-progress-head-size: 10px;
         display: grid;
         align-items: center;
         justify-content: space-between;
+        padding: 6px 0 0;
         gap: 10px;
         grid-template-columns: auto auto auto;
+
+        .controlsStartSectionWrapper {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            justify-content: flex-start;
+            font-size: 14px;
+
+            .durationWrapper {
+                display: flex;
+                flex-direction: row;
+                align-items: center;
+                justify-content: center;
+                color: $player-duration-color;
+                font-size: 12px;
+                gap: 5px;
+            }
+        }
+
+        .actionIcon {
+            color: $player-icon-color;
+            cursor: pointer;
+            font-size: 22px;
+            opacity: 0.9; // gives bit dim effect
+            outline: none;
+            vertical-align: baseline;
+
+            &:hover {
+                transform: scale(1.2);
+            }
+
+            &.playPauseIcon {
+                font-size: 26px;
+            }
+        }
+
+        .controlsMiddleSectionWrapper {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+        }
+
+        .controlsEndSectionWrapper {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            justify-content: flex-end;
+            gap: 15px;
+        }
     }
 }
