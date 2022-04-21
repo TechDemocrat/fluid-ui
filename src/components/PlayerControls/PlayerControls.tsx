@@ -24,7 +24,18 @@ import {
 
 export const PlayerControls = (props: IPlayerControlsProps) => {
     // props
-    const {} = props;
+    const {
+        captions,
+        fullscreen,
+        next,
+        playPause,
+        previous,
+        progress,
+        repeat,
+        settings,
+        shuffle,
+        volume,
+    } = { ...PlayerControlsService.getInitialState(), ...props };
 
     // state
     const [progressHoverPercent, setProgressHoverPercent] = useState<number>(0);
@@ -34,6 +45,9 @@ export const PlayerControls = (props: IPlayerControlsProps) => {
         setProgressHoverPercent(PlayerControlsService.getProgressHoverPercent(e));
 
     const onProgressMouseLeave = () => setProgressHoverPercent(0);
+
+    // compute
+    const { total, current } = PlayerControlsService.getFormattedDuration(progress);
 
     // paint
     return (
@@ -60,26 +74,76 @@ export const PlayerControls = (props: IPlayerControlsProps) => {
             <div className={cn(styles.controlsWrapper)}>
                 <div className={cn(styles.controlsStartSectionWrapper)}>
                     <div className={cn(styles.durationWrapper)}>
-                        <span>10:40</span>
+                        <span>{current ?? '-'}</span>
                         <span>/</span>
-                        <span>30:00</span>
+                        <span>{total ?? '-'}</span>
                     </div>
                 </div>
                 <div className={cn(styles.controlsMiddleSectionWrapper)}>
-                    <Icon icon={baselineShuffle} className={cn(styles.actionIcon)} />
-                    <Icon icon={baselineRepeat} className={cn(styles.actionIcon)} />
-                    <Icon icon={baselineSkipPrevious} className={cn(styles.actionIcon)} />
+                    <Icon
+                        icon={baselineShuffle}
+                        className={cn(styles.actionIcon, {
+                            [styles.iconDisabled]: shuffle.isDisabled,
+                        })}
+                        onClick={shuffle.onClick}
+                    />
+                    <Icon
+                        icon={baselineRepeat}
+                        className={cn(styles.actionIcon, {
+                            [styles.iconDisabled]: repeat.isDisabled,
+                        })}
+                        // onClick={repeat.onClick} // needs wrapper
+                    />
+                    <Icon
+                        icon={baselineSkipPrevious}
+                        className={cn(styles.actionIcon, {
+                            [styles.iconDisabled]: previous.isDisabled,
+                        })}
+                        onClick={previous.onClick}
+                    />
                     <Icon
                         icon={baselinePlayArrow}
-                        className={cn(styles.actionIcon, styles.playPauseIcon)}
+                        className={cn(styles.actionIcon, styles.playPauseIcon, {
+                            [styles.iconDisabled]: playPause.isDisabled,
+                        })}
+                        onClick={playPause.onClick}
                     />
-                    <Icon icon={baselineSkipNext} className={cn(styles.actionIcon)} />
-                    <Icon icon={baselineClosedCaption} className={cn(styles.actionIcon)} />
-                    <Icon icon={baselineVolumeUp} className={cn(styles.actionIcon)} />
+                    <Icon
+                        icon={baselineSkipNext}
+                        className={cn(styles.actionIcon, {
+                            [styles.iconDisabled]: next.isDisabled,
+                        })}
+                        onClick={next.onClick}
+                    />
+                    <Icon
+                        icon={baselineClosedCaption}
+                        className={cn(styles.actionIcon, {
+                            [styles.iconDisabled]: captions.isDisabled,
+                        })}
+                        onClick={captions.onClick}
+                    />
+                    <Icon
+                        icon={baselineVolumeUp}
+                        className={cn(styles.actionIcon, {
+                            [styles.iconDisabled]: volume.isDisabled,
+                        })}
+                        // onClick={volume.onClick} // needs wrapper
+                    />
                 </div>
                 <div className={cn(styles.controlsEndSectionWrapper)}>
-                    <Icon icon={baselineSettings} className={cn(styles.actionIcon)} />
-                    <Icon icon={baselineFullscreen} className={cn(styles.actionIcon)} />
+                    <Icon
+                        icon={baselineSettings}
+                        className={cn(styles.actionIcon, {
+                            [styles.iconDisabled]: settings.isDisabled,
+                        })}
+                    />
+                    <Icon
+                        icon={baselineFullscreen}
+                        className={cn(styles.actionIcon, {
+                            [styles.iconDisabled]: fullscreen.isDisabled,
+                        })}
+                        onClick={fullscreen.onClick}
+                    />
                 </div>
             </div>
         </div>

@@ -116,6 +116,7 @@ $player-progress-head-size: 10px;
                 color: $player-duration-color;
                 font-size: 12px;
                 gap: 5px;
+                user-select: none;
             }
         }
 
@@ -126,6 +127,12 @@ $player-progress-head-size: 10px;
             opacity: 0.9; // gives bit dim effect
             outline: none;
             vertical-align: baseline;
+
+            &.iconDisabled {
+                opacity: 0.5;
+                pointer-events: none;
+                user-select: none;
+            }
 
             &:hover {
                 transform: scale(1.2);
