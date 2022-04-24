@@ -69,8 +69,9 @@ export class PlayerControlsService {
         const { left, width } = progressTrack.getBoundingClientRect();
         const percent = (clientX - left) / width;
         const progressHeadDragPercent = percent * 100;
-        if (progressHeadDragPercent > 100) return 100;
-        if (progressHeadDragPercent < 0) return 0;
+        const previousPercentage = Number(e.currentTarget.style.left.split('%')[0]) ?? 0;
+        if (progressHeadDragPercent > 100) return previousPercentage;
+        if (progressHeadDragPercent < 0) return previousPercentage;
         return progressHeadDragPercent;
     };
 
