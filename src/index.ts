@@ -16,3 +16,4 @@ export { ContentUploader } from './components/ContentUploader/ContentUploader';
 export { Modal } from './components/Modal/Modal';
 export { ProfileUpload } from './components/ProfileUpload/ProfileUpload';
 export { ProfileImage } from './components/ProfileImage/ProfileImage';
+export { Popper } from './components/Popper/Popper';

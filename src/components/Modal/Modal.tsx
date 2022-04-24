@@ -57,7 +57,7 @@ export const Modal = (props: IModalProps) => {
             <div className={cn(styles.content)}>
                 <div className={cn(styles.heading)}>
                     <div className={cn(styles.title)}>{originalTitle}</div>
-                    <IconButton size="large" title="Close" onClick={handleClose}>
+                    <IconButton title="Close" onClick={handleClose}>
                         <Icon icon={close} color="#000000" className={cn(styles.icon)} />
                     </IconButton>
                 </div>
