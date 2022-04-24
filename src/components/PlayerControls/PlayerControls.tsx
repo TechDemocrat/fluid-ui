@@ -1,4 +1,4 @@
-import React, { MouseEvent, useState } from 'react';
+import React, { DragEvent, MouseEvent, useEffect, useMemo, useRef, useState } from 'react';
 import cn from 'classnames';
 import { Icon } from '@iconify/react';
 
@@ -23,6 +23,7 @@ import {
 } from '../../utilities/icons/iconify';
 
 export const PlayerControls = (props: IPlayerControlsProps) => {
+    const initialState = useMemo(() => PlayerControlsService.getInitialState(), []);
     // props
     const {
         captions,
@@ -35,19 +36,68 @@ export const PlayerControls = (props: IPlayerControlsProps) => {
         settings,
         shuffle,
         volume,
-    } = { ...PlayerControlsService.getInitialState(), ...props };
+    } = { ...initialState, ...props };
+
+    // refs
+    const progressTrackRef = useRef<HTMLDivElement>(null);
 
     // state
+    const [currentProgressPercentage, setCurrentProgressPercentage] = useState(
+        PlayerControlsService.getProgressPercentage(progress),
+    );
     const [progressHoverPercent, setProgressHoverPercent] = useState<number>(0);
+    const [isDragging, setIsDragging] = useState(false);
+
+    // effects
+    useEffect(() => {
+        setCurrentProgressPercentage(PlayerControlsService.getProgressPercentage(progress));
+    }, [progress]);
 
     // handlers
-    const onProgressMouseOver = (e: MouseEvent<HTMLDivElement>) =>
-        setProgressHoverPercent(PlayerControlsService.getProgressHoverPercent(e));
-
+    // on track hover handlers
+    const onProgressMouseOver = (e: MouseEvent<HTMLDivElement>) => {
+        if (isDragging) {
+            setProgressHoverPercent(0);
+        } else {
+            setProgressHoverPercent(PlayerControlsService.getProgressHoverPercent(e));
+        }
+    };
     const onProgressMouseLeave = () => setProgressHoverPercent(0);
 
+    // progress head handlers
+    const setEmptyDragElement = (e: DragEvent<HTMLDivElement>) => {
+        const emptyElement = document.createElement('img');
+        e.dataTransfer.setDragImage(emptyElement, 0, 0); // remove drag image
+    };
+    const onProgressHeadDragStart = (e: DragEvent<HTMLDivElement>) => {
+        setEmptyDragElement(e);
+        setIsDragging(true);
+    };
+    const onProgressHeadDrag = (e: DragEvent<HTMLDivElement>) => {
+        setEmptyDragElement(e);
+        const { dragPercentage } = PlayerControlsService.getProgressHeadDragPosition(
+            e,
+            progressTrackRef.current as HTMLDivElement,
+            progress,
+        );
+        setCurrentProgressPercentage(dragPercentage);
+    };
+    const onProgressHeadDragEnd = (e: MouseEvent<HTMLDivElement>) => {
+        const { dragPercentage, dragTime } = PlayerControlsService.getProgressHeadDragPosition(
+            e,
+            progressTrackRef.current as HTMLDivElement,
+            progress,
+        );
+        setCurrentProgressPercentage(dragPercentage);
+        setIsDragging(false);
+        progress.onProgressChange?.(dragTime); // call callback from props to notify parent
+    };
+
     // compute
-    const { total, current } = PlayerControlsService.getFormattedDuration(progress);
+    const { total, current } = PlayerControlsService.getFormattedDuration(
+        progress,
+        currentProgressPercentage,
+    );
 
     // paint
     return (
@@ -58,17 +108,28 @@ export const PlayerControls = (props: IPlayerControlsProps) => {
                 onMouseOver={onProgressMouseOver}
                 onMouseEnter={onProgressMouseOver}
                 onMouseLeave={onProgressMouseLeave}
+                onClick={onProgressHeadDragEnd}
             >
                 <div className={cn(styles.progress, styles.progressPadding)} />
-                <div className={cn(styles.progress, styles.progressTrack)} />
-                <div className={cn(styles.progress, styles.progressBar)} />
-                <div className={cn(styles.progress, styles.progressHead)} />
+                <div className={cn(styles.progress, styles.progressTrack)} ref={progressTrackRef} />
+                <div
+                    className={cn(styles.progress, styles.progressBar)}
+                    style={{ width: `${currentProgressPercentage}%` }}
+                />
                 <div className={cn(styles.progress, styles.progressBuffer)} />
                 <div
                     className={cn(styles.progress, styles.progressHover)}
                     style={{
-                        width: `${progressHoverPercent * 100}%`,
+                        width: `${progressHoverPercent}%`,
                     }}
+                />
+                <div
+                    draggable
+                    className={cn(styles.progress, styles.progressHead)}
+                    style={{ left: `${currentProgressPercentage}%` }}
+                    onDragStart={onProgressHeadDragStart}
+                    onDrag={onProgressHeadDrag}
+                    onDragEnd={onProgressHeadDragEnd}
                 />
             </div>
             <div className={cn(styles.controlsWrapper)}>

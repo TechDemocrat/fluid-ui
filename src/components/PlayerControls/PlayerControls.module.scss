@@ -15,13 +15,14 @@ $player-progress-head-color: #fff;
 $player-duration-color: #ddd;
 $player-track-size: 4px;
 $player-progress-head-size: 10px;
+$progress-bar-scafflod-padding: 10px;
 
 .wrapper {
     display: grid;
     width: 100%;
     height: auto;
     padding: 10px;
-    gap: 5px;
+    gap: 8px;
     grid-template-rows: auto auto;
 
     .progressWrapper {
@@ -39,9 +40,10 @@ $player-progress-head-size: 10px;
         }
 
         .progressPadding {
-            top: calc(-50% - $player-track-size / 2);
+            z-index: 0;
+            top: calc(($progress-bar-scafflod-padding - $player-track-size / 2) * -1);
             width: 100%;
-            padding: 10px;
+            padding: $progress-bar-scafflod-padding 0;
         }
 
         .progressTrack {
@@ -53,21 +55,21 @@ $player-progress-head-size: 10px;
 
         .progressBuffer {
             z-index: 2;
-            width: 70%;
+            width: 0%;
             background-color: $player-progress-track-Color;
             opacity: $player-progress-track-buffer-opacity;
         }
 
         .progressHover {
             z-index: 3;
-            width: 80%;
+            width: 0%;
             background-color: $player-progress-track-Color;
             opacity: $player-progress-track-hover-opacity;
         }
 
         .progressBar {
             z-index: 4;
-            width: 50%;
+            width: 0%;
             background-color: $player-progress-bar-color;
         }
 
@@ -75,9 +77,10 @@ $player-progress-head-size: 10px;
             position: absolute;
             z-index: 5;
             top: calc(50% - $player-progress-head-size / 2);
-            left: calc(50% - $player-progress-head-size / 2);
+            left: 0%;
             width: $player-progress-head-size;
             height: $player-progress-head-size;
+            margin-left: calc(($player-progress-head-size / 2) * -1);
             background-color: $player-progress-head-color;
             border-radius: 50%;
             transform: scale(0);
@@ -85,10 +88,20 @@ $player-progress-head-size: 10px;
         }
 
         &:hover {
-            height: $player-track-size + 2px;
+            $scaleBoostSize: 2px;
+            $currentPlayerTrackSize: $player-track-size + $scaleBoostSize;
+
+            height: $currentPlayerTrackSize;
 
             .progressHead {
                 transform: scale(1);
+            }
+
+            .progressPadding {
+                $currentScaffoldPadding: $progress-bar-scafflod-padding + $scaleBoostSize;
+
+                top: calc(($currentScaffoldPadding - ($currentPlayerTrackSize / 2)) * -1);
+                padding: $currentScaffoldPadding 0;
             }
         }
     }
@@ -97,9 +110,8 @@ $player-progress-head-size: 10px;
         display: grid;
         align-items: center;
         justify-content: space-between;
-        padding: 6px 0 0;
         gap: 10px;
-        grid-template-columns: auto auto auto;
+        grid-template-columns: repeat(3, 1fr);
 
         .controlsStartSectionWrapper {
             display: flex;
