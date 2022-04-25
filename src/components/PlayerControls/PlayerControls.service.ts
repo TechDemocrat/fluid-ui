@@ -1,4 +1,5 @@
 import { MouseEvent } from 'react';
+import { getTextDimension } from '../../utilities';
 import { IPlayerControlsProps } from './PlayerControls.types';
 
 export class PlayerControlsService {
@@ -17,18 +18,24 @@ export class PlayerControlsService {
         };
     }
 
-    static getProgressHoverPercent = (e: MouseEvent<HTMLDivElement>): number => {
+    static getProgressHoverPercentage = (e: MouseEvent<HTMLDivElement>): number => {
         const { clientX } = e;
         const { left, width } = e.currentTarget.getBoundingClientRect();
-        const percent = (clientX - left) / width;
-        return percent * 100;
+        const percent = ((clientX - left) / width) * 100;
+        if (percent < 0) {
+            return 0;
+        }
+        if (percent > 100) {
+            return 100;
+        }
+        return percent;
     };
 
     static getProgressHoverTime = (
         e: MouseEvent<HTMLDivElement>,
         totalDuration: number,
     ): number => {
-        const percent = PlayerControlsService.getProgressHoverPercent(e);
+        const percent = PlayerControlsService.getProgressHoverPercentage(e);
         const time = percent * totalDuration;
         return time;
     };
@@ -52,12 +59,16 @@ export class PlayerControlsService {
     static getFormattedDuration = (
         progress: IPlayerControlsProps['progress'],
         currentProgressPercentage: number,
-    ): { total: string; current: string } => {
+        progressHoverPercentage: number,
+    ): { total: string; current: string; hoverDuration: string } => {
         const total = PlayerControlsService.getTimeString(progress.total);
         const current = PlayerControlsService.getTimeString(
             (progress.total * currentProgressPercentage) / 100,
         );
-        return { total, current };
+        const hoverDuration = PlayerControlsService.getTimeString(
+            (progress.total * progressHoverPercentage) / 100,
+        );
+        return { total, current, hoverDuration };
     };
 
     // get progress head drag position respective to progress track element width along with progress total
@@ -90,5 +101,41 @@ export class PlayerControlsService {
     static getProgressPercentage = (progress: IPlayerControlsProps['progress']): number => {
         const progressPercentage = progress.current / progress.total;
         return progressPercentage * 100;
+    };
+
+    // get progress conent offset
+    static getProgressHoverContentOffset = (
+        currentProgressPercentage: number,
+        totalProgressBarWidth: number,
+        hoverContentWidth: number,
+    ): number => {
+        debugger;
+        const currentProgressPosition = (totalProgressBarWidth * currentProgressPercentage) / 100;
+        const remainingProgressBarWidth = totalProgressBarWidth - currentProgressPosition;
+        const centeredHoverContentWidth = hoverContentWidth / 2;
+
+        if (currentProgressPosition < centeredHoverContentWidth) {
+            return -currentProgressPosition; // to have the smoothe transition handovers on end of progress bar
+        }
+        if (
+            currentProgressPosition >= centeredHoverContentWidth &&
+            remainingProgressBarWidth >= centeredHoverContentWidth
+        ) {
+            return -centeredHoverContentWidth;
+        }
+        if (remainingProgressBarWidth > centeredHoverContentWidth) {
+            return -centeredHoverContentWidth;
+        }
+        return -(hoverContentWidth - remainingProgressBarWidth); // to have the smoothe transition handovers on end of progress bar
+    };
+
+    // get the max width of the hover content, indluding duration tooltip width as well as preview thumbnail width in future
+    static getProgressHoverContentMaxWidth = (totalDuration: number): number => {
+        const hoverContentFontSize = 12;
+        const totalDurationString = PlayerControlsService.getTimeString(totalDuration);
+        const { width: totalDurationWidth } = getTextDimension(totalDurationString, {
+            fontSize: hoverContentFontSize,
+        });
+        return totalDurationWidth;
     };
 }

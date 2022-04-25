@@ -16,12 +16,15 @@ $player-duration-color: #ddd;
 $player-track-size: 4px;
 $player-progress-head-size: 10px;
 $progress-bar-scafflod-padding: 10px;
+$player-duration-font-size: 12px;
+$player-controls-icon-size: 22px;
+$player-controls-play-icon-size: 26px;
 
 .wrapper {
     display: grid;
     width: 100%;
     height: auto;
-    padding: 10px;
+    padding: 12px;
     gap: 8px;
     grid-template-rows: auto auto;
 
@@ -36,7 +39,7 @@ $progress-bar-scafflod-padding: 10px;
             top: 0;
             left: 0;
             height: 100%;
-            border-radius: 5px;
+            border-radius: 3px;
         }
 
         .progressPadding {
@@ -67,15 +70,31 @@ $progress-bar-scafflod-padding: 10px;
             opacity: $player-progress-track-hover-opacity;
         }
 
-        .progressBar {
+        .progressHoverContent {
+            position: absolute;
             z-index: 4;
+            bottom: 15px;
+            left: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            color: $player-duration-color;
+            font-size: $player-duration-font-size;
+            gap: 5px;
+            transition: margin-left 50ms ease-in;
+            user-select: none;
+        }
+
+        .progressBar {
+            z-index: 5;
             width: 0%;
             background-color: $player-progress-bar-color;
         }
 
         .progressHead {
             position: absolute;
-            z-index: 5;
+            z-index: 6;
             top: calc(50% - $player-progress-head-size / 2);
             left: 0%;
             width: $player-progress-head-size;
@@ -118,7 +137,6 @@ $progress-bar-scafflod-padding: 10px;
             flex-direction: row;
             align-items: center;
             justify-content: flex-start;
-            font-size: 14px;
 
             .durationWrapper {
                 display: flex;
@@ -126,7 +144,7 @@ $progress-bar-scafflod-padding: 10px;
                 align-items: center;
                 justify-content: center;
                 color: $player-duration-color;
-                font-size: 12px;
+                font-size: $player-duration-font-size;
                 gap: 5px;
                 user-select: none;
             }
@@ -135,7 +153,7 @@ $progress-bar-scafflod-padding: 10px;
         .actionIcon {
             color: $player-icon-color;
             cursor: pointer;
-            font-size: 22px;
+            font-size: $player-controls-icon-size;
             opacity: 0.9; // gives bit dim effect
             outline: none;
             vertical-align: baseline;
@@ -151,7 +169,7 @@ $progress-bar-scafflod-padding: 10px;
             }
 
             &.playPauseIcon {
-                font-size: 26px;
+                font-size: $player-controls-play-icon-size;
             }
         }
 
