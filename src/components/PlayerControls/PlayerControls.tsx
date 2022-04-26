@@ -13,14 +13,12 @@ import {
     baselineShuffle,
     baselineSkipPrevious,
     baselineSkipNext,
-    baselineVolumeUp,
-    // baselineVolumeDown,
-    // baselineVolumeOff,
     baselineFullscreen,
     // baselineFullscreenExit,
     baselineSettings,
     baselineClosedCaption,
 } from '../../utilities/icons/iconify';
+import { VolumeControls } from './components/VolumeControls';
 
 export const PlayerControls = (props: IPlayerControlsProps) => {
     // props
@@ -173,55 +171,61 @@ export const PlayerControls = (props: IPlayerControlsProps) => {
                     </div>
                 </div>
                 <div className={cn(styles.controlsMiddleSectionWrapper)}>
-                    <Icon
-                        icon={baselineShuffle}
-                        className={cn(styles.actionIcon, {
-                            [styles.iconDisabled]: shuffle.isDisabled,
-                        })}
-                        onClick={shuffle.onClick}
-                    />
-                    <Icon
-                        icon={baselineRepeat}
-                        className={cn(styles.actionIcon, {
-                            [styles.iconDisabled]: repeat.isDisabled,
-                        })}
-                        // onClick={repeat.onClick} // needs wrapper
-                    />
-                    <Icon
-                        icon={baselineSkipPrevious}
-                        className={cn(styles.actionIcon, {
-                            [styles.iconDisabled]: previous.isDisabled,
-                        })}
-                        onClick={previous.onClick}
-                    />
-                    <Icon
-                        icon={baselinePlayArrow}
-                        className={cn(styles.actionIcon, styles.playPauseIcon, {
-                            [styles.iconDisabled]: playPause.isDisabled,
-                        })}
-                        onClick={playPause.onClick}
-                    />
-                    <Icon
-                        icon={baselineSkipNext}
-                        className={cn(styles.actionIcon, {
-                            [styles.iconDisabled]: next.isDisabled,
-                        })}
-                        onClick={next.onClick}
-                    />
-                    <Icon
-                        icon={baselineClosedCaption}
-                        className={cn(styles.actionIcon, {
-                            [styles.iconDisabled]: captions.isDisabled,
-                        })}
-                        onClick={captions.onClick}
-                    />
-                    <Icon
-                        icon={baselineVolumeUp}
-                        className={cn(styles.actionIcon, {
-                            [styles.iconDisabled]: volume.isDisabled,
-                        })}
-                        // onClick={volume.onClick} // needs wrapper
-                    />
+                    <div>
+                        <Icon
+                            icon={baselineShuffle}
+                            className={cn(styles.actionIcon, {
+                                [styles.iconDisabled]: shuffle.isDisabled,
+                            })}
+                            onClick={shuffle.onClick}
+                        />
+                    </div>
+                    <div>
+                        <Icon
+                            icon={baselineRepeat}
+                            className={cn(styles.actionIcon, {
+                                [styles.iconDisabled]: repeat.isDisabled,
+                            })}
+                            // onClick={repeat.onClick} // needs wrapper
+                        />
+                    </div>
+                    <div>
+                        <Icon
+                            icon={baselineSkipPrevious}
+                            className={cn(styles.actionIcon, {
+                                [styles.iconDisabled]: previous.isDisabled,
+                            })}
+                            onClick={previous.onClick}
+                        />
+                    </div>
+                    <div>
+                        <Icon
+                            icon={baselinePlayArrow}
+                            className={cn(styles.actionIcon, styles.playPauseIcon, {
+                                [styles.iconDisabled]: playPause.isDisabled,
+                            })}
+                            onClick={playPause.onClick}
+                        />
+                    </div>
+                    <div>
+                        <Icon
+                            icon={baselineSkipNext}
+                            className={cn(styles.actionIcon, {
+                                [styles.iconDisabled]: next.isDisabled,
+                            })}
+                            onClick={next.onClick}
+                        />
+                    </div>
+                    <div>
+                        <Icon
+                            icon={baselineClosedCaption}
+                            className={cn(styles.actionIcon, {
+                                [styles.iconDisabled]: captions.isDisabled,
+                            })}
+                            onClick={captions.onClick}
+                        />
+                    </div>
+                    <VolumeControls volume={volume} />
                 </div>
                 <div className={cn(styles.controlsEndSectionWrapper)}>
                     <Icon

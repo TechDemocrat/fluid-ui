@@ -20,11 +20,20 @@ $player-duration-font-size: 12px;
 $player-controls-icon-size: 22px;
 $player-controls-play-icon-size: 26px;
 
+// volume controls
+$player-volume-slider-width: 80px;
+$player-volume-track-size: 3px;
+$player-volume-track-color: #fff;
+$player-volume-track-opacity: 0.2;
+$player-volume-progress-bar-color: #fff;
+$player-volume-progress-bar-opacity: 0.8;
+$player-volume-progress-head-color: #fff;
+
 .wrapper {
     display: grid;
     width: 100%;
     height: auto;
-    padding: 12px;
+    padding: 8px 12px;
     gap: 8px;
     grid-template-rows: auto auto;
 
@@ -174,6 +183,7 @@ $player-controls-play-icon-size: 26px;
         }
 
         .controlsMiddleSectionWrapper {
+            position: relative;
             display: flex;
             flex-direction: row;
             align-items: center;
@@ -187,6 +197,72 @@ $player-controls-play-icon-size: 26px;
             align-items: center;
             justify-content: flex-end;
             gap: 15px;
+        }
+
+        .volumeControlsWrapper {
+            position: relative;
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+
+            .volumeSliderWrapper {
+                position: absolute;
+                top: calc(50% - $player-volume-track-size / 2);
+                left: $player-controls-icon-size + 6px;
+                width: 0;
+                height: 4px;
+                cursor: pointer;
+                transition:
+                    visibility 0.2s ease-in-out,
+                    width 0.3s ease-in-out;
+                visibility: hidden;
+
+                .volumeSliderTrack {
+                    position: absolute;
+                    top: 0;
+                    left: 0;
+                    width: 100%;
+                    height: 100%;
+                    background-color: $player-volume-track-color;
+                    border-radius: 3px;
+                    opacity: $player-volume-track-opacity;
+                }
+
+                .volumeSliderProgress {
+                    position: absolute;
+                    top: 0;
+                    left: 0;
+                    width: 50%;
+                    height: 100%;
+                    background-color: $player-volume-progress-bar-color;
+                    border-radius: 3px;
+                    opacity: $player-volume-progress-bar-opacity;
+                }
+
+                .volumeSliderHead {
+                    position: absolute;
+                    top: calc(50% - $player-progress-head-size / 2);
+                    left: 50%;
+                    width: $player-progress-head-size;
+                    height: $player-progress-head-size;
+                    margin-left: calc(($player-progress-head-size / 2) * -1);
+                    background-color: $player-progress-head-color;
+                    border-radius: 50%;
+
+                    &:hover {
+                        transform: scale(1.1);
+                    }
+                }
+            }
+
+            &:hover {
+                .volumeSliderWrapper {
+                    width: $player-volume-slider-width;
+                    visibility: visible;
+                }
+            }
         }
     }
 }
