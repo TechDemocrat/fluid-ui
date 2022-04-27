@@ -1,5 +1,11 @@
+import { IconifyIcon } from '@iconify/types';
 import { MouseEvent } from 'react';
 import { getTextDimension } from '../../utilities';
+import {
+    baselineVolumeDown,
+    baselineVolumeOff,
+    baselineVolumeUp,
+} from '../../utilities/icons/iconify';
 import { IPlayerControlsProps } from './PlayerControls.types';
 
 export class PlayerControlsService {
@@ -14,7 +20,7 @@ export class PlayerControlsService {
             repeat: { mode: 'off', isDisabled: true },
             settings: { isDisabled: true },
             shuffle: { isShuffled: false, isDisabled: true },
-            volume: { currentLevel: 0 },
+            volume: { currentLevel: 50 },
         };
     }
 
@@ -56,6 +62,9 @@ export class PlayerControlsService {
         return timeString;
     };
 
+    static getActualProgressValue = (totalValue: number, currentPercentage: number) =>
+        (totalValue * currentPercentage) / 100;
+
     static getFormattedDuration = (
         progress: IPlayerControlsProps['progress'],
         currentProgressPercentage: number,
@@ -63,16 +72,16 @@ export class PlayerControlsService {
     ): { total: string; current: string; hoverDuration: string } => {
         const total = PlayerControlsService.getTimeString(progress.total);
         const current = PlayerControlsService.getTimeString(
-            (progress.total * currentProgressPercentage) / 100,
+            PlayerControlsService.getActualProgressValue(progress.total, currentProgressPercentage),
         );
         const hoverDuration = PlayerControlsService.getTimeString(
-            (progress.total * progressHoverPercentage) / 100,
+            PlayerControlsService.getActualProgressValue(progress.total, progressHoverPercentage),
         );
         return { total, current, hoverDuration };
     };
 
     // get progress head drag position respective to progress track element width along with progress total
-    static getProgressHeadDragPercent = (
+    static getProgressHeadDragPercentage = (
         e: MouseEvent<HTMLDivElement>,
         progressTrack: HTMLDivElement,
     ): number => {
@@ -81,20 +90,10 @@ export class PlayerControlsService {
         const percent = (clientX - left) / width;
         const progressHeadDragPercent = percent * 100;
         const previousPercentage = Number(e.currentTarget.style.left.split('%')[0]) ?? 0;
-        if (progressHeadDragPercent > 100) return previousPercentage;
+        debugger;
+        if (progressHeadDragPercent > 100) return 100;
         if (progressHeadDragPercent < 0) return previousPercentage;
         return progressHeadDragPercent;
-    };
-
-    // get progress head's drag position with respective to the progress track's width and total duration
-    static getProgressHeadDragPosition = (
-        e: MouseEvent<HTMLDivElement>,
-        progressBar: HTMLDivElement,
-        progress: IPlayerControlsProps['progress'],
-    ): { dragTime: number; dragPercentage: number } => {
-        const dragPercentage = PlayerControlsService.getProgressHeadDragPercent(e, progressBar);
-        const dragTime = (dragPercentage * progress.total) / 100;
-        return { dragTime, dragPercentage };
     };
 
     // get current progress percentage
@@ -109,7 +108,6 @@ export class PlayerControlsService {
         totalProgressBarWidth: number,
         hoverContentWidth: number,
     ): number => {
-        debugger;
         const currentProgressPosition = (totalProgressBarWidth * currentProgressPercentage) / 100;
         const remainingProgressBarWidth = totalProgressBarWidth - currentProgressPosition;
         const centeredHoverContentWidth = hoverContentWidth / 2;
@@ -137,5 +135,12 @@ export class PlayerControlsService {
             fontSize: hoverContentFontSize,
         });
         return totalDurationWidth;
+    };
+
+    // get current volume icon based on volume percentage
+    static getVolumeIcon = (volumePercentage: number): IconifyIcon => {
+        if (volumePercentage === 0) return baselineVolumeOff;
+        if (volumePercentage < 50) return baselineVolumeDown;
+        return baselineVolumeUp;
     };
 }

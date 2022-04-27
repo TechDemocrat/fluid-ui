@@ -79,21 +79,23 @@ export const PlayerControls = (props: IPlayerControlsProps) => {
     };
     const onProgressHeadDrag = (e: DragEvent<HTMLDivElement>) => {
         setEmptyDragElement(e);
-        const { dragPercentage } = PlayerControlsService.getProgressHeadDragPosition(
+        const dragPercentage = PlayerControlsService.getProgressHeadDragPercentage(
             e,
             progressTrackRef.current as HTMLDivElement,
-            progress,
         );
         setprogressPercentage(dragPercentage);
     };
     const onProgressHeadDragEnd = (e: MouseEvent<HTMLDivElement>) => {
-        const { dragPercentage, dragTime } = PlayerControlsService.getProgressHeadDragPosition(
+        const dragPercentage = PlayerControlsService.getProgressHeadDragPercentage(
             e,
             progressTrackRef.current as HTMLDivElement,
-            progress,
         );
         setprogressPercentage(dragPercentage);
         setIsDragging(false);
+        const dragTime = PlayerControlsService.getActualProgressValue(
+            dragPercentage,
+            progress.total,
+        );
         progress.onProgressChange?.(dragTime); // call callback from props to notify parent
     };
 

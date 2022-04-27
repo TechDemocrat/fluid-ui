@@ -22,12 +22,15 @@ $player-controls-play-icon-size: 26px;
 
 // volume controls
 $player-volume-slider-width: 80px;
-$player-volume-track-size: 3px;
+$player-volume-track-size: 4px;
 $player-volume-track-color: #fff;
 $player-volume-track-opacity: 0.2;
+$player-volume-progress-head-size: 10px;
 $player-volume-progress-bar-color: #fff;
 $player-volume-progress-bar-opacity: 0.8;
 $player-volume-progress-head-color: #fff;
+$player-volume-control-padding-size: 8px;
+$player-volume-icon-slider-gap: 8px;
 
 .wrapper {
     display: grid;
@@ -36,6 +39,7 @@ $player-volume-progress-head-color: #fff;
     padding: 8px 12px;
     gap: 8px;
     grid-template-rows: auto auto;
+    user-select: none;
 
     .progressWrapper {
         position: relative;
@@ -201,18 +205,22 @@ $player-volume-progress-head-color: #fff;
 
         .volumeControlsWrapper {
             position: relative;
-            display: flex;
-            flex-direction: row;
-            align-items: center;
-            justify-content: center;
-            gap: 10px;
+
+            .actionIcon {
+                position: relative;
+                z-index: 1;
+            }
 
             .volumeSliderWrapper {
                 position: absolute;
-                top: calc(50% - $player-volume-track-size / 2);
-                left: $player-controls-icon-size + 6px;
+                z-index: 2;
+
+                // since we scale the volume icon size on hover,
+                // no need to divide the $player-volume-track-size by 2
+                top: calc(50% - $player-volume-track-size);
+                left: $player-controls-icon-size + $player-volume-icon-slider-gap;
                 width: 0;
-                height: 4px;
+                height: $player-volume-track-size;
                 cursor: pointer;
                 transition:
                     visibility 0.2s ease-in-out,
@@ -221,6 +229,7 @@ $player-volume-progress-head-color: #fff;
 
                 .volumeSliderTrack {
                     position: absolute;
+                    z-index: 1;
                     top: 0;
                     left: 0;
                     width: 100%;
@@ -232,9 +241,10 @@ $player-volume-progress-head-color: #fff;
 
                 .volumeSliderProgress {
                     position: absolute;
+                    z-index: 2;
                     top: 0;
                     left: 0;
-                    width: 50%;
+                    width: 0%;
                     height: 100%;
                     background-color: $player-volume-progress-bar-color;
                     border-radius: 3px;
@@ -243,18 +253,39 @@ $player-volume-progress-head-color: #fff;
 
                 .volumeSliderHead {
                     position: absolute;
-                    top: calc(50% - $player-progress-head-size / 2);
+                    z-index: 3;
+                    top: calc(50% - $player-volume-progress-head-size / 2);
                     left: 50%;
-                    width: $player-progress-head-size;
-                    height: $player-progress-head-size;
-                    margin-left: calc(($player-progress-head-size / 2) * -1);
-                    background-color: $player-progress-head-color;
+                    width: $player-volume-progress-head-size;
+                    height: $player-volume-progress-head-size;
+                    margin-left: calc(($player-volume-progress-head-size / 2) * -1);
+                    background-color: $player-volume-progress-head-color;
                     border-radius: 50%;
 
                     &:hover {
                         transform: scale(1.1);
                     }
                 }
+
+                .volumeSliderPadding {
+                    position: absolute;
+                    z-index: 0;
+                    top: calc(($player-volume-track-size + ($player-volume-control-padding-size / 2)) * -1);
+                    left: calc(($player-volume-control-padding-size / 2) * -1);
+                    width: 100%;
+                    height: 100%;
+                    padding: $player-volume-track-size + $player-volume-control-padding-size;
+                }
+            }
+
+            .volumneControlsPadding {
+                position: absolute;
+                z-index: 0;
+                top: calc($player-volume-control-padding-size / 2 * -1);
+                left: calc($player-volume-control-padding-size / 2 * -1);
+                width: $player-controls-icon-size + $player-volume-control-padding-size;
+                height: $player-controls-icon-size + $player-volume-control-padding-size;
+                cursor: pointer;
             }
 
             &:hover {
@@ -262,6 +293,27 @@ $player-volume-progress-head-color: #fff;
                     width: $player-volume-slider-width;
                     visibility: visible;
                 }
+
+                .volumeSliderPadding {
+                    width: $player-volume-slider-width + $player-volume-control-padding-size;
+                }
+
+                .volumneControlsPadding {
+                    width:
+                        $player-controls-icon-size +
+                        $player-volume-icon-slider-gap +
+                        $player-volume-slider-width +
+                        $player-volume-control-padding-size;
+                }
+
+                .actionIcon {
+                    transform: scale(1.2);
+                }
+            }
+
+            .volumneControlsPadding:hover + .volumeSliderWrapper {
+                width: $player-volume-slider-width;
+                visibility: visible;
             }
         }
     }

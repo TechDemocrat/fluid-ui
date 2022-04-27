@@ -32,7 +32,7 @@ export interface IPlayerControlsProps {
     };
     volume: {
         /**
-         * in percentage
+         * in percentage scale of 100
          */
         currentLevel: number;
         onChange?: (newLevel: number) => void;
