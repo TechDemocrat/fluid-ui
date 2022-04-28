@@ -33,7 +33,7 @@ export const ContentUploader = (props: IContentUploaderProps) => {
     const errorInitialState = useMemo(() => ({ enabled: false, message: '' }), []);
 
     // hooks
-    const isMounted = useIsMounted().current;
+    const isMounted = useIsMounted();
 
     // state
     const [isDragging, setIsDragging] = useState(false);
@@ -49,7 +49,7 @@ export const ContentUploader = (props: IContentUploaderProps) => {
         (message: string, timeOut = 2000) => {
             seterror({ enabled: true, message });
             // with timeout of 1s to allow the error message to be displayed
-            setTimeout(() => isMounted && seterror(errorInitialState), timeOut);
+            setTimeout(() => isMounted() && seterror(errorInitialState), timeOut);
         },
         [isMounted, errorInitialState],
     );
