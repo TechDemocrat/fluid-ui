@@ -6,19 +6,18 @@ import { IPlayerControlsProps } from './PlayerControls.types';
 import styles from './PlayerControls.module.scss';
 import { PlayerControlsService } from './PlayerControls.service';
 import {
-    baselinePlayArrow,
-    // baselinePause,
     baselineRepeat,
-    // baselineRepeatOne,
     baselineShuffle,
     baselineSkipPrevious,
     baselineSkipNext,
-    baselineFullscreen,
-    // baselineFullscreenExit,
     baselineSettings,
     baselineClosedCaption,
 } from '../../utilities/icons/iconify';
 import { VolumeControls } from './components/VolumeControls';
+import { PlayPause } from './components/PlayPause';
+import { FullscreenControls } from './components/FullscreenControls';
+import { PlayerTimer } from './components/PlayerTimer';
+import { CurrentHoverTime } from './components/CurrentHoverTime';
 
 export const PlayerControls = (props: IPlayerControlsProps) => {
     // props
@@ -103,19 +102,10 @@ export const PlayerControls = (props: IPlayerControlsProps) => {
     const currentProgressHoverPercentage = isDragging
         ? progressPercentage
         : progressHoverPercentage;
-    const progerssHoverContentMaxWidth = useMemo(
-        () => PlayerControlsService.getProgressHoverContentMaxWidth(progress.total),
-        [progress.total],
-    );
-    const { total, current, hoverDuration } = PlayerControlsService.getFormattedDuration(
+    const { current, total, currentHoverTime } = PlayerControlsService.getFormattedDuration(
         progress,
         progressPercentage,
         currentProgressHoverPercentage,
-    );
-    const progressHoverContentOffset = PlayerControlsService.getProgressHoverContentOffset(
-        currentProgressHoverPercentage,
-        progressTrackRef.current?.clientWidth ?? 0,
-        progerssHoverContentMaxWidth,
     );
 
     // paint
@@ -142,17 +132,6 @@ export const PlayerControls = (props: IPlayerControlsProps) => {
                         width: `${progressHoverPercentage}%`,
                     }}
                 />
-                {(isDragging || isHovering) && (
-                    <div
-                        className={cn(styles.progressHoverContent)}
-                        style={{
-                            left: `${currentProgressHoverPercentage}%`,
-                            marginLeft: `${progressHoverContentOffset}px`,
-                        }}
-                    >
-                        {hoverDuration}
-                    </div>
-                )}
                 <div
                     draggable
                     className={cn(styles.progress, styles.progressHead)}
@@ -163,14 +142,18 @@ export const PlayerControls = (props: IPlayerControlsProps) => {
                     onDrag={onProgressHeadDrag}
                     onDragEnd={onProgressHeadDragEnd}
                 />
+                <CurrentHoverTime
+                    isDragging={isDragging}
+                    isHovering={isHovering}
+                    currentHoverTime={currentHoverTime}
+                    currentProgressHoverPercentage={currentProgressHoverPercentage}
+                    progress={progress}
+                    progressTrackWidth={progressTrackRef.current?.clientWidth ?? 0}
+                />
             </div>
             <div className={cn(styles.controlsWrapper)}>
                 <div className={cn(styles.controlsStartSectionWrapper)}>
-                    <div className={cn(styles.durationWrapper)}>
-                        <span>{current ?? '-'}</span>
-                        <span>/</span>
-                        <span>{total ?? '-'}</span>
-                    </div>
+                    <PlayerTimer current={current} total={total} />
                 </div>
                 <div className={cn(styles.controlsMiddleSectionWrapper)}>
                     <div>
@@ -188,7 +171,6 @@ export const PlayerControls = (props: IPlayerControlsProps) => {
                             className={cn(styles.actionIcon, {
                                 [styles.iconDisabled]: repeat.isDisabled,
                             })}
-                            // onClick={repeat.onClick} // needs wrapper
                         />
                     </div>
                     <div>
@@ -200,15 +182,7 @@ export const PlayerControls = (props: IPlayerControlsProps) => {
                             onClick={previous.onClick}
                         />
                     </div>
-                    <div>
-                        <Icon
-                            icon={baselinePlayArrow}
-                            className={cn(styles.actionIcon, styles.playPauseIcon, {
-                                [styles.iconDisabled]: playPause.isDisabled,
-                            })}
-                            onClick={playPause.onClick}
-                        />
-                    </div>
+                    <PlayPause playPause={playPause} />
                     <div>
                         <Icon
                             icon={baselineSkipNext}
@@ -236,13 +210,7 @@ export const PlayerControls = (props: IPlayerControlsProps) => {
                             [styles.iconDisabled]: settings.isDisabled,
                         })}
                     />
-                    <Icon
-                        icon={baselineFullscreen}
-                        className={cn(styles.actionIcon, {
-                            [styles.iconDisabled]: fullscreen.isDisabled,
-                        })}
-                        onClick={fullscreen.onClick}
-                    />
+                    <FullscreenControls fullscreen={fullscreen} />
                 </div>
             </div>
         </div>

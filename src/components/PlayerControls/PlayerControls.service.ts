@@ -69,15 +69,15 @@ export class PlayerControlsService {
         progress: IPlayerControlsProps['progress'],
         currentProgressPercentage: number,
         progressHoverPercentage: number,
-    ): { total: string; current: string; hoverDuration: string } => {
+    ): { total: string; current: string; currentHoverTime: string } => {
         const total = PlayerControlsService.getTimeString(progress.total);
         const current = PlayerControlsService.getTimeString(
             PlayerControlsService.getActualProgressValue(progress.total, currentProgressPercentage),
         );
-        const hoverDuration = PlayerControlsService.getTimeString(
+        const currentHoverTime = PlayerControlsService.getTimeString(
             PlayerControlsService.getActualProgressValue(progress.total, progressHoverPercentage),
         );
-        return { total, current, hoverDuration };
+        return { total, current, currentHoverTime };
     };
 
     // get progress head drag position respective to progress track element width along with progress total
