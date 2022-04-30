@@ -1,9 +1,10 @@
-import React, { DragEvent, MouseEvent, useMemo, useRef, useState } from 'react';
+import React, { DragEvent, MouseEvent, useCallback, useMemo, useRef, useState } from 'react';
 import cn from 'classnames';
 import { Icon } from '@iconify/react';
 import styles from '../PlayerControls.module.scss';
 import { IPlayerControlsProps } from '../PlayerControls.types';
 import { PlayerControlsService } from '../PlayerControls.service';
+import { useLocalStorage } from '../../../utilities/cutomHooks';
 
 interface IVolumeControlProps {
     volume: IPlayerControlsProps['volume'];
@@ -11,8 +12,14 @@ interface IVolumeControlProps {
 export const VolumeControls = (props: IVolumeControlProps) => {
     // props
     const {
-        volume: { isDisabled, currentLevel, onChange },
+        volume: { isDisabled, currentLevel, isMuted, onChange },
     } = props;
+
+    // hooks
+    const [persistedVolume, setPersistedVolume] = useLocalStorage('volume', {
+        currentLevel,
+        isMuted,
+    });
 
     // refs
     const volumeTrackRef = useRef<HTMLDivElement>(null);
@@ -44,13 +51,28 @@ export const VolumeControls = (props: IVolumeControlProps) => {
         );
         setVolumePercentage(dragPercentage);
         onChange?.(dragPercentage); // call callback from props to notify parent
+        setPersistedVolume({ ...persistedVolume, currentLevel: dragPercentage });
     };
 
-    const onVolumeIconClick = () => {
-        // mute action and volume revoke action needs to be implemented
-        setVolumePercentage(0);
-        onChange?.(0); // call callback from props to notify parent
-    };
+    const onVolumeIconClick = useCallback(() => {
+        if (persistedVolume.isMuted) {
+            const persistedLevel = persistedVolume.currentLevel;
+            setVolumePercentage(persistedLevel);
+            onChange?.(persistedLevel);
+            setPersistedVolume({ currentLevel: persistedLevel, isMuted: false });
+        } else {
+            setPersistedVolume({ currentLevel: volumePercentage, isMuted: true });
+            // mute action and volume revoke action needs to be implemented
+            setVolumePercentage(0);
+            onChange?.(0); // call callback from props to notify parent
+        }
+    }, [
+        volumePercentage,
+        persistedVolume.currentLevel,
+        persistedVolume.isMuted,
+        setPersistedVolume,
+        onChange,
+    ]);
 
     // compute
     const volumeIcon = useMemo(

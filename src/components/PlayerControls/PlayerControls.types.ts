@@ -35,6 +35,7 @@ export interface IPlayerControlsProps {
          * in percentage scale of 100
          */
         currentLevel: number;
+        isMuted: boolean;
         onChange?: (newLevel: number) => void;
         isDisabled?: boolean;
     };

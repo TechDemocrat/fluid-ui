@@ -20,7 +20,7 @@ export class PlayerControlsService {
             repeat: { mode: 'off', isDisabled: true },
             settings: { isDisabled: true },
             shuffle: { isShuffled: false, isDisabled: true },
-            volume: { currentLevel: 50 },
+            volume: { currentLevel: 50, isMuted: false },
         };
     }
 
@@ -90,7 +90,6 @@ export class PlayerControlsService {
         const percent = (clientX - left) / width;
         const progressHeadDragPercent = percent * 100;
         const previousPercentage = Number(e.currentTarget.style.left.split('%')[0]) ?? 0;
-        debugger;
         if (progressHeadDragPercent > 100) return 100;
         if (progressHeadDragPercent < 0) return previousPercentage;
         return progressHeadDragPercent;
