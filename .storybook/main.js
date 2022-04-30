@@ -22,7 +22,19 @@ module.exports = {
     webpackFinal: async (config, { configType }) => {
         config.module.rules.push({
             test: /\.(css|scss)$/,
-            use: ['style-loader', 'css-loader', 'sass-loader'],
+            use: [
+                'style-loader',
+                {
+                    loader: 'css-loader',
+                    options: {
+                        importLoaders: 1,
+                        modules: {
+                            localIdentName: '[name]__[local]___[hash:base64:5]',
+                        },
+                    },
+                },
+                'sass-loader',
+            ],
             include: /\.module\.(css|scss)$/,
         });
         config.module.rules.push({
