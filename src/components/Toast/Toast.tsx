@@ -10,10 +10,9 @@ import ToastMessage from './components/ToastMessage';
 
 export const Toast = (props: IToastProps) => {
     // props
-    const { title, position = 'top-right' } = props;
+    const { position = 'top-right' } = props;
 
     // compute
-    const originalTitle = ToastService.getTitle(title);
     const positionClass = ToastService.getPositionClass(position);
 
     // global store
@@ -27,7 +26,7 @@ export const Toast = (props: IToastProps) => {
 
     // paint
     return (
-        <div className={cn(styles.wrapper, positionClass)} title={originalTitle}>
+        <div className={cn(styles.wrapper, positionClass)}>
             {[...toastList.keys()].map((id) => {
                 const toast = toastList.get(id);
                 return (

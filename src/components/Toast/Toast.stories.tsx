@@ -32,7 +32,6 @@ const Template: Story<IToastProps> = (args) => {
                     show({
                         message: 'This is a toast message',
                         type: 'warning',
-                        duration: 5000,
                     })
                 }
             >
@@ -44,6 +43,5 @@ const Template: Story<IToastProps> = (args) => {
 
 export const Default = Template.bind({});
 Default.args = {
-    title: 'This is a toast title',
     position: 'top-right',
 } as IToastProps;

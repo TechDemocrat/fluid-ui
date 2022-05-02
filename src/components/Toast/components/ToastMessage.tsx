@@ -7,16 +7,9 @@ import styles from '../Toast.module.scss';
 import { close as closeIcon } from '../../../utilities/icons/iconify';
 import cn from 'classnames';
 import { ToastService } from '../Toast.service';
+import { IToastMessageProps } from '../Toast.types';
 
-interface Props {
-    id: string;
-    message: string | React.ReactNode;
-    duration: number;
-    type: 'info' | 'success' | 'warning' | 'error';
-    close: (id: string) => void;
-}
-
-const ToastMessage = (props: Props) => {
+const ToastMessage = (props: IToastMessageProps) => {
     // props
     const { id, message, duration, type, close } = props;
     const icon = ToastService.getIcon(type);

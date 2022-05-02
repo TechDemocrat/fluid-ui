@@ -4,7 +4,6 @@ import { check, info, warning, error } from '../../utilities/icons/iconify';
 
 export class ToastService {
     // actions goes here
-    static getTitle = (title: string) => title;
 
     static getPositionClass = (position: IToastProps['position']) => {
         switch (position) {
