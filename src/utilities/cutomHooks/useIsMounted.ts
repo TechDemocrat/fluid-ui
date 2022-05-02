@@ -1,17 +1,21 @@
-import { RefObject, useEffect, useRef } from 'react';
+import { useCallback, useEffect, useRef } from 'react';
 
 /**
  *
- * @returns boolean reference object
+ * @returns isMounted() cb which returns a boolean states that the component is mounted or not
  *
  */
-export const useIsMounted = (): RefObject<boolean> => {
+export const useIsMounted = (): (() => boolean) => {
+    // refs
     const isMountedRef = useRef(false);
+
+    // effects
     useEffect(() => {
         isMountedRef.current = true;
         return () => {
             isMountedRef.current = false;
         };
     }, []);
-    return isMountedRef;
+
+    return useCallback(() => isMountedRef.current, []);
 };

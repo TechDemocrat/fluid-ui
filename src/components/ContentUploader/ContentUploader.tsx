@@ -33,7 +33,7 @@ export const ContentUploader = (props: IContentUploaderProps) => {
     const errorInitialState = useMemo(() => ({ enabled: false, message: '' }), []);
 
     // hooks
-    const isMounted = useIsMounted().current;
+    const isMounted = useIsMounted();
 
     // state
     const [isDragging, setIsDragging] = useState(false);
@@ -49,7 +49,7 @@ export const ContentUploader = (props: IContentUploaderProps) => {
         (message: string, timeOut = 2000) => {
             seterror({ enabled: true, message });
             // with timeout of 1s to allow the error message to be displayed
-            setTimeout(() => isMounted && seterror(errorInitialState), timeOut);
+            setTimeout(() => isMounted() && seterror(errorInitialState), timeOut);
         },
         [isMounted, errorInitialState],
     );
@@ -179,11 +179,7 @@ export const ContentUploader = (props: IContentUploaderProps) => {
                                     left
                                 </div>
                                 <div className={styles.uploadProgressAction}>
-                                    <IconButton
-                                        size="large"
-                                        title="Cancel upload"
-                                        onClick={onCancel}
-                                    >
+                                    <IconButton title="Cancel upload" onClick={onCancel}>
                                         <Icon icon={close} className={styles.uploadCanceIcon} />
                                     </IconButton>
                                 </div>
@@ -199,11 +195,7 @@ export const ContentUploader = (props: IContentUploaderProps) => {
                                     <TimeFromNow size="medium" dateString={uploadedAt} />
                                 </div>
                                 <div className={styles.uploadProgressAction}>
-                                    <IconButton
-                                        size="large"
-                                        title="Delete content"
-                                        onClick={onDelete}
-                                    >
+                                    <IconButton title="Delete content" onClick={onDelete}>
                                         <Icon icon={close} className={styles.uploadCanceIcon} />
                                     </IconButton>
                                 </div>
