@@ -5,6 +5,8 @@ export { default as checkCircleOutline } from '@iconify/icons-mdi/check-circle-o
 // validation
 export { default as error } from '@iconify/icons-mdi/error-outline';
 export { default as check } from '@iconify/icons-mdi/check-circle';
+export { default as warning } from '@iconify/icons-mdi/alert-circle-outline';
+export { default as info } from '@iconify/icons-mdi/information-outline';
 
 // content action icons
 export { default as heartOutline } from '@iconify/icons-mdi/heart-outline';

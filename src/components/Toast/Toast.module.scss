@@ -1,0 +1,108 @@
+@import "../../styles/fontSizes";
+@import "../../styles/colors";
+@import "../../styles/fontWeights";
+@import "../../styles/mixins";
+@import "../../styles/mediaQueries";
+
+@keyframes slide-left {
+    0% {
+        transform: translateX(100%);
+    }
+
+    100% {
+        transform: translateX(0%);
+    }
+}
+
+@keyframes slide-right {
+    0% {
+        transform: translateX(-100%);
+    }
+
+    100% {
+        transform: translateX(0%);
+    }
+}
+
+.wrapper {
+    position: absolute;
+    display: block;
+
+    &.topLeft {
+        top: 0;
+        left: 0;
+    }
+
+    &.topRight {
+        top: 0;
+        right: 0;
+    }
+
+    &.bottomLeft {
+        bottom: 0;
+        left: 0;
+    }
+
+    &.bottomRight {
+        right: 0;
+        bottom: 0;
+    }
+
+    .toastContainer {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 5px;
+
+        &.animateRight {
+            animation: slide-left 500ms forwards;
+        }
+
+        &.animateLeft {
+            animation: slide-right 500ms forwards;
+        }
+
+        .toastCardWrapper {
+            &.success {
+                background-color: $color-success;
+                color: $color-foregroundPrimaryLight;
+            }
+
+            &.error {
+                background-color: $color-danger;
+                color: $color-foregroundPrimaryLight;
+            }
+
+            &.warning {
+                background-color: $color-warning;
+                color: $color-foregroundPrimaryLight;
+            }
+
+            &.info {
+                background-color: $color-info;
+                color: $color-foregroundPrimaryLight;
+            }
+        }
+
+        .toastContentWrapper {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 5px;
+
+            .toastIcon {
+                margin-right: 5px;
+                pointer-events: none;
+            }
+
+            .toastAction {
+                margin-left: 5px;
+
+                &:hover {
+                    color: $color-foregroundPrimary;
+                    cursor: pointer;
+                }
+            }
+        }
+    }
+}
