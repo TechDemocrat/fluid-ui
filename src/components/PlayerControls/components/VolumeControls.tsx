@@ -1,10 +1,9 @@
-import React, { DragEvent, MouseEvent, useCallback, useMemo, useRef, useState } from 'react';
+import React, { DragEvent, MouseEvent, useCallback, useMemo, useRef } from 'react';
 import cn from 'classnames';
 import { Icon } from '@iconify/react';
 import styles from '../PlayerControls.module.scss';
 import { IPlayerControlsProps } from '../PlayerControls.types';
 import { PlayerControlsService } from '../PlayerControls.service';
-import { useLocalStorage } from '../../../utilities/cutomHooks';
 
 interface IVolumeControlProps {
     volume: IPlayerControlsProps['volume'];
@@ -12,20 +11,11 @@ interface IVolumeControlProps {
 export const VolumeControls = (props: IVolumeControlProps) => {
     // props
     const {
-        volume: { isDisabled, currentLevel, isMuted, onChange },
+        volume: { isDisabled, isMuted, currentLevel, onChange, onMute, onUnMute },
     } = props;
-
-    // hooks
-    const [persistedVolume, setPersistedVolume] = useLocalStorage('volume', {
-        currentLevel,
-        isMuted,
-    });
 
     // refs
     const volumeTrackRef = useRef<HTMLDivElement>(null);
-
-    // state
-    const [volumePercentage, setVolumePercentage] = useState(currentLevel);
 
     // handlers
     // volume head handlers
@@ -42,42 +32,29 @@ export const VolumeControls = (props: IVolumeControlProps) => {
             e,
             volumeTrackRef.current as HTMLDivElement,
         );
-        setVolumePercentage(dragPercentage);
+        console.log(dragPercentage);
+        onChange?.(dragPercentage); // call callback from props to notify parent
     };
     const onVolumeHeadDragEnd = (e: MouseEvent<HTMLDivElement>) => {
         const dragPercentage = PlayerControlsService.getProgressHeadDragPercentage(
             e,
             volumeTrackRef.current as HTMLDivElement,
         );
-        setVolumePercentage(dragPercentage);
         onChange?.(dragPercentage); // call callback from props to notify parent
-        setPersistedVolume({ ...persistedVolume, currentLevel: dragPercentage });
     };
 
     const onVolumeIconClick = useCallback(() => {
-        if (persistedVolume.isMuted) {
-            const persistedLevel = persistedVolume.currentLevel;
-            setVolumePercentage(persistedLevel);
-            onChange?.(persistedLevel);
-            setPersistedVolume({ currentLevel: persistedLevel, isMuted: false });
+        if (!isMuted) {
+            onMute();
         } else {
-            setPersistedVolume({ currentLevel: volumePercentage, isMuted: true });
-            // mute action and volume revoke action needs to be implemented
-            setVolumePercentage(0);
-            onChange?.(0); // call callback from props to notify parent
+            onUnMute();
         }
-    }, [
-        volumePercentage,
-        persistedVolume.currentLevel,
-        persistedVolume.isMuted,
-        setPersistedVolume,
-        onChange,
-    ]);
+    }, [onUnMute, onMute, isMuted]);
 
     // compute
     const volumeIcon = useMemo(
-        () => PlayerControlsService.getVolumeIcon(volumePercentage),
-        [volumePercentage],
+        () => PlayerControlsService.getVolumeIcon(currentLevel),
+        [currentLevel],
     );
 
     // paint
@@ -95,14 +72,14 @@ export const VolumeControls = (props: IVolumeControlProps) => {
                 <div
                     className={styles.volumeSliderProgress}
                     style={{
-                        width: `${volumePercentage}%`,
+                        width: `${currentLevel}%`,
                     }}
                 />
                 <div
                     draggable
                     className={styles.volumeSliderHead}
                     style={{
-                        left: `${volumePercentage}%`,
+                        left: `${currentLevel}%`,
                     }}
                     onDragStart={onVolumeHeadDragStart}
                     onDrag={onVolumeHeadDrag}

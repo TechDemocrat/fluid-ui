@@ -23,6 +23,7 @@ export const PlayerControls = (props: IPlayerControlsProps) => {
     // props
     const initialState = useMemo(() => PlayerControlsService.getInitialState(), []);
     const {
+        className,
         captions,
         fullscreen,
         next,
@@ -75,6 +76,8 @@ export const PlayerControls = (props: IPlayerControlsProps) => {
     const onProgressHeadDragStart = (e: DragEvent<HTMLDivElement>) => {
         setEmptyDragElement(e);
         setIsDragging(true);
+        setIsHovering(false);
+        setProgressHoverPercentage(0);
     };
     const onProgressHeadDrag = (e: DragEvent<HTMLDivElement>) => {
         setEmptyDragElement(e);
@@ -110,7 +113,7 @@ export const PlayerControls = (props: IPlayerControlsProps) => {
 
     // paint
     return (
-        <div className={cn(styles.wrapper)}>
+        <div className={cn(styles.wrapper, className)}>
             <div
                 className={cn(styles.progressWrapper)}
                 onMouseMove={onProgressMouseOver}

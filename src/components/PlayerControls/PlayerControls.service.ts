@@ -11,16 +11,28 @@ import { IPlayerControlsProps } from './PlayerControls.types';
 export class PlayerControlsService {
     static getInitialState(): IPlayerControlsProps {
         return {
-            captions: { isCaptionsOn: false, isDisabled: true },
-            fullscreen: { isFullscreen: false },
-            next: { isDisabled: true },
-            playPause: { isPlaying: false },
-            previous: { isDisabled: true },
-            progress: { current: 1250, total: 2500, fastForwardBackwardSpeed: 10 },
-            repeat: { mode: 'off', isDisabled: true },
+            captions: { isCaptionsOn: false, isDisabled: true, onClick: () => {} },
+            fullscreen: { isFullscreen: false, onClick: () => {} },
+            next: { isDisabled: true, onClick: () => {} },
+            playPause: { isPlaying: false, onClick: () => {} },
+            previous: { isDisabled: true, onClick: () => {} },
+            progress: {
+                current: 1250,
+                total: 2500,
+                fastForwardBackwardSpeed: 10,
+                onProgressChange: () => {},
+            },
+            repeat: { mode: 'off', isDisabled: true, onClick: () => {} },
             settings: { isDisabled: true },
-            shuffle: { isShuffled: false, isDisabled: true },
-            volume: { currentLevel: 50, isMuted: false },
+            shuffle: { isShuffled: false, isDisabled: true, onClick: () => {} },
+            volume: {
+                currentLevel: 50,
+                previousLevel: 50,
+                isMuted: false,
+                onChange: () => {},
+                onMute: () => {},
+                onUnMute: () => {},
+            },
         };
     }
 
@@ -56,8 +68,9 @@ export class PlayerControlsService {
     };
 
     static getTimeString = (time: number): string => {
-        const minutes = Math.floor(time / 60);
-        const seconds = Math.floor(time % 60);
+        const sanitizedTime = time || 0;
+        const minutes = Math.floor(sanitizedTime / 60);
+        const seconds = Math.floor(sanitizedTime % 60);
         const timeString = `${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
         return timeString;
     };
