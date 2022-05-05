@@ -16,6 +16,14 @@ export interface IPlayerControlsProps {
          * newTime will be in seconds
          */
         onProgressChange: (newTime: number) => void;
+        /**
+         * Triggered when user dragges the progress bar
+         */
+        onProgressDraggingStart: () => void;
+        /**
+         * Triggered when user stops dragging the progress bar
+         */
+        onProgressDraggingEnd: () => void;
     };
     playPause: {
         isPlaying: boolean;
@@ -64,8 +72,8 @@ export interface IPlayerControlsProps {
         onClick: () => void;
         isDisabled?: boolean;
     };
-    fullscreen: {
-        isFullscreen: boolean;
+    fullScreen: {
+        isFullScreen: boolean;
         onClick: () => void;
         isDisabled?: boolean;
     };

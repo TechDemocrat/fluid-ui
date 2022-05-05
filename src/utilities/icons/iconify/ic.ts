@@ -23,7 +23,7 @@ export { default as baselineSkipNext } from '@iconify/icons-ic/baseline-skip-nex
 export { default as baselineVolumeUp } from '@iconify/icons-ic/baseline-volume-up';
 export { default as baselineVolumeDown } from '@iconify/icons-ic/baseline-volume-down';
 export { default as baselineVolumeOff } from '@iconify/icons-ic/baseline-volume-off';
-export { default as baselineFullscreen } from '@iconify/icons-ic/baseline-fullscreen';
-export { default as baselineFullscreenExit } from '@iconify/icons-ic/baseline-fullscreen-exit';
+export { default as baselineFullScreen } from '@iconify/icons-ic/baseline-fullscreen';
+export { default as baselineFullScreenExit } from '@iconify/icons-ic/baseline-fullscreen-exit';
 export { default as baselineSettings } from '@iconify/icons-ic/baseline-settings';
 export { default as baselineClosedCaption } from '@iconify/icons-ic/baseline-closed-caption';

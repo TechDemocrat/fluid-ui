@@ -3,16 +3,16 @@ import cn from 'classnames';
 import styles from '../PlayerControls.module.scss';
 import { Icon } from '@iconify/react';
 import { IPlayerControlsProps } from '../PlayerControls.types';
-import { baselineFullscreen, baselineFullscreenExit } from '../../../utilities/icons/iconify';
+import { baselineFullScreen, baselineFullScreenExit } from '../../../utilities/icons/iconify';
 
-export const FullscreenControls = (props: { fullscreen: IPlayerControlsProps['fullscreen'] }) => {
+export const FullScreenControls = (props: { fullScreen: IPlayerControlsProps['fullScreen'] }) => {
     // props
     const {
-        fullscreen: { isFullscreen, isDisabled, onClick },
+        fullScreen: { isFullScreen: isFullScreen, isDisabled, onClick },
     } = props;
 
     // compute
-    const currentIcon = isFullscreen ? baselineFullscreenExit : baselineFullscreen;
+    const currentIcon = isFullScreen ? baselineFullScreenExit : baselineFullScreen;
 
     // paint
     return (

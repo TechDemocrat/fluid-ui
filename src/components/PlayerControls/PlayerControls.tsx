@@ -15,7 +15,7 @@ import {
 } from '../../utilities/icons/iconify';
 import { VolumeControls } from './components/VolumeControls';
 import { PlayPause } from './components/PlayPause';
-import { FullscreenControls } from './components/FullscreenControls';
+import { FullScreenControls } from './components/FullScreenControls';
 import { PlayerTimer } from './components/PlayerTimer';
 import { CurrentHoverTime } from './components/CurrentHoverTime';
 
@@ -25,7 +25,7 @@ export const PlayerControls = (props: IPlayerControlsProps) => {
     const {
         className,
         captions,
-        fullscreen,
+        fullScreen,
         next,
         playPause,
         previous,
@@ -35,6 +35,7 @@ export const PlayerControls = (props: IPlayerControlsProps) => {
         shuffle,
         volume,
     } = { ...initialState, ...props };
+    const { onProgressChange, onProgressDraggingStart, onProgressDraggingEnd } = progress;
 
     // refs
     const progressTrackRef = useRef<HTMLDivElement>(null);
@@ -51,6 +52,11 @@ export const PlayerControls = (props: IPlayerControlsProps) => {
     useEffect(() => {
         setprogressPercentage(PlayerControlsService.getProgressPercentage(progress));
     }, [progress]);
+
+    useEffect(() => {
+        if (isDragging) onProgressDraggingStart();
+        else onProgressDraggingEnd();
+    }, [isDragging, onProgressDraggingStart, onProgressDraggingEnd]);
 
     // handlers
     // on track hover handlers
@@ -98,7 +104,7 @@ export const PlayerControls = (props: IPlayerControlsProps) => {
             dragPercentage,
             progress.total,
         );
-        progress.onProgressChange?.(dragTime); // call callback from props to notify parent
+        onProgressChange(dragTime); // call callback from props to notify parent
     };
 
     // compute
@@ -121,6 +127,9 @@ export const PlayerControls = (props: IPlayerControlsProps) => {
                 onMouseEnter={onProgressMouseOver}
                 onMouseLeave={onProgressMouseLeave}
                 onClick={onProgressHeadDragEnd}
+                onDragStart={onProgressHeadDragStart}
+                onDrag={onProgressHeadDrag}
+                onDragEnd={onProgressHeadDragEnd}
             >
                 <div className={cn(styles.progress, styles.progressPadding)} />
                 <div className={cn(styles.progress, styles.progressTrack)} ref={progressTrackRef} />
@@ -213,7 +222,7 @@ export const PlayerControls = (props: IPlayerControlsProps) => {
                             [styles.iconDisabled]: settings.isDisabled,
                         })}
                     />
-                    <FullscreenControls fullscreen={fullscreen} />
+                    <FullScreenControls fullScreen={fullScreen} />
                 </div>
             </div>
         </div>

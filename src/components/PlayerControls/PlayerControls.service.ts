@@ -12,7 +12,7 @@ export class PlayerControlsService {
     static getInitialState(): IPlayerControlsProps {
         return {
             captions: { isCaptionsOn: false, isDisabled: true, onClick: () => {} },
-            fullscreen: { isFullscreen: false, onClick: () => {} },
+            fullScreen: { isFullScreen: false, onClick: () => {} },
             next: { isDisabled: true, onClick: () => {} },
             playPause: { isPlaying: false, onClick: () => {} },
             previous: { isDisabled: true, onClick: () => {} },
@@ -21,6 +21,8 @@ export class PlayerControlsService {
                 total: 2500,
                 fastForwardBackwardSpeed: 10,
                 onProgressChange: () => {},
+                onProgressDraggingStart: () => {},
+                onProgressDraggingEnd: () => {},
             },
             repeat: { mode: 'off', isDisabled: true, onClick: () => {} },
             settings: { isDisabled: true },
