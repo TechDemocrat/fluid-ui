@@ -88,7 +88,8 @@
         "classnames": "^2.3.1",
         "dayjs": "^1.11.0",
         "lodash": "^4.17.21",
-        "react-popper": "^2.2.5"
+        "react-popper": "^2.2.5",
+        "zustand": "^4.0.0-rc.1"
     },
     "peerDependencies": {
         "react": "^18.0.0",
