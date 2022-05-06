@@ -19,11 +19,11 @@ export interface IPlayerControlsProps {
         /**
          * Triggered when user dragges the progress bar
          */
-        onProgressDraggingStart: () => void;
+        onProgressDragStart: () => void;
         /**
          * Triggered when user stops dragging the progress bar
          */
-        onProgressDraggingEnd: () => void;
+        onProgressDragEnd: () => void;
     };
     playPause: {
         isPlaying: boolean;

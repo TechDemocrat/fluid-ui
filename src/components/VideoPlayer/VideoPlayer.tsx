@@ -41,7 +41,9 @@ export const VideoPlayer = (props: IVideoPlayerProps) => {
     useEffect(() => {
         if (videoPlayerRef.current && isVideoReady) {
             if (isPlaying) {
-                videoPlayerRef.current.play();
+                videoPlayerRef.current.play().catch(() => {
+                    setIsPlaying(false);
+                });
             } else {
                 videoPlayerRef.current.pause();
             }
@@ -99,12 +101,15 @@ export const VideoPlayer = (props: IVideoPlayerProps) => {
         if (videoPlayerRef.current) videoPlayerRef.current.currentTime = newTime;
     };
 
-    const onProgressDraggingStart = () => {
+    const onProgressDragStart = () => {
         if (videoPlayerRef.current) videoPlayerRef.current.pause();
     };
 
-    const onProgressDraggingEnd = () => {
-        if (videoPlayerRef.current && isPlaying) videoPlayerRef.current.play();
+    const onProgressDragEnd = () => {
+        if (videoPlayerRef.current && isPlaying)
+            videoPlayerRef.current.play().catch(() => {
+                setIsPlaying(false);
+            });
     };
 
     const volumeHandler =
@@ -123,8 +128,8 @@ export const VideoPlayer = (props: IVideoPlayerProps) => {
             total: duration,
             fastForwardBackwardSpeed: 10,
             onProgressChange,
-            onProgressDraggingStart,
-            onProgressDraggingEnd,
+            onProgressDragStart,
+            onProgressDragEnd,
         },
         volume: {
             ...volume,
@@ -154,6 +159,7 @@ export const VideoPlayer = (props: IVideoPlayerProps) => {
                 preload="auto" // Indicates that the whole video file can be downloaded, even if the user is not expected to use it.
                 onLoadedData={onLoadedData}
                 onTimeUpdate={onTimeUpdate}
+                autoPlay={autoPlay}
             >
                 <source src={source.src} type={source.type} />
                 Your browser does not support the video tag.

@@ -1,5 +1,5 @@
 import { IconifyIcon } from '@iconify/types';
-import { MouseEvent } from 'react';
+import { DragEvent, MouseEvent } from 'react';
 import { getTextDimension } from '../../utilities';
 import {
     baselineVolumeDown,
@@ -21,8 +21,8 @@ export class PlayerControlsService {
                 total: 2500,
                 fastForwardBackwardSpeed: 10,
                 onProgressChange: () => {},
-                onProgressDraggingStart: () => {},
-                onProgressDraggingEnd: () => {},
+                onProgressDragStart: () => {},
+                onProgressDragEnd: () => {},
             },
             repeat: { mode: 'off', isDisabled: true, onClick: () => {} },
             settings: { isDisabled: true },
@@ -83,16 +83,22 @@ export class PlayerControlsService {
     static getFormattedDuration = (
         progress: IPlayerControlsProps['progress'],
         currentProgressPercentage: number,
-        progressHoverPercentage: number,
-    ): { total: string; current: string; currentHoverTime: string } => {
+    ): { total: string; current: string } => {
         const total = PlayerControlsService.getTimeString(progress.total);
         const current = PlayerControlsService.getTimeString(
             PlayerControlsService.getActualProgressValue(progress.total, currentProgressPercentage),
         );
+        return { total, current };
+    };
+
+    static getCurrentHoverTime = (
+        progress: IPlayerControlsProps['progress'],
+        progressHoverPercentage: number,
+    ) => {
         const currentHoverTime = PlayerControlsService.getTimeString(
             PlayerControlsService.getActualProgressValue(progress.total, progressHoverPercentage),
         );
-        return { total, current, currentHoverTime };
+        return currentHoverTime;
     };
 
     // get progress head drag position respective to progress track element width along with progress total
@@ -156,5 +162,11 @@ export class PlayerControlsService {
         if (volumePercentage === 0) return baselineVolumeOff;
         if (volumePercentage < 50) return baselineVolumeDown;
         return baselineVolumeUp;
+    };
+
+    // removes the icon from the dragged element
+    static setEmptyDragElement = (e: DragEvent<HTMLDivElement>) => {
+        const emptyElement = document.createElement('img');
+        e.dataTransfer.setDragImage(emptyElement, 0, 0); // remove drag image
     };
 }

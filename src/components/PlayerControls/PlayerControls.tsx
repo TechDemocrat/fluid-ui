@@ -17,7 +17,7 @@ import { VolumeControls } from './components/VolumeControls';
 import { PlayPause } from './components/PlayPause';
 import { FullScreenControls } from './components/FullScreenControls';
 import { PlayerTimer } from './components/PlayerTimer';
-import { CurrentHoverTime } from './components/CurrentHoverTime';
+import { ProgressBar } from './components/ProgressBar';
 
 export const PlayerControls = (props: IPlayerControlsProps) => {
     // props
@@ -35,13 +35,13 @@ export const PlayerControls = (props: IPlayerControlsProps) => {
         shuffle,
         volume,
     } = { ...initialState, ...props };
-    const { onProgressChange, onProgressDraggingStart, onProgressDraggingEnd } = progress;
+    const { onProgressChange, onProgressDragStart, onProgressDragEnd } = progress;
 
     // refs
     const progressTrackRef = useRef<HTMLDivElement>(null);
 
     // state
-    const [progressPercentage, setprogressPercentage] = useState(
+    const [progressPercentage, setProgressPercentage] = useState(
         PlayerControlsService.getProgressPercentage(progress),
     );
     const [progressHoverPercentage, setProgressHoverPercentage] = useState<number>(0);
@@ -50,13 +50,8 @@ export const PlayerControls = (props: IPlayerControlsProps) => {
 
     // effects
     useEffect(() => {
-        setprogressPercentage(PlayerControlsService.getProgressPercentage(progress));
+        setProgressPercentage(PlayerControlsService.getProgressPercentage(progress));
     }, [progress]);
-
-    useEffect(() => {
-        if (isDragging) onProgressDraggingStart();
-        else onProgressDraggingEnd();
-    }, [isDragging, onProgressDraggingStart, onProgressDraggingEnd]);
 
     // handlers
     // on track hover handlers
@@ -69,59 +64,61 @@ export const PlayerControls = (props: IPlayerControlsProps) => {
             setIsHovering(true);
         }
     };
+
     const onProgressMouseLeave = () => {
         setIsHovering(false);
         setProgressHoverPercentage(0);
     };
 
     // progress head handlers
-    const setEmptyDragElement = (e: DragEvent<HTMLDivElement>) => {
-        const emptyElement = document.createElement('img');
-        e.dataTransfer.setDragImage(emptyElement, 0, 0); // remove drag image
-    };
     const onProgressHeadDragStart = (e: DragEvent<HTMLDivElement>) => {
-        setEmptyDragElement(e);
+        PlayerControlsService.setEmptyDragElement(e);
         setIsDragging(true);
         setIsHovering(false);
         setProgressHoverPercentage(0);
+        onProgressDragStart(); // callback to parent
     };
+
     const onProgressHeadDrag = (e: DragEvent<HTMLDivElement>) => {
-        setEmptyDragElement(e);
+        PlayerControlsService.setEmptyDragElement(e);
         const dragPercentage = PlayerControlsService.getProgressHeadDragPercentage(
             e,
             progressTrackRef.current as HTMLDivElement,
         );
-        setprogressPercentage(dragPercentage);
+        setProgressPercentage(dragPercentage);
     };
+
     const onProgressHeadDragEnd = (e: MouseEvent<HTMLDivElement>) => {
         const dragPercentage = PlayerControlsService.getProgressHeadDragPercentage(
             e,
             progressTrackRef.current as HTMLDivElement,
         );
-        setprogressPercentage(dragPercentage);
+        setProgressPercentage(dragPercentage);
         setIsDragging(false);
         const dragTime = PlayerControlsService.getActualProgressValue(
             dragPercentage,
             progress.total,
         );
         onProgressChange(dragTime); // call callback from props to notify parent
+        onProgressDragEnd(); // callback to parent
     };
 
     // compute
-    const currentProgressHoverPercentage = isDragging
-        ? progressPercentage
-        : progressHoverPercentage;
-    const { current, total, currentHoverTime } = PlayerControlsService.getFormattedDuration(
+    const { current, total } = PlayerControlsService.getFormattedDuration(
         progress,
         progressPercentage,
-        currentProgressHoverPercentage,
     );
 
     // paint
     return (
         <div className={cn(styles.wrapper, className)}>
-            <div
-                className={cn(styles.progressWrapper)}
+            <ProgressBar
+                ref={progressTrackRef}
+                progress={progress}
+                progressPercentage={progressPercentage}
+                progressHoverPercentage={progressHoverPercentage}
+                isDragging={isDragging}
+                isHovering={isHovering}
                 onMouseMove={onProgressMouseOver}
                 onMouseOver={onProgressMouseOver}
                 onMouseEnter={onProgressMouseOver}
@@ -130,39 +127,7 @@ export const PlayerControls = (props: IPlayerControlsProps) => {
                 onDragStart={onProgressHeadDragStart}
                 onDrag={onProgressHeadDrag}
                 onDragEnd={onProgressHeadDragEnd}
-            >
-                <div className={cn(styles.progress, styles.progressPadding)} />
-                <div className={cn(styles.progress, styles.progressTrack)} ref={progressTrackRef} />
-                <div
-                    className={cn(styles.progress, styles.progressBar)}
-                    style={{ width: `${progressPercentage}%` }}
-                />
-                <div className={cn(styles.progress, styles.progressBuffer)} />
-                <div
-                    className={cn(styles.progress, styles.progressHover)}
-                    style={{
-                        width: `${progressHoverPercentage}%`,
-                    }}
-                />
-                <div
-                    draggable
-                    className={cn(styles.progress, styles.progressHead)}
-                    style={{
-                        left: `${progressPercentage}%`,
-                    }}
-                    onDragStart={onProgressHeadDragStart}
-                    onDrag={onProgressHeadDrag}
-                    onDragEnd={onProgressHeadDragEnd}
-                />
-                <CurrentHoverTime
-                    isDragging={isDragging}
-                    isHovering={isHovering}
-                    currentHoverTime={currentHoverTime}
-                    currentProgressHoverPercentage={currentProgressHoverPercentage}
-                    progress={progress}
-                    progressTrackWidth={progressTrackRef.current?.clientWidth ?? 0}
-                />
-            </div>
+            />
             <div className={cn(styles.controlsWrapper)}>
                 <div className={cn(styles.controlsStartSectionWrapper)}>
                     <PlayerTimer current={current} total={total} />

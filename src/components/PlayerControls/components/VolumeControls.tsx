@@ -67,7 +67,13 @@ export const VolumeControls = (props: IVolumeControlProps) => {
                 })}
                 onClick={onVolumeIconClick}
             />
-            <div className={styles.volumeSliderWrapper} onClick={onVolumeHeadDragEnd}>
+            <div
+                className={styles.volumeSliderWrapper}
+                onClick={onVolumeHeadDragEnd}
+                onDragStart={onVolumeHeadDragStart}
+                onDrag={onVolumeHeadDrag}
+                onDragEnd={onVolumeHeadDragEnd}
+            >
                 <div className={styles.volumeSliderTrack} ref={volumeTrackRef} />
                 <div
                     className={styles.volumeSliderProgress}
