@@ -5,7 +5,7 @@ import styles from './VideoPlayer.module.scss';
 import { IVideoPlayerProps, TVolumeHandlerType, TvolumeState } from './VideoPlayer.types';
 import { PlayerControls } from '../PlayerControls/PlayerControls';
 import { IPlayerControlsProps } from '../PlayerControls/PlayerControls.types';
-import { useLocalStorage } from '../../utilities/cutomHooks';
+import { useClickHandler, useLocalStorage } from '../../utilities/cutomHooks';
 import { VideoPlayerService } from './VideoPlayer.service';
 
 export const VideoPlayer = (props: IVideoPlayerProps) => {
@@ -66,16 +66,18 @@ export const VideoPlayer = (props: IVideoPlayerProps) => {
         };
 
         if (isFullScreen) {
-            videPlayerWrapper?.addEventListener('fullScreenchange', handleFullScreenChange);
-            videPlayerWrapper?.requestFullscreen();
+            videPlayerWrapper?.addEventListener('fullscreenchange', handleFullScreenChange);
+            videPlayerWrapper?.requestFullscreen().catch(() => {
+                setIsFullScreen(false);
+            });
         } else {
             if (document.fullscreenElement) {
-                document.exitFullscreen();
+                document.exitFullscreen().catch(() => {});
             }
         }
 
         return () => {
-            videPlayerWrapper?.removeEventListener('fullScreenchange', handleFullScreenChange);
+            videPlayerWrapper?.removeEventListener('fullscreenchange', handleFullScreenChange);
         };
     }, [isFullScreen]);
 
@@ -121,6 +123,11 @@ export const VideoPlayer = (props: IVideoPlayerProps) => {
         setIsFullScreen(!isFullScreen);
     };
 
+    const onAccessibilityLayerClick = useClickHandler({
+        onSingleClick: onPlayPauseClick,
+        onDoubleClick: onFullScreenClick,
+    });
+
     // compute
     const playerControlsProps = {
         progress: {
@@ -165,6 +172,11 @@ export const VideoPlayer = (props: IVideoPlayerProps) => {
                 Your browser does not support the video tag.
             </video>
             <PlayerControls className={styles.videoControls} {...playerControlsProps} />
+            <div className={cn(styles.underlayGradientContaier, styles.gradientBottom)} />
+            <div
+                className={cn(styles.playerAccessibilityLayer)}
+                onClick={onAccessibilityLayerClick}
+            />
         </div>
     );
 };

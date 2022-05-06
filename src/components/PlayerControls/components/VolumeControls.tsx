@@ -32,7 +32,6 @@ export const VolumeControls = (props: IVolumeControlProps) => {
             e,
             volumeTrackRef.current as HTMLDivElement,
         );
-        console.log(dragPercentage);
         onChange?.(dragPercentage); // call callback from props to notify parent
     };
     const onVolumeHeadDragEnd = (e: MouseEvent<HTMLDivElement>) => {
