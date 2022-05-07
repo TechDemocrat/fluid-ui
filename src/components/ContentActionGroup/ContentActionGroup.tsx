@@ -8,7 +8,7 @@ import { Icon } from '@iconify/react';
 
 export const ContentActionGroup = (props: IContentActionGroupProps) => {
     // props
-    const { size = 'medium', options } = props;
+    const { size = 'medium', theme = 'primary', options } = props;
 
     // compute
     const contentActions = ContentActionGroupService.getContentActions(
@@ -21,14 +21,23 @@ export const ContentActionGroup = (props: IContentActionGroupProps) => {
             className={cn(styles.wrapper, {
                 [styles.smallGap]: size === 'small',
                 [styles.mediumGap]: size === 'medium',
+                [styles.largeGap]: size === 'large',
             })}
         >
             {contentActions.map(({ key, icon, label, onClick }) => (
                 <div
-                    className={cn(styles.actionNode, {
-                        [styles.small]: size === 'small',
-                        [styles.medium]: size === 'medium',
-                    })}
+                    className={cn(
+                        styles.actionNode,
+                        {
+                            [styles.small]: size === 'small',
+                            [styles.medium]: size === 'medium',
+                            [styles.large]: size === 'large',
+                        },
+                        {
+                            [styles.actionNodePrimary]: theme === 'primary',
+                            [styles.actionNodeSecondary]: theme === 'secondary',
+                        },
+                    )}
                     onClick={onClick}
                     key={key}
                 >

@@ -9,6 +9,8 @@ $z-index-video: 1;
 $z-index-video-accessibility-layer: 2;
 $z-index-video-background-gradient: 2;
 $z-index-video-controls: 3;
+$z-index-video-fullscreen-title-with-action: 3;
+$action-color: rgb(255 255 255 / 80%);
 
 .wrapper {
     position: relative;
@@ -22,6 +24,37 @@ $z-index-video-controls: 3;
 
     &.hideCursor {
         cursor: none;
+    }
+
+    .fullScreenVideoTitleWithActionWrapper {
+        position: absolute;
+        z-index: $z-index-video-fullscreen-title-with-action;
+        top: 0;
+        left: 0;
+        display: grid;
+        width: 100%;
+        height: auto;
+        align-items: center;
+        padding: 25px 20px;
+        gap: 10px;
+        grid-template-columns: 1fr auto;
+        transform: scaleY(0);
+        transform-origin: top;
+        transition: transform 0.1s ease-in-out;
+
+        &.showVideoTitleWithAction {
+            transform: scaleY(1);
+        }
+
+        .fullScreenVideoTitle {
+            overflow: hidden;
+            width: 100%;
+            color: $action-color;
+            font-size: $fontsize-h5;
+            text-overflow: ellipsis;
+            user-select: none;
+            white-space: nowrap;
+        }
     }
 
     .video {
@@ -69,11 +102,14 @@ $z-index-video-controls: 3;
                 rgb(0 0 0 / 5%),
                 rgb(0 0 0 / 10%),
                 rgb(0 0 0 / 20%),
-                rgb(0 0 0 / 30%),
                 rgb(0 0 0 / 40%)
             );
         transition: background-image 0.1s ease-in-out;
         visibility: hidden;
+
+        &.showGradient {
+            visibility: visible;
+        }
 
         &.gradientTop {
             --gradient-position: top;
@@ -89,10 +125,6 @@ $z-index-video-controls: 3;
     }
 
     &:hover {
-        // .videoControls {
-        //     transform: scaleY(1);
-        // }
-
         .backgroundGradient {
             visibility: visible;
         }

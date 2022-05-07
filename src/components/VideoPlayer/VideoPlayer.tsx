@@ -7,10 +7,17 @@ import { PlayerControls } from '../PlayerControls/PlayerControls';
 import { IPlayerControlsProps } from '../PlayerControls/PlayerControls.types';
 import { useClickHandler, useIsMouseIdle, useLocalStorage } from '../../utilities/cutomHooks';
 import { VideoPlayerService } from './VideoPlayer.service';
+import { FullScreenVideoTitleWithAction } from './components/FullScreenVideoTitleWithAction';
 
 export const VideoPlayer = (props: IVideoPlayerProps) => {
     // props
-    const { source = { src: '', type: '' }, autoPlay = true, poster } = props;
+    const {
+        source = { src: '', type: '', title: '' },
+        autoPlay = true,
+        poster,
+        actionGroupOptions,
+    } = props;
+    const { title } = source;
 
     // refs
     const videoPlayerWrapperRef = useRef<HTMLDivElement>(null);
@@ -52,10 +59,6 @@ export const VideoPlayer = (props: IVideoPlayerProps) => {
             }
         }
     }, [isVideoReady, isPlaying]);
-
-    useEffect(() => {
-        console.log(isMouseIdle);
-    }, [isMouseIdle]);
 
     // fullScreen handler effect
     useEffect(() => {
@@ -169,6 +172,16 @@ export const VideoPlayer = (props: IVideoPlayerProps) => {
             })}
             ref={videoPlayerWrapperRef}
         >
+            <FullScreenVideoTitleWithAction
+                title={title}
+                actionGroupOptions={actionGroupOptions}
+                show={isFullScreen && !isMouseIdle}
+            />
+            <div
+                className={cn(styles.underlayGradientContaier, styles.gradientBottom, {
+                    [styles.showGradient]: isFullScreen && !isMouseIdle,
+                })}
+            />
             <video
                 className={cn(styles.video)}
                 ref={videoPlayerRef}
@@ -189,7 +202,11 @@ export const VideoPlayer = (props: IVideoPlayerProps) => {
                 })}
                 {...playerControlsProps}
             />
-            <div className={cn(styles.underlayGradientContaier, styles.gradientBottom)} />
+            <div
+                className={cn(styles.underlayGradientContaier, styles.gradientBottom, {
+                    [styles.showGradient]: !isMouseIdle,
+                })}
+            />
             <div
                 className={cn(styles.playerAccessibilityLayer)}
                 onClick={onAccessibilityLayerClick}

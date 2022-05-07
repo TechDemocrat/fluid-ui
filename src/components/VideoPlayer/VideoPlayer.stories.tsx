@@ -22,5 +22,20 @@ Default.args = {
         // sample accessible video mp4
         src: 'https://media.w3.org/2010/05/sintel/trailer.mp4',
         type: 'video/mp4',
+        title: 'Sample Video',
     },
+    actionGroupOptions: {
+        comment: {
+            onClick: () => {},
+        },
+        love: {
+            active: false,
+            onClick: () => {},
+        },
+        share: {
+            onClick: () => {},
+        },
+    },
+    autoPlay: true,
+    poster: 'https://via.placeholder.com/800x400',
 } as IVideoPlayerProps;

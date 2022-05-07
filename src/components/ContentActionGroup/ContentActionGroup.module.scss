@@ -4,6 +4,11 @@
 @import "../../styles/mixins";
 @import "../../styles/mediaQueries";
 
+$action-node-secondary-color: rgb(255 255 255 / 80%);
+
+// light background color for the action group
+$action-node-secondary-background-color: rgb(43 43 43);
+
 .wrapper {
     display: flex;
     width: min-content;
@@ -18,6 +23,10 @@
         gap: 10px;
     }
 
+    &.largeGap {
+        gap: 15px;
+    }
+
     .actionNode {
         display: flex;
         align-items: center;
@@ -30,8 +39,20 @@
         gap: 5px;
         user-select: none;
 
-        &:hover {
-            background-color: $color-backgroundTertiary;
+        &.actionNodePrimary {
+            color: $color-foregroundSecondary;
+
+            &:hover {
+                background-color: $color-backgroundTertiary;
+            }
+        }
+
+        &.actionNodeSecondary {
+            color: $action-node-secondary-color;
+
+            &:hover {
+                background-color: $action-node-secondary-background-color;
+            }
         }
 
         .actionIcon {
@@ -64,6 +85,18 @@
 
             .actionLabel {
                 font-size: $fontsize-medium;
+            }
+        }
+
+        &.large {
+            padding: 5px 8px;
+
+            .actionIcon {
+                font-size: calc($fontsize-bodyIntro * 1.2);
+            }
+
+            .actionLabel {
+                font-size: $fontsize-bodyIntro;
             }
         }
     }
