@@ -20,6 +20,10 @@ $z-index-video-controls: 3;
     background-color: black;
     place-items: center;
 
+    &.hideCursor {
+        cursor: none;
+    }
+
     .video {
         position: absolute;
         z-index: $z-index-video;
@@ -35,6 +39,8 @@ $z-index-video-controls: 3;
         transform: scaleY(0);
         transform-origin: bottom;
         transition: transform 0.1s ease-in-out;
+
+        &.showVideoControls { transform: scaleY(1) !important; }
     }
 
     .playerAccessibilityLayer {
@@ -83,9 +89,9 @@ $z-index-video-controls: 3;
     }
 
     &:hover {
-        .videoControls {
-            transform: scaleY(1);
-        }
+        // .videoControls {
+        //     transform: scaleY(1);
+        // }
 
         .backgroundGradient {
             visibility: visible;

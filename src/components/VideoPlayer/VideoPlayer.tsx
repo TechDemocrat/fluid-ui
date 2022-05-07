@@ -5,12 +5,16 @@ import styles from './VideoPlayer.module.scss';
 import { IVideoPlayerProps, TVolumeHandlerType, TvolumeState } from './VideoPlayer.types';
 import { PlayerControls } from '../PlayerControls/PlayerControls';
 import { IPlayerControlsProps } from '../PlayerControls/PlayerControls.types';
-import { useClickHandler, useLocalStorage } from '../../utilities/cutomHooks';
+import { useClickHandler, useIsMouseIdle, useLocalStorage } from '../../utilities/cutomHooks';
 import { VideoPlayerService } from './VideoPlayer.service';
 
 export const VideoPlayer = (props: IVideoPlayerProps) => {
     // props
     const { source = { src: '', type: '' }, autoPlay = true, poster } = props;
+
+    // refs
+    const videoPlayerWrapperRef = useRef<HTMLDivElement>(null);
+    const videoPlayerRef = useRef<HTMLVideoElement>(null);
 
     // state
     const [currentTime, setCurrentTime] = useState(0);
@@ -19,15 +23,14 @@ export const VideoPlayer = (props: IVideoPlayerProps) => {
     const [isVideoReady, setIsVideoReady] = useState(false);
     const [isPlaying, setIsPlaying] = useState(autoPlay);
     const [isFullScreen, setIsFullScreen] = useState(false);
+
+    // custom hooks
     const [volume, setVolume] = useLocalStorage<TvolumeState>('volume', {
         currentLevel: 50,
         previousLevel: 50,
         isMuted: false,
     });
-
-    // refs
-    const videoPlayerWrapperRef = useRef<HTMLDivElement>(null);
-    const videoPlayerRef = useRef<HTMLVideoElement>(null);
+    const isMouseIdle = useIsMouseIdle(videoPlayerWrapperRef);
 
     // effects
     // volume handler effect
@@ -49,6 +52,10 @@ export const VideoPlayer = (props: IVideoPlayerProps) => {
             }
         }
     }, [isVideoReady, isPlaying]);
+
+    useEffect(() => {
+        console.log(isMouseIdle);
+    }, [isMouseIdle]);
 
     // fullScreen handler effect
     useEffect(() => {
@@ -156,7 +163,12 @@ export const VideoPlayer = (props: IVideoPlayerProps) => {
 
     // paint
     return (
-        <div className={cn(styles.wrapper)} ref={videoPlayerWrapperRef}>
+        <div
+            className={cn(styles.wrapper, {
+                [styles.hideCursor]: isMouseIdle,
+            })}
+            ref={videoPlayerWrapperRef}
+        >
             <video
                 className={cn(styles.video)}
                 ref={videoPlayerRef}
@@ -171,7 +183,12 @@ export const VideoPlayer = (props: IVideoPlayerProps) => {
                 <source src={source.src} type={source.type} />
                 Your browser does not support the video tag.
             </video>
-            <PlayerControls className={styles.videoControls} {...playerControlsProps} />
+            <PlayerControls
+                className={cn(styles.videoControls, {
+                    [styles.showVideoControls]: !isMouseIdle,
+                })}
+                {...playerControlsProps}
+            />
             <div className={cn(styles.underlayGradientContaier, styles.gradientBottom)} />
             <div
                 className={cn(styles.playerAccessibilityLayer)}
