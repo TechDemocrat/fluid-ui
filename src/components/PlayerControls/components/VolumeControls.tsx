@@ -4,6 +4,7 @@ import { Icon } from '@iconify/react';
 import styles from '../PlayerControls.module.scss';
 import { IPlayerControlsProps } from '../PlayerControls.types';
 import { PlayerControlsService } from '../PlayerControls.service';
+import { useEventListener } from '../../../utilities/cutomHooks';
 
 interface IVolumeControlProps {
     volume: IPlayerControlsProps['volume'];
@@ -49,6 +50,34 @@ export const VolumeControls = (props: IVolumeControlProps) => {
             onUnMute();
         }
     }, [onUnMute, onMute, isMuted]);
+
+    const getUpdatedVolumeLevel = (type: 'up' | 'down') => {
+        let updatedValue = currentLevel;
+        if (type === 'up') {
+            updatedValue = updatedValue + 10;
+            updatedValue = updatedValue > 100 ? 100 : updatedValue;
+        } else {
+            updatedValue = updatedValue - 10;
+            updatedValue = updatedValue < 0 ? 0 : updatedValue;
+        }
+        return updatedValue;
+    };
+
+    const onKeyDown = (e: WindowEventMap['keydown']) => {
+        // if ArrowUp key is pressed and volume is not muted then increase volume by 10%
+        // and call callback from props to notify parent to update volume
+        // if m key is pressed then mute volume
+        if (e.key === 'ArrowUp') {
+            onChange?.(getUpdatedVolumeLevel('up'));
+        } else if (e.key === 'ArrowDown') {
+            onChange?.(getUpdatedVolumeLevel('down'));
+        } else if (e.key === 'm') {
+            onVolumeIconClick();
+        }
+    };
+
+    // hooks
+    useEventListener('keydown', onKeyDown);
 
     // compute
     const volumeIcon = useMemo(

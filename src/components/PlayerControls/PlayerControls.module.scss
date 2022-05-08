@@ -36,7 +36,7 @@ $player-volume-icon-slider-gap: 8px;
     display: grid;
     width: 100%;
     height: auto;
-    padding: 15px 18px;
+    padding: 10px;
     gap: 8px;
     grid-template-rows: auto auto;
     user-select: none;
@@ -142,6 +142,7 @@ $player-volume-icon-slider-gap: 8px;
         display: grid;
         align-items: center;
         justify-content: space-between;
+        padding: 0 5px;
         gap: 10px;
         grid-template-columns: repeat(3, 1fr);
 
