@@ -5,7 +5,12 @@ import styles from './VideoPlayer.module.scss';
 import { IVideoPlayerProps, TVolumeHandlerType, TvolumeState } from './VideoPlayer.types';
 import { PlayerControls } from '../PlayerControls/PlayerControls';
 import { IPlayerControlsProps } from '../PlayerControls/PlayerControls.types';
-import { useClickHandler, useIsMouseIdle, useLocalStorage } from '../../utilities/cutomHooks';
+import {
+    useClickHandler,
+    useIsKeyboardIdle,
+    useIsMouseIdle,
+    useLocalStorage,
+} from '../../utilities/cutomHooks';
 import { VideoPlayerService } from './VideoPlayer.service';
 import { FullScreenVideoTitleWithAction } from './components/FullScreenVideoTitleWithAction';
 import { UnderlayGradientContainer } from './components/UnderlayGradientContainer';
@@ -41,6 +46,7 @@ export const VideoPlayer = (props: IVideoPlayerProps) => {
         isMuted: false,
     });
     const isMouseIdle = useIsMouseIdle(videoPlayerWrapperRef);
+    const isKeyboardIdle = useIsKeyboardIdle();
 
     // effects
     // volume handler effect
@@ -168,8 +174,8 @@ export const VideoPlayer = (props: IVideoPlayerProps) => {
         setAccessiblityActionType,
     } as IPlayerControlsProps;
 
-    const showTitleWithAction = isFullScreen && !isMouseIdle;
-    const showPlayerControls = !isMouseIdle;
+    const showTitleWithAction = isFullScreen && !(isMouseIdle && isKeyboardIdle);
+    const showPlayerControls = !(isMouseIdle && isKeyboardIdle);
 
     // paint
     return (
