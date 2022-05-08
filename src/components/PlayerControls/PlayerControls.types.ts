@@ -1,3 +1,6 @@
+import { Dispatch } from 'react';
+import { TAccessibilityType } from '../VideoPlayer/components/PlayerAccesibilityLayer';
+
 export interface IPlayerControlsProps {
     progress: {
         /**
@@ -80,5 +83,9 @@ export interface IPlayerControlsProps {
     settings: {
         isDisabled?: boolean;
     };
+    /**
+     * set accessiblity action type corresponding to the action provided in the player controls like play, pause, volume up / down / mute / seek
+     */
+    setAccessiblityActionType: Dispatch<TAccessibilityType>;
     className?: string;
 }

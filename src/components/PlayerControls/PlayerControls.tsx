@@ -35,6 +35,7 @@ export const PlayerControls = (props: IPlayerControlsProps) => {
         settings,
         shuffle,
         volume,
+        setAccessiblityActionType,
     } = { ...initialState, ...props };
     const { onProgressChange, onProgressDragStart, onProgressDragEnd } = progress;
 
@@ -191,7 +192,10 @@ export const PlayerControls = (props: IPlayerControlsProps) => {
                             onClick={previous.onClick}
                         />
                     </div>
-                    <PlayPause playPause={playPause} />
+                    <PlayPause
+                        playPause={playPause}
+                        setAccessiblityActionType={setAccessiblityActionType}
+                    />
                     <div>
                         <Icon
                             icon={baselineSkipNext}

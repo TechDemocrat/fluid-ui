@@ -9,6 +9,7 @@ import { useClickHandler, useIsMouseIdle, useLocalStorage } from '../../utilitie
 import { VideoPlayerService } from './VideoPlayer.service';
 import { FullScreenVideoTitleWithAction } from './components/FullScreenVideoTitleWithAction';
 import { UnderlayGradientContainer } from './components/UnderlayGradientContainer';
+import { PlayerAccessibilityLayer, TAccessibilityType } from './components/PlayerAccesibilityLayer';
 
 export const VideoPlayer = (props: IVideoPlayerProps) => {
     // props
@@ -31,6 +32,7 @@ export const VideoPlayer = (props: IVideoPlayerProps) => {
     const [isVideoReady, setIsVideoReady] = useState(false);
     const [isPlaying, setIsPlaying] = useState(autoPlay);
     const [isFullScreen, setIsFullScreen] = useState(false);
+    const [accessiblityActionType, setAccessiblityActionType] = useState<TAccessibilityType>(null);
 
     // custom hooks
     const [volume, setVolume] = useLocalStorage<TvolumeState>('volume', {
@@ -163,6 +165,7 @@ export const VideoPlayer = (props: IVideoPlayerProps) => {
             isFullScreen,
             onClick: onFullScreenClick,
         },
+        setAccessiblityActionType,
     } as IPlayerControlsProps;
 
     const showTitleWithAction = isFullScreen && !isMouseIdle;
@@ -206,9 +209,10 @@ export const VideoPlayer = (props: IVideoPlayerProps) => {
             />
             <UnderlayGradientContainer position="bottom" show={showPlayerControls} />
 
-            <div
-                className={cn(styles.playerAccessibilityLayer)}
+            <PlayerAccessibilityLayer
                 onClick={onAccessibilityLayerClick}
+                actionType={accessiblityActionType}
+                setActionType={setAccessiblityActionType}
             />
         </div>
     );

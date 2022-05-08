@@ -35,6 +35,7 @@ export class PlayerControlsService {
                 onMute: () => {},
                 onUnMute: () => {},
             },
+            setAccessiblityActionType: () => {},
         };
     }
 
