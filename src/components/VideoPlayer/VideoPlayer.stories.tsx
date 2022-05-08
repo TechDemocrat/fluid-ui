@@ -19,8 +19,8 @@ const Template: Story<IVideoPlayerProps> = (args) => (
 export const Default = Template.bind({});
 Default.args = {
     source: {
-        // sample accessible video mp4
-        src: 'https://media.w3.org/2010/05/sintel/trailer.mp4',
+        // long video source url for testing
+        src: 'https://media.w3.org/2010/05/sintel/trailer_hd.mp4',
         type: 'video/mp4',
         title: 'Sample Video',
     },
@@ -37,5 +37,6 @@ Default.args = {
         },
     },
     autoPlay: true,
-    poster: 'https://via.placeholder.com/800x400',
+    // sample thumbnail poster for testing
+    poster: 'https://media.w3.org/2010/05/sintel/poster.png',
 } as IVideoPlayerProps;

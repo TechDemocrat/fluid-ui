@@ -1,4 +1,4 @@
-import React, { ReactEventHandler, useEffect, useRef, useState } from 'react';
+import React, { ReactEventHandler, SyntheticEvent, useEffect, useRef, useState } from 'react';
 import cn from 'classnames';
 
 import styles from './VideoPlayer.module.scss';
@@ -34,6 +34,7 @@ export const VideoPlayer = (props: IVideoPlayerProps) => {
     const [currentTime, setCurrentTime] = useState(0);
     const [, setIsLoading] = useState(true);
     const [duration, setDuration] = useState(0);
+    const [bufferedDuration, setBufferedDuration] = useState(0);
     const [isVideoReady, setIsVideoReady] = useState(false);
     const [isPlaying, setIsPlaying] = useState(autoPlay);
     const [isFullScreen, setIsFullScreen] = useState(false);
@@ -101,12 +102,20 @@ export const VideoPlayer = (props: IVideoPlayerProps) => {
     }, [isFullScreen]);
 
     // handlers
+
+    const onBufferUpdate = (e: SyntheticEvent<HTMLVideoElement, Event>) => {
+        // for buffer update
+        const currentBufferedDuration = VideoPlayerService.getBufferedDuration(e);
+        setBufferedDuration(currentBufferedDuration);
+    };
+
     const onLoadedData: ReactEventHandler<HTMLVideoElement> = (e) => {
         if (e.currentTarget.readyState >= 2) {
             const currentDuration = e.currentTarget.duration;
             setDuration(currentDuration);
             setIsVideoReady(true);
             setIsLoading(false);
+            onBufferUpdate(e);
         }
     };
 
@@ -142,6 +151,10 @@ export const VideoPlayer = (props: IVideoPlayerProps) => {
         setIsFullScreen(!isFullScreen);
     };
 
+    const onVideoEnded = () => {
+        setIsPlaying(false);
+    };
+
     const onAccessibilityLayerClick = useClickHandler({
         onSingleClick: onPlayPauseClick,
         onDoubleClick: onFullScreenClick,
@@ -153,6 +166,7 @@ export const VideoPlayer = (props: IVideoPlayerProps) => {
             current: currentTime,
             total: duration,
             fastForwardBackwardSpeed: 5,
+            bufferedDuration,
             onProgressChange,
             onProgressDragStart,
             onProgressDragEnd,
@@ -201,6 +215,8 @@ export const VideoPlayer = (props: IVideoPlayerProps) => {
                 preload="auto" // Indicates that the whole video file can be downloaded, even if the user is not expected to use it.
                 onLoadedData={onLoadedData}
                 onTimeUpdate={onTimeUpdate}
+                onProgress={onBufferUpdate}
+                onEnded={onVideoEnded}
                 autoPlay={autoPlay}
             >
                 <source src={source.src} type={source.type} />

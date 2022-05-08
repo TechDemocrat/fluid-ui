@@ -44,7 +44,7 @@ export const PlayerControls = (props: IPlayerControlsProps) => {
 
     // state
     const [progressPercentage, setProgressPercentage] = useState(
-        PlayerControlsService.getProgressPercentage(progress),
+        PlayerControlsService.getProgressPercentage(progress.current, progress.total),
     );
     const [progressHoverPercentage, setProgressHoverPercentage] = useState<number>(0);
     const [isDragging, setIsDragging] = useState(false);
@@ -52,7 +52,9 @@ export const PlayerControls = (props: IPlayerControlsProps) => {
 
     // effects
     useEffect(() => {
-        setProgressPercentage(PlayerControlsService.getProgressPercentage(progress));
+        setProgressPercentage(
+            PlayerControlsService.getProgressPercentage(progress.current, progress.total),
+        );
     }, [progress]);
 
     // handlers

@@ -19,6 +19,7 @@ export class PlayerControlsService {
             progress: {
                 current: 1250,
                 total: 2500,
+                bufferedDuration: 2000,
                 fastForwardBackwardSpeed: 10,
                 onProgressChange: () => {},
                 onProgressDragStart: () => {},
@@ -118,8 +119,8 @@ export class PlayerControlsService {
     };
 
     // get current progress percentage
-    static getProgressPercentage = (progress: IPlayerControlsProps['progress']): number => {
-        const progressPercentage = progress.current / progress.total;
+    static getProgressPercentage = (current: number, total: number): number => {
+        const progressPercentage = current / total || 0;
         return progressPercentage * 100;
     };
 

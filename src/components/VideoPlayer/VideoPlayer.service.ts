@@ -1,3 +1,4 @@
+import { SyntheticEvent } from 'react';
 import { TvolumeState } from './VideoPlayer.types';
 
 export class VideoPlayerService {
@@ -26,4 +27,16 @@ export class VideoPlayerService {
                 isMuted: newLevel === 0,
             };
         };
+
+    static getBufferedDuration = (e: SyntheticEvent<HTMLVideoElement, Event>): number => {
+        const videoElement = e.currentTarget;
+        const duration = videoElement.duration;
+        if (duration > 0 && videoElement.buffered.length > 0) {
+            const currentBufferedDuration = videoElement.buffered.end(
+                videoElement.buffered.length - 1,
+            );
+            return currentBufferedDuration || 0;
+        }
+        return 0;
+    };
 }

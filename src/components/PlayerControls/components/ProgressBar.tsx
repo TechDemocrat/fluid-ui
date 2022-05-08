@@ -3,6 +3,7 @@ import cn from 'classnames';
 import styles from '../PlayerControls.module.scss';
 import { CurrentHoverTime } from './CurrentHoverTime';
 import { IPlayerControlsProps } from '../PlayerControls.types';
+import { PlayerControlsService } from '../PlayerControls.service';
 
 interface IProgressBarProps {
     // state vars
@@ -55,6 +56,11 @@ export const ProgressBar = forwardRef<HTMLDivElement, IProgressBarProps>((props,
         ? progressPercentage
         : progressHoverPercentage;
 
+    const bufferedPercentage = PlayerControlsService.getProgressPercentage(
+        progress.bufferedDuration,
+        progress.total,
+    );
+
     return (
         <div
             className={cn(styles.progressWrapper)}
@@ -73,7 +79,12 @@ export const ProgressBar = forwardRef<HTMLDivElement, IProgressBarProps>((props,
                 className={cn(styles.progress, styles.progressBar)}
                 style={{ width: `${progressPercentage}%` }}
             />
-            <div className={cn(styles.progress, styles.progressBuffer)} />
+            <div
+                className={cn(styles.progress, styles.progressBuffer)}
+                style={{
+                    width: `${bufferedPercentage}%`,
+                }}
+            />
             <div
                 className={cn(styles.progress, styles.progressHover)}
                 style={{

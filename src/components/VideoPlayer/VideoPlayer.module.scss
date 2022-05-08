@@ -151,10 +151,10 @@ $action-color: rgb(255 255 255 / 80%);
             linear-gradient(
                 to var(--gradient-position),
                 rgb(0 0 0 / 0%),
-                rgb(0 0 0 / 5%),
                 rgb(0 0 0 / 10%),
-                rgb(0 0 0 / 20%),
-                rgb(0 0 0 / 40%)
+                rgb(0 0 0 / 15%),
+                rgb(0 0 0 / 35%),
+                rgb(0 0 0 / 70%)
             );
         transition: background-image 0.1s ease-in-out;
         visibility: hidden;

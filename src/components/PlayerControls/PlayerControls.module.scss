@@ -74,6 +74,7 @@ $player-volume-icon-slider-gap: 8px;
             width: 0%;
             background-color: $player-progress-track-Color;
             opacity: $player-progress-track-buffer-opacity;
+            transition: width 0.1s ease;
         }
 
         .progressHover {

@@ -17,7 +17,7 @@ export const UnderlayGradientContainer = (props: IUnderlayGradientContainerProps
             className={cn(
                 styles.underlayGradientContaier,
                 {
-                    [styles.gradientBottom]: position === 'top',
+                    [styles.gradientTop]: position === 'top',
                     [styles.gradientBottom]: position === 'bottom',
                 },
                 {

@@ -14,6 +14,10 @@ export interface IPlayerControlsProps {
         /**
          * in seconds
          */
+        bufferedDuration: number;
+        /**
+         * in seconds
+         */
         fastForwardBackwardSpeed: number;
         /**
          * newTime will be in seconds
