@@ -26,7 +26,7 @@ Default.args = {
         love: {
             active: true,
             onClick: (e) => {
-                console.log(e);
+                console.info(e);
             },
         },
         comment: {

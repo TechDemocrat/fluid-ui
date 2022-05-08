@@ -136,6 +136,33 @@ $action-color: rgb(255 255 255 / 80%);
                 margin-left: calc(100% - ($accessibilityIconWrapperDimension + 40px)); // 40px buffer padding
             }
         }
+
+        .loaderWrapper {
+            position: absolute;
+            top: 0;
+            left: 0;
+            display: flex;
+            width: 100%;
+            height: 100%;
+            align-items: center;
+            justify-content: center;
+
+            --custom-loader-size: 80px;
+
+            .customLoader {
+                width: var(--custom-loader-size);
+                height: var(--custom-loader-size);
+
+                &::before,
+                &::after {
+                    --custom-loader-border-size: 4px;
+
+                    border-width: calc(var(--custom-loader-border-size) * 1);
+                    margin-top: calc(var(--custom-loader-border-size) * -1);
+                    margin-left: calc(var(--custom-loader-border-size) * -1);
+                }
+            }
+        }
     }
 
     .underlayGradientContaier {

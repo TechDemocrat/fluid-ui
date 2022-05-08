@@ -32,7 +32,7 @@ export const VideoPlayer = (props: IVideoPlayerProps) => {
 
     // state
     const [currentTime, setCurrentTime] = useState(0);
-    const [, setIsLoading] = useState(true);
+    const [isLoading, setIsLoading] = useState(true);
     const [duration, setDuration] = useState(0);
     const [bufferedDuration, setBufferedDuration] = useState(0);
     const [isVideoReady, setIsVideoReady] = useState(false);
@@ -155,6 +155,14 @@ export const VideoPlayer = (props: IVideoPlayerProps) => {
         setIsPlaying(false);
     };
 
+    const onVideoWaiting = () => {
+        setIsLoading(true);
+    };
+
+    const onVideoPlaying = () => {
+        setIsLoading(false);
+    };
+
     const onAccessibilityLayerClick = useClickHandler({
         onSingleClick: onPlayPauseClick,
         onDoubleClick: onFullScreenClick,
@@ -217,6 +225,8 @@ export const VideoPlayer = (props: IVideoPlayerProps) => {
                 onTimeUpdate={onTimeUpdate}
                 onProgress={onBufferUpdate}
                 onEnded={onVideoEnded}
+                onWaiting={onVideoWaiting}
+                onPlaying={onVideoPlaying}
                 autoPlay={autoPlay}
             >
                 <source src={source.src} type={source.type} />
@@ -234,6 +244,8 @@ export const VideoPlayer = (props: IVideoPlayerProps) => {
             <PlayerAccessibilityLayer
                 actionType={accessiblityActionType}
                 seekSpeed={playerControlsProps.progress.fastForwardBackwardSpeed}
+                isLoading={isLoading}
+                isFullScreen={isFullScreen}
                 onClick={onAccessibilityLayerClick}
                 setActionType={setAccessiblityActionType}
             />

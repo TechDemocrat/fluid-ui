@@ -18,6 +18,7 @@ import {
     baselineVolumeOff,
     baselineVolumeUp,
 } from '../../../utilities/icons/iconify';
+import { Spinner } from '../../Spinner/Spinner';
 
 export type TAccessibilityType =
     | 'play'
@@ -34,13 +35,15 @@ type TSeekPosition = 'center' | 'left' | 'right';
 interface IPlayerAccessibilityLayerProps {
     actionType: TAccessibilityType;
     seekSpeed: number;
+    isLoading: boolean;
+    isFullScreen: boolean;
     setActionType: Dispatch<TAccessibilityType>;
     onClick: MouseEventHandler<HTMLDivElement>;
 }
 
 export const PlayerAccessibilityLayer = (props: IPlayerAccessibilityLayerProps) => {
     // props
-    const { actionType, seekSpeed, setActionType, onClick } = props;
+    const { actionType, isFullScreen, seekSpeed, isLoading, setActionType, onClick } = props;
 
     // locals
     const accessibilityIconTransitionTime = 500; // in milliseconds
@@ -117,6 +120,18 @@ export const PlayerAccessibilityLayer = (props: IPlayerAccessibilityLayerProps) 
             >
                 {getActionIcon()}
             </div>
+            {isLoading && (
+                <div
+                    className={styles.loaderWrapper}
+                    style={
+                        {
+                            '--custom-loader-size': isFullScreen ? '80px' : '60px',
+                        } as CSSProperties
+                    }
+                >
+                    <Spinner color="tertiary" className={styles.customLoader} />
+                </div>
+            )}
         </div>
     );
 };
