@@ -15,16 +15,18 @@ import {
 } from '../../utilities/icons/iconify';
 import { VolumeControls } from './components/VolumeControls';
 import { PlayPause } from './components/PlayPause';
-import { FullscreenControls } from './components/FullscreenControls';
+import { FullScreenControls } from './components/FullScreenControls';
 import { PlayerTimer } from './components/PlayerTimer';
-import { CurrentHoverTime } from './components/CurrentHoverTime';
+import { ProgressBar } from './components/ProgressBar';
+import { useEventListener } from '../../utilities/cutomHooks';
 
 export const PlayerControls = (props: IPlayerControlsProps) => {
     // props
     const initialState = useMemo(() => PlayerControlsService.getInitialState(), []);
     const {
+        className,
         captions,
-        fullscreen,
+        fullScreen,
         next,
         playPause,
         previous,
@@ -33,14 +35,16 @@ export const PlayerControls = (props: IPlayerControlsProps) => {
         settings,
         shuffle,
         volume,
+        setAccessiblityActionType,
     } = { ...initialState, ...props };
+    const { onProgressChange, onProgressDragStart, onProgressDragEnd } = progress;
 
     // refs
     const progressTrackRef = useRef<HTMLDivElement>(null);
 
     // state
-    const [progressPercentage, setprogressPercentage] = useState(
-        PlayerControlsService.getProgressPercentage(progress),
+    const [progressPercentage, setProgressPercentage] = useState(
+        PlayerControlsService.getProgressPercentage(progress.current, progress.total),
     );
     const [progressHoverPercentage, setProgressHoverPercentage] = useState<number>(0);
     const [isDragging, setIsDragging] = useState(false);
@@ -48,7 +52,9 @@ export const PlayerControls = (props: IPlayerControlsProps) => {
 
     // effects
     useEffect(() => {
-        setprogressPercentage(PlayerControlsService.getProgressPercentage(progress));
+        setProgressPercentage(
+            PlayerControlsService.getProgressPercentage(progress.current, progress.total),
+        );
     }, [progress]);
 
     // handlers
@@ -62,95 +68,103 @@ export const PlayerControls = (props: IPlayerControlsProps) => {
             setIsHovering(true);
         }
     };
+
     const onProgressMouseLeave = () => {
         setIsHovering(false);
         setProgressHoverPercentage(0);
     };
 
     // progress head handlers
-    const setEmptyDragElement = (e: DragEvent<HTMLDivElement>) => {
-        const emptyElement = document.createElement('img');
-        e.dataTransfer.setDragImage(emptyElement, 0, 0); // remove drag image
-    };
     const onProgressHeadDragStart = (e: DragEvent<HTMLDivElement>) => {
-        setEmptyDragElement(e);
+        PlayerControlsService.setEmptyDragElement(e);
         setIsDragging(true);
+        setIsHovering(false);
+        setProgressHoverPercentage(0);
+        onProgressDragStart(); // callback to parent
     };
+
     const onProgressHeadDrag = (e: DragEvent<HTMLDivElement>) => {
-        setEmptyDragElement(e);
+        PlayerControlsService.setEmptyDragElement(e);
         const dragPercentage = PlayerControlsService.getProgressHeadDragPercentage(
             e,
             progressTrackRef.current as HTMLDivElement,
         );
-        setprogressPercentage(dragPercentage);
+        setProgressPercentage(dragPercentage);
     };
+
     const onProgressHeadDragEnd = (e: MouseEvent<HTMLDivElement>) => {
         const dragPercentage = PlayerControlsService.getProgressHeadDragPercentage(
             e,
             progressTrackRef.current as HTMLDivElement,
         );
-        setprogressPercentage(dragPercentage);
+        setProgressPercentage(dragPercentage);
         setIsDragging(false);
         const dragTime = PlayerControlsService.getActualProgressValue(
             dragPercentage,
             progress.total,
         );
-        progress.onProgressChange?.(dragTime); // call callback from props to notify parent
+        onProgressChange(dragTime); // call callback from props to notify parent
+        onProgressDragEnd(); // callback to parent
     };
 
+    const getUpdatedProgressTime = (type: 'up' | 'down') => {
+        let updatedTime = PlayerControlsService.getActualProgressValue(
+            progressPercentage,
+            progress.total,
+        );
+        if (type === 'up') {
+            updatedTime = updatedTime + progress.fastForwardBackwardSpeed;
+            updatedTime = updatedTime > progress.total ? progress.total : updatedTime;
+        } else {
+            updatedTime = updatedTime - progress.fastForwardBackwardSpeed;
+            updatedTime = updatedTime < 0 ? 0 : updatedTime;
+        }
+        return updatedTime;
+    };
+
+    const onKeyDown = (e: WindowEventMap['keydown']) => {
+        // if ArrowUp key is pressed and volume is not muted then increase volume by 10%
+        // and call callback from props to notify parent to update volume
+        // if m key is pressed then mute volume
+        if (e.key === 'ArrowRight') {
+            const updatedTime = getUpdatedProgressTime('up');
+            onProgressChange(updatedTime); // call callback from props to notify parent
+            setAccessiblityActionType('seekForward');
+        } else if (e.key === 'ArrowLeft') {
+            const updatedTime = getUpdatedProgressTime('down');
+            onProgressChange(updatedTime); // call callback from props to notify parent
+            setAccessiblityActionType('seekBackward');
+        }
+    };
+
+    // hooks
+    useEventListener('keydown', onKeyDown);
+
     // compute
-    const currentProgressHoverPercentage = isDragging
-        ? progressPercentage
-        : progressHoverPercentage;
-    const { current, total, currentHoverTime } = PlayerControlsService.getFormattedDuration(
+    const { current, total } = PlayerControlsService.getFormattedDuration(
         progress,
         progressPercentage,
-        currentProgressHoverPercentage,
     );
 
     // paint
     return (
-        <div className={cn(styles.wrapper)}>
-            <div
-                className={cn(styles.progressWrapper)}
+        <div className={cn(styles.wrapper, className)}>
+            <ProgressBar
+                ref={progressTrackRef}
+                progress={progress}
+                progressPercentage={progressPercentage}
+                progressHoverPercentage={progressHoverPercentage}
+                isDragging={isDragging}
+                isHovering={isHovering}
                 onMouseMove={onProgressMouseOver}
                 onMouseOver={onProgressMouseOver}
                 onMouseEnter={onProgressMouseOver}
                 onMouseLeave={onProgressMouseLeave}
                 onClick={onProgressHeadDragEnd}
-            >
-                <div className={cn(styles.progress, styles.progressPadding)} />
-                <div className={cn(styles.progress, styles.progressTrack)} ref={progressTrackRef} />
-                <div
-                    className={cn(styles.progress, styles.progressBar)}
-                    style={{ width: `${progressPercentage}%` }}
-                />
-                <div className={cn(styles.progress, styles.progressBuffer)} />
-                <div
-                    className={cn(styles.progress, styles.progressHover)}
-                    style={{
-                        width: `${progressHoverPercentage}%`,
-                    }}
-                />
-                <div
-                    draggable
-                    className={cn(styles.progress, styles.progressHead)}
-                    style={{
-                        left: `${progressPercentage}%`,
-                    }}
-                    onDragStart={onProgressHeadDragStart}
-                    onDrag={onProgressHeadDrag}
-                    onDragEnd={onProgressHeadDragEnd}
-                />
-                <CurrentHoverTime
-                    isDragging={isDragging}
-                    isHovering={isHovering}
-                    currentHoverTime={currentHoverTime}
-                    currentProgressHoverPercentage={currentProgressHoverPercentage}
-                    progress={progress}
-                    progressTrackWidth={progressTrackRef.current?.clientWidth ?? 0}
-                />
-            </div>
+                onDragStart={onProgressHeadDragStart}
+                onDrag={onProgressHeadDrag}
+                onDragEnd={onProgressHeadDragEnd}
+            />
             <div className={cn(styles.controlsWrapper)}>
                 <div className={cn(styles.controlsStartSectionWrapper)}>
                     <PlayerTimer current={current} total={total} />
@@ -182,7 +196,10 @@ export const PlayerControls = (props: IPlayerControlsProps) => {
                             onClick={previous.onClick}
                         />
                     </div>
-                    <PlayPause playPause={playPause} />
+                    <PlayPause
+                        playPause={playPause}
+                        setAccessiblityActionType={setAccessiblityActionType}
+                    />
                     <div>
                         <Icon
                             icon={baselineSkipNext}
@@ -201,7 +218,10 @@ export const PlayerControls = (props: IPlayerControlsProps) => {
                             onClick={captions.onClick}
                         />
                     </div>
-                    <VolumeControls volume={volume} />
+                    <VolumeControls
+                        volume={volume}
+                        setAccessiblityActionType={setAccessiblityActionType}
+                    />
                 </div>
                 <div className={cn(styles.controlsEndSectionWrapper)}>
                     <Icon
@@ -210,7 +230,7 @@ export const PlayerControls = (props: IPlayerControlsProps) => {
                             [styles.iconDisabled]: settings.isDisabled,
                         })}
                     />
-                    <FullscreenControls fullscreen={fullscreen} />
+                    <FullScreenControls fullScreen={fullScreen} />
                 </div>
             </div>
         </div>

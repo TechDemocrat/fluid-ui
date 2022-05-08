@@ -66,6 +66,8 @@
             &::before,
             &::after {
                 border-width: 2px;
+                margin-top: -2px;
+                margin-left: -2px;
             }
         }
 
@@ -76,6 +78,8 @@
             &::before,
             &::after {
                 border-width: 3px;
+                margin-top: -3px;
+                margin-left: -3px;
             }
         }
 
@@ -86,6 +90,8 @@
             &::before,
             &::after {
                 border-width: 4px;
+                margin-top: -4px;
+                margin-left: -4px;
             }
         }
 
@@ -103,6 +109,16 @@
         &.secondary {
             &::before {
                 border-color: $color-foregroundTertiary;
+            }
+
+            &::after {
+                border-color: $color-backgroundTertiary $color-backgroundTertiary transparent transparent;
+            }
+        }
+
+        &.tertiary {
+            &::before {
+                border-color: transparent;
             }
 
             &::after {

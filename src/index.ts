@@ -17,4 +17,5 @@ export { Modal } from './components/Modal/Modal';
 export { ProfileUpload } from './components/ProfileUpload/ProfileUpload';
 export { ProfileImage } from './components/ProfileImage/ProfileImage';
 export { Popper } from './components/Popper/Popper';
+export { VideoPlayer } from './components/VideoPlayer/VideoPlayer';
 export { Toast } from './components/Toast/Toast';

@@ -1,5 +1,5 @@
 import { IconifyIcon } from '@iconify/types';
-import { MouseEvent } from 'react';
+import { DragEvent, MouseEvent } from 'react';
 import { getTextDimension } from '../../utilities';
 import {
     baselineVolumeDown,
@@ -11,16 +11,32 @@ import { IPlayerControlsProps } from './PlayerControls.types';
 export class PlayerControlsService {
     static getInitialState(): IPlayerControlsProps {
         return {
-            captions: { isCaptionsOn: false, isDisabled: true },
-            fullscreen: { isFullscreen: false },
-            next: { isDisabled: true },
-            playPause: { isPlaying: false },
-            previous: { isDisabled: true },
-            progress: { current: 1250, total: 2500, fastForwardBackwardSpeed: 10 },
-            repeat: { mode: 'off', isDisabled: true },
+            captions: { isCaptionsOn: false, isDisabled: true, onClick: () => {} },
+            fullScreen: { isFullScreen: false, onClick: () => {} },
+            next: { isDisabled: true, onClick: () => {} },
+            playPause: { isPlaying: false, onClick: () => {} },
+            previous: { isDisabled: true, onClick: () => {} },
+            progress: {
+                current: 1250,
+                total: 2500,
+                bufferedDuration: 2000,
+                fastForwardBackwardSpeed: 10,
+                onProgressChange: () => {},
+                onProgressDragStart: () => {},
+                onProgressDragEnd: () => {},
+            },
+            repeat: { mode: 'off', isDisabled: true, onClick: () => {} },
             settings: { isDisabled: true },
-            shuffle: { isShuffled: false, isDisabled: true },
-            volume: { currentLevel: 50, isMuted: false },
+            shuffle: { isShuffled: false, isDisabled: true, onClick: () => {} },
+            volume: {
+                currentLevel: 50,
+                previousLevel: 50,
+                isMuted: false,
+                onChange: () => {},
+                onMute: () => {},
+                onUnMute: () => {},
+            },
+            setAccessiblityActionType: () => {},
         };
     }
 
@@ -56,8 +72,9 @@ export class PlayerControlsService {
     };
 
     static getTimeString = (time: number): string => {
-        const minutes = Math.floor(time / 60);
-        const seconds = Math.floor(time % 60);
+        const sanitizedTime = time || 0;
+        const minutes = Math.floor(sanitizedTime / 60);
+        const seconds = Math.floor(sanitizedTime % 60);
         const timeString = `${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
         return timeString;
     };
@@ -68,16 +85,22 @@ export class PlayerControlsService {
     static getFormattedDuration = (
         progress: IPlayerControlsProps['progress'],
         currentProgressPercentage: number,
-        progressHoverPercentage: number,
-    ): { total: string; current: string; currentHoverTime: string } => {
+    ): { total: string; current: string } => {
         const total = PlayerControlsService.getTimeString(progress.total);
         const current = PlayerControlsService.getTimeString(
             PlayerControlsService.getActualProgressValue(progress.total, currentProgressPercentage),
         );
+        return { total, current };
+    };
+
+    static getCurrentHoverTime = (
+        progress: IPlayerControlsProps['progress'],
+        progressHoverPercentage: number,
+    ) => {
         const currentHoverTime = PlayerControlsService.getTimeString(
             PlayerControlsService.getActualProgressValue(progress.total, progressHoverPercentage),
         );
-        return { total, current, currentHoverTime };
+        return currentHoverTime;
     };
 
     // get progress head drag position respective to progress track element width along with progress total
@@ -96,8 +119,8 @@ export class PlayerControlsService {
     };
 
     // get current progress percentage
-    static getProgressPercentage = (progress: IPlayerControlsProps['progress']): number => {
-        const progressPercentage = progress.current / progress.total;
+    static getProgressPercentage = (current: number, total: number): number => {
+        const progressPercentage = current / total || 0;
         return progressPercentage * 100;
     };
 
@@ -141,5 +164,11 @@ export class PlayerControlsService {
         if (volumePercentage === 0) return baselineVolumeOff;
         if (volumePercentage < 50) return baselineVolumeDown;
         return baselineVolumeUp;
+    };
+
+    // removes the icon from the dragged element
+    static setEmptyDragElement = (e: DragEvent<HTMLDivElement>) => {
+        const emptyElement = document.createElement('img');
+        e.dataTransfer.setDragImage(emptyElement, 0, 0); // remove drag image
     };
 }

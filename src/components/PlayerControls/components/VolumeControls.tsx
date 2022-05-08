@@ -1,31 +1,25 @@
-import React, { DragEvent, MouseEvent, useCallback, useMemo, useRef, useState } from 'react';
+import React, { Dispatch, DragEvent, MouseEvent, useCallback, useMemo, useRef } from 'react';
 import cn from 'classnames';
 import { Icon } from '@iconify/react';
 import styles from '../PlayerControls.module.scss';
 import { IPlayerControlsProps } from '../PlayerControls.types';
 import { PlayerControlsService } from '../PlayerControls.service';
-import { useLocalStorage } from '../../../utilities/cutomHooks';
+import { useEventListener } from '../../../utilities/cutomHooks';
+import { TAccessibilityType } from '../../VideoPlayer/components/PlayerAccesibilityLayer';
 
 interface IVolumeControlProps {
     volume: IPlayerControlsProps['volume'];
+    setAccessiblityActionType: Dispatch<TAccessibilityType>;
 }
 export const VolumeControls = (props: IVolumeControlProps) => {
     // props
     const {
-        volume: { isDisabled, currentLevel, isMuted, onChange },
+        volume: { isDisabled, isMuted, currentLevel, previousLevel, onChange, onMute, onUnMute },
+        setAccessiblityActionType,
     } = props;
-
-    // hooks
-    const [persistedVolume, setPersistedVolume] = useLocalStorage('volume', {
-        currentLevel,
-        isMuted,
-    });
 
     // refs
     const volumeTrackRef = useRef<HTMLDivElement>(null);
-
-    // state
-    const [volumePercentage, setVolumePercentage] = useState(currentLevel);
 
     // handlers
     // volume head handlers
@@ -42,42 +36,75 @@ export const VolumeControls = (props: IVolumeControlProps) => {
             e,
             volumeTrackRef.current as HTMLDivElement,
         );
-        setVolumePercentage(dragPercentage);
+        onChange?.(dragPercentage); // call callback from props to notify parent
     };
     const onVolumeHeadDragEnd = (e: MouseEvent<HTMLDivElement>) => {
         const dragPercentage = PlayerControlsService.getProgressHeadDragPercentage(
             e,
             volumeTrackRef.current as HTMLDivElement,
         );
-        setVolumePercentage(dragPercentage);
         onChange?.(dragPercentage); // call callback from props to notify parent
-        setPersistedVolume({ ...persistedVolume, currentLevel: dragPercentage });
     };
 
     const onVolumeIconClick = useCallback(() => {
-        if (persistedVolume.isMuted) {
-            const persistedLevel = persistedVolume.currentLevel;
-            setVolumePercentage(persistedLevel);
-            onChange?.(persistedLevel);
-            setPersistedVolume({ currentLevel: persistedLevel, isMuted: false });
+        if (!isMuted) {
+            onMute();
         } else {
-            setPersistedVolume({ currentLevel: volumePercentage, isMuted: true });
-            // mute action and volume revoke action needs to be implemented
-            setVolumePercentage(0);
-            onChange?.(0); // call callback from props to notify parent
+            onUnMute();
         }
-    }, [
-        volumePercentage,
-        persistedVolume.currentLevel,
-        persistedVolume.isMuted,
-        setPersistedVolume,
-        onChange,
-    ]);
+    }, [onUnMute, onMute, isMuted]);
+
+    const getUpdatedVolumeLevel = (type: 'up' | 'down') => {
+        let updatedValue = currentLevel;
+        if (type === 'up') {
+            updatedValue = updatedValue + 10;
+            updatedValue = updatedValue > 100 ? 100 : updatedValue;
+        } else {
+            updatedValue = updatedValue - 10;
+            updatedValue = updatedValue < 0 ? 0 : updatedValue;
+        }
+        return updatedValue;
+    };
+
+    const setAccessibility = (currentVolumeLevel: number) => {
+        if (currentVolumeLevel === 0) {
+            setAccessiblityActionType('volumeMute');
+        } else if (currentVolumeLevel > 50) {
+            setAccessiblityActionType('volumeUp');
+        } else {
+            setAccessiblityActionType('volumeDown');
+        }
+    };
+
+    const onKeyDown = (e: WindowEventMap['keydown']) => {
+        // if ArrowUp key is pressed and volume is not muted then increase volume by 10%
+        // and call callback from props to notify parent to update volume
+        // if m key is pressed then mute volume
+        if (e.key === 'ArrowUp') {
+            const currentVolumeLevel = getUpdatedVolumeLevel('up');
+            onChange?.(currentVolumeLevel);
+            setAccessibility(currentVolumeLevel);
+        } else if (e.key === 'ArrowDown') {
+            const currentVolumeLevel = getUpdatedVolumeLevel('down');
+            onChange?.(currentVolumeLevel);
+            setAccessibility(currentVolumeLevel);
+        } else if (e.key === 'm') {
+            onVolumeIconClick();
+            if (!isMuted) {
+                setAccessiblityActionType('volumeMute');
+            } else {
+                setAccessibility(previousLevel);
+            }
+        }
+    };
+
+    // hooks
+    useEventListener('keydown', onKeyDown);
 
     // compute
     const volumeIcon = useMemo(
-        () => PlayerControlsService.getVolumeIcon(volumePercentage),
-        [volumePercentage],
+        () => PlayerControlsService.getVolumeIcon(currentLevel),
+        [currentLevel],
     );
 
     // paint
@@ -90,19 +117,25 @@ export const VolumeControls = (props: IVolumeControlProps) => {
                 })}
                 onClick={onVolumeIconClick}
             />
-            <div className={styles.volumeSliderWrapper} onClick={onVolumeHeadDragEnd}>
+            <div
+                className={styles.volumeSliderWrapper}
+                onClick={onVolumeHeadDragEnd}
+                onDragStart={onVolumeHeadDragStart}
+                onDrag={onVolumeHeadDrag}
+                onDragEnd={onVolumeHeadDragEnd}
+            >
                 <div className={styles.volumeSliderTrack} ref={volumeTrackRef} />
                 <div
                     className={styles.volumeSliderProgress}
                     style={{
-                        width: `${volumePercentage}%`,
+                        width: `${currentLevel}%`,
                     }}
                 />
                 <div
                     draggable
                     className={styles.volumeSliderHead}
                     style={{
-                        left: `${volumePercentage}%`,
+                        left: `${currentLevel}%`,
                     }}
                     onDragStart={onVolumeHeadDragStart}
                     onDrag={onVolumeHeadDrag}
