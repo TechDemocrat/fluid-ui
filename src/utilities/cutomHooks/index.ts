@@ -4,3 +4,4 @@ export * from './useEventListener';
 export * from './useLocalStorage';
 export * from './useClickHandler';
 export * from './useIsMouseIdle';
+export * from './useIsKeyboardIdle';
