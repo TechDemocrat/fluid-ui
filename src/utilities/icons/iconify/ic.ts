@@ -20,6 +20,8 @@ export { default as baselineRepeatOne } from '@iconify/icons-ic/baseline-repeat-
 export { default as baselineShuffle } from '@iconify/icons-ic/baseline-shuffle';
 export { default as baselineSkipPrevious } from '@iconify/icons-ic/baseline-skip-previous';
 export { default as baselineSkipNext } from '@iconify/icons-ic/baseline-skip-next';
+export { default as baselineFastForward } from '@iconify/icons-ic/baseline-fast-forward';
+export { default as baselineFastRewind } from '@iconify/icons-ic/baseline-fast-rewind';
 export { default as baselineVolumeUp } from '@iconify/icons-ic/baseline-volume-up';
 export { default as baselineVolumeDown } from '@iconify/icons-ic/baseline-volume-down';
 export { default as baselineVolumeOff } from '@iconify/icons-ic/baseline-volume-off';

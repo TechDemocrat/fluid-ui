@@ -86,25 +86,54 @@ $action-color: rgb(255 255 255 / 80%);
         justify-content: center;
 
         .accessibilityIconWrapper {
+            $accessibilityIconWrapperDimension: 80px;
+            $accessibilityIconSize: 38px;
+
             --accesibility-icon-transition-time: 500ms;
 
             display: flex;
-            width: 80px;
-            height: 80px;
+            width: $accessibilityIconWrapperDimension;
+            height: $accessibilityIconWrapperDimension;
             align-items: center;
             justify-content: center;
-            padding: 20px;
-            background-color: rgb(36 36 36 / 80%);
+            background-color: rgb(36 36 36 / 0%);
             border-radius: 50%;
             color: $action-color;
             transform: scale(0);
             transform-origin: center;
 
             // transition with css variable --accesibility-icon-transition-time in ms
-            transition: transform var(--accesibility-icon-transition-time) ease-in;
+            transition: transform var(--accesibility-icon-transition-time) ease;
+            user-select: none;
 
             &.showAccessibilityIcon {
+                background-color: rgb(36 36 36 / 60%);
                 transform: scale(1);
+            }
+
+            .accessibilityIcon {
+                font-size: $accessibilityIconSize;
+            }
+
+            .accessibilitySeekIconWrapper {
+                position: relative;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                justify-content: center;
+                gap: 2px;
+
+                span {
+                    font-size: 10px;
+                }
+            }
+
+            &.accessibilityPositionLeft {
+                margin-right: calc(100% - ($accessibilityIconWrapperDimension + 40px)); // 40px buffer padding
+            }
+
+            &.accessibilityPositionRight {
+                margin-left: calc(100% - ($accessibilityIconWrapperDimension + 40px)); // 40px buffer padding
             }
         }
     }

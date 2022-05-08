@@ -127,9 +127,11 @@ export const PlayerControls = (props: IPlayerControlsProps) => {
         if (e.key === 'ArrowRight') {
             const updatedTime = getUpdatedProgressTime('up');
             onProgressChange(updatedTime); // call callback from props to notify parent
+            setAccessiblityActionType('seekForward');
         } else if (e.key === 'ArrowLeft') {
             const updatedTime = getUpdatedProgressTime('down');
             onProgressChange(updatedTime); // call callback from props to notify parent
+            setAccessiblityActionType('seekBackward');
         }
     };
 
@@ -214,7 +216,10 @@ export const PlayerControls = (props: IPlayerControlsProps) => {
                             onClick={captions.onClick}
                         />
                     </div>
-                    <VolumeControls volume={volume} />
+                    <VolumeControls
+                        volume={volume}
+                        setAccessiblityActionType={setAccessiblityActionType}
+                    />
                 </div>
                 <div className={cn(styles.controlsEndSectionWrapper)}>
                     <Icon

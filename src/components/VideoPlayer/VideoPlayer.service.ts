@@ -5,24 +5,25 @@ export class VideoPlayerService {
     static getVolumeState =
         <T extends 'onChange' | 'onMute' | 'onUnMute'>(volume: TvolumeState, type: T) =>
         (newLevel?: number): TvolumeState => {
+            const previousLevel = volume.currentLevel > 10 ? volume.currentLevel : 10; // minimum volume threshold
             if (type === 'onMute') {
                 return {
                     currentLevel: 0,
-                    previousLevel: volume.currentLevel,
+                    previousLevel,
                     isMuted: true,
                 };
             } else if (type === 'onUnMute') {
                 return {
                     currentLevel: volume.previousLevel,
-                    previousLevel: volume.previousLevel,
+                    previousLevel,
                     isMuted: false,
                 };
             }
 
             return {
                 currentLevel: newLevel ?? 0,
-                previousLevel: volume.currentLevel,
-                isMuted: false,
+                previousLevel,
+                isMuted: newLevel === 0,
             };
         };
 }

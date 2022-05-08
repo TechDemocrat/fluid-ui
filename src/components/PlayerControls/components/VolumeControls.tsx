@@ -1,18 +1,21 @@
-import React, { DragEvent, MouseEvent, useCallback, useMemo, useRef } from 'react';
+import React, { Dispatch, DragEvent, MouseEvent, useCallback, useMemo, useRef } from 'react';
 import cn from 'classnames';
 import { Icon } from '@iconify/react';
 import styles from '../PlayerControls.module.scss';
 import { IPlayerControlsProps } from '../PlayerControls.types';
 import { PlayerControlsService } from '../PlayerControls.service';
 import { useEventListener } from '../../../utilities/cutomHooks';
+import { TAccessibilityType } from '../../VideoPlayer/components/PlayerAccesibilityLayer';
 
 interface IVolumeControlProps {
     volume: IPlayerControlsProps['volume'];
+    setAccessiblityActionType: Dispatch<TAccessibilityType>;
 }
 export const VolumeControls = (props: IVolumeControlProps) => {
     // props
     const {
-        volume: { isDisabled, isMuted, currentLevel, onChange, onMute, onUnMute },
+        volume: { isDisabled, isMuted, currentLevel, previousLevel, onChange, onMute, onUnMute },
+        setAccessiblityActionType,
     } = props;
 
     // refs
@@ -63,16 +66,35 @@ export const VolumeControls = (props: IVolumeControlProps) => {
         return updatedValue;
     };
 
+    const setAccessibility = (currentVolumeLevel: number) => {
+        if (currentVolumeLevel === 0) {
+            setAccessiblityActionType('volumeMute');
+        } else if (currentVolumeLevel > 50) {
+            setAccessiblityActionType('volumeUp');
+        } else {
+            setAccessiblityActionType('volumeDown');
+        }
+    };
+
     const onKeyDown = (e: WindowEventMap['keydown']) => {
         // if ArrowUp key is pressed and volume is not muted then increase volume by 10%
         // and call callback from props to notify parent to update volume
         // if m key is pressed then mute volume
         if (e.key === 'ArrowUp') {
-            onChange?.(getUpdatedVolumeLevel('up'));
+            const currentVolumeLevel = getUpdatedVolumeLevel('up');
+            onChange?.(currentVolumeLevel);
+            setAccessibility(currentVolumeLevel);
         } else if (e.key === 'ArrowDown') {
-            onChange?.(getUpdatedVolumeLevel('down'));
+            const currentVolumeLevel = getUpdatedVolumeLevel('down');
+            onChange?.(currentVolumeLevel);
+            setAccessibility(currentVolumeLevel);
         } else if (e.key === 'm') {
             onVolumeIconClick();
+            if (!isMuted) {
+                setAccessiblityActionType('volumeMute');
+            } else {
+                setAccessibility(previousLevel);
+            }
         }
     };
 

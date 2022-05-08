@@ -8,32 +8,56 @@ import React, {
 } from 'react';
 import cn from 'classnames';
 import styles from '../VideoPlayer.module.scss';
+import { Icon } from '@iconify/react';
+import {
+    baselineFastForward,
+    baselineFastRewind,
+    baselinePause,
+    baselinePlayArrow,
+    baselineVolumeDown,
+    baselineVolumeOff,
+    baselineVolumeUp,
+} from '../../../utilities/icons/iconify';
 
-export type TAccessibilityType = 'play' | 'pause' | null;
+export type TAccessibilityType =
+    | 'play'
+    | 'pause'
+    | 'seekForward'
+    | 'seekBackward'
+    | 'volumeUp'
+    | 'volumeDown'
+    | 'volumeMute'
+    | null;
+
+type TSeekPosition = 'center' | 'left' | 'right';
 
 interface IPlayerAccessibilityLayerProps {
     actionType: TAccessibilityType;
+    seekSpeed: number;
     setActionType: Dispatch<TAccessibilityType>;
     onClick: MouseEventHandler<HTMLDivElement>;
 }
 
 export const PlayerAccessibilityLayer = (props: IPlayerAccessibilityLayerProps) => {
     // props
-    const { actionType, setActionType, onClick } = props;
+    const { actionType, seekSpeed, setActionType, onClick } = props;
 
     // locals
-    const accessibilityIconTransitionTime = 200; // in milliseconds
+    const accessibilityIconTransitionTime = 500; // in milliseconds
 
     // refs
     const timoutRef = useRef<NodeJS.Timeout>(null) as MutableRefObject<NodeJS.Timeout>;
+    const accessiblityIconWrapperRef = useRef<HTMLDivElement>(null);
 
     // effects
     useEffect(() => {
         if (actionType !== null) {
             clearTimeout(timoutRef.current as NodeJS.Timeout);
+            accessiblityIconWrapperRef.current?.classList.add(styles.showAccessibilityIcon);
             timoutRef.current = setTimeout(() => {
                 setActionType(null);
-            }, accessibilityIconTransitionTime * 2);
+                accessiblityIconWrapperRef.current?.classList.remove(styles.showAccessibilityIcon);
+            }, accessibilityIconTransitionTime);
         }
         return () => {
             clearTimeout(timoutRef.current as NodeJS.Timeout);
@@ -41,11 +65,49 @@ export const PlayerAccessibilityLayer = (props: IPlayerAccessibilityLayerProps) 
     }, [actionType, setActionType]);
 
     // paint
+    const getActionIcon = () => {
+        switch (actionType) {
+            case 'play':
+                return <Icon className={styles.accessibilityIcon} icon={baselinePlayArrow} />;
+            case 'pause':
+                return <Icon className={styles.accessibilityIcon} icon={baselinePause} />;
+            case 'seekForward':
+                return (
+                    <div className={styles.accessibilitySeekIconWrapper}>
+                        <Icon className={styles.accessibilityIcon} icon={baselineFastForward} />
+                        <span>{seekSpeed} sec</span>
+                    </div>
+                );
+            case 'seekBackward':
+                return (
+                    <div className={styles.accessibilitySeekIconWrapper}>
+                        <Icon className={styles.accessibilityIcon} icon={baselineFastRewind} />
+                        <span>{seekSpeed} sec</span>
+                    </div>
+                );
+            case 'volumeUp':
+                return <Icon className={styles.accessibilityIcon} icon={baselineVolumeUp} />;
+            case 'volumeDown':
+                return <Icon className={styles.accessibilityIcon} icon={baselineVolumeDown} />;
+            case 'volumeMute':
+                return <Icon className={styles.accessibilityIcon} icon={baselineVolumeOff} />;
+            default:
+                return null;
+        }
+    };
+
+    // compute
+    let seekPosition: TSeekPosition = 'center';
+    if (actionType === 'seekForward') seekPosition = 'right';
+    else if (actionType === 'seekBackward') seekPosition = 'left';
+
     return (
         <div className={cn(styles.playerAccessibilityLayer)} onClick={onClick}>
             <div
+                ref={accessiblityIconWrapperRef}
                 className={cn(styles.accessibilityIconWrapper, {
-                    [styles.showAccessibilityIcon]: actionType !== null,
+                    [styles.accessibilityPositionRight]: seekPosition === 'right',
+                    [styles.accessibilityPositionLeft]: seekPosition === 'left',
                 })}
                 style={
                     {
@@ -53,7 +115,7 @@ export const PlayerAccessibilityLayer = (props: IPlayerAccessibilityLayerProps) 
                     } as CSSProperties
                 }
             >
-                {actionType}
+                {getActionIcon()}
             </div>
         </div>
     );

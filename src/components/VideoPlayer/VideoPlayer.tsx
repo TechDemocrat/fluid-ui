@@ -146,7 +146,7 @@ export const VideoPlayer = (props: IVideoPlayerProps) => {
         progress: {
             current: currentTime,
             total: duration,
-            fastForwardBackwardSpeed: 10,
+            fastForwardBackwardSpeed: 5,
             onProgressChange,
             onProgressDragStart,
             onProgressDragEnd,
@@ -210,8 +210,9 @@ export const VideoPlayer = (props: IVideoPlayerProps) => {
             <UnderlayGradientContainer position="bottom" show={showPlayerControls} />
 
             <PlayerAccessibilityLayer
-                onClick={onAccessibilityLayerClick}
                 actionType={accessiblityActionType}
+                seekSpeed={playerControlsProps.progress.fastForwardBackwardSpeed}
+                onClick={onAccessibilityLayerClick}
                 setActionType={setAccessiblityActionType}
             />
         </div>
