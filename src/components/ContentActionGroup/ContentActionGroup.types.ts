@@ -20,9 +20,15 @@ export interface IContentActionGroupProps {
     /**
      * @default 'medium'
      **/
-    size?: 'small' | 'medium';
+    size?: 'small' | 'medium' | 'large';
     /**
      * order of the render  will be based on the order of the keys in the object
      */
     options: IContentActionGroupOptions;
+    /**
+     * @default 'primary'
+     *
+     * 'secondary' is used in video player - tweak styling with caution
+     */
+    theme?: 'primary' | 'secondary';
 }

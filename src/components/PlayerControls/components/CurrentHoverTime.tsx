@@ -8,21 +8,18 @@ export const CurrentHoverTime = (props: {
     isDragging: boolean;
     isHovering: boolean;
     progress: IPlayerControlsProps['progress'];
-    currentHoverTime: string;
     currentProgressHoverPercentage: number;
     progressTrackWidth: number;
 }) => {
     // props
-    const {
-        progress,
-        currentHoverTime,
-        isDragging,
-        isHovering,
-        currentProgressHoverPercentage,
-        progressTrackWidth,
-    } = props;
+    const { progress, isDragging, isHovering, currentProgressHoverPercentage, progressTrackWidth } =
+        props;
 
     // compute
+    const currentHoverTime = PlayerControlsService.getCurrentHoverTime(
+        progress,
+        currentProgressHoverPercentage,
+    );
     const progerssHoverContentMaxWidth = useMemo(
         () => PlayerControlsService.getProgressHoverContentMaxWidth(progress.total),
         [progress.total],

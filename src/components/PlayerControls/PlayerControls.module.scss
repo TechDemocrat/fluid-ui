@@ -36,7 +36,7 @@ $player-volume-icon-slider-gap: 8px;
     display: grid;
     width: 100%;
     height: auto;
-    padding: 8px 12px;
+    padding: 10px;
     gap: 8px;
     grid-template-rows: auto auto;
     user-select: none;
@@ -74,6 +74,7 @@ $player-volume-icon-slider-gap: 8px;
             width: 0%;
             background-color: $player-progress-track-Color;
             opacity: $player-progress-track-buffer-opacity;
+            transition: width 0.1s ease;
         }
 
         .progressHover {
@@ -142,6 +143,7 @@ $player-volume-icon-slider-gap: 8px;
         display: grid;
         align-items: center;
         justify-content: space-between;
+        padding: 0 5px;
         gap: 10px;
         grid-template-columns: repeat(3, 1fr);
 

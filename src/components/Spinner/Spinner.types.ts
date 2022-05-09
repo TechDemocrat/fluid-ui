@@ -1,6 +1,6 @@
 export type TSpinnerSize = 'small' | 'medium' | 'large';
 
-export type TSpinnerColor = 'primary' | 'secondary';
+export type TSpinnerColor = 'primary' | 'secondary' | 'tertiary';
 
 export interface ISpinnerProps {
     /**
@@ -11,4 +11,5 @@ export interface ISpinnerProps {
      * @default 'primary'
      */
     color?: TSpinnerColor;
+    className?: string;
 }
