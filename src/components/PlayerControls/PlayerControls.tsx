@@ -196,10 +196,7 @@ export const PlayerControls = (props: IPlayerControlsProps) => {
                             onClick={previous.onClick}
                         />
                     </div>
-                    <PlayPause
-                        playPause={playPause}
-                        setAccessiblityActionType={setAccessiblityActionType}
-                    />
+                    <PlayPause playPause={playPause} />
                     <div>
                         <Icon
                             icon={baselineSkipNext}

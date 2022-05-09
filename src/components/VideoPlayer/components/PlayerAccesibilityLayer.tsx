@@ -46,7 +46,7 @@ export const PlayerAccessibilityLayer = (props: IPlayerAccessibilityLayerProps) 
     const { actionType, isFullScreen, seekSpeed, isLoading, setActionType, onClick } = props;
 
     // locals
-    const accessibilityIconTransitionTime = 500; // in milliseconds
+    const accessibilityIconTransitionTime = 400; // in milliseconds
 
     // refs
     const timoutRef = useRef<NodeJS.Timeout>(null) as MutableRefObject<NodeJS.Timeout>;

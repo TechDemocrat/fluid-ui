@@ -121,6 +121,7 @@ export const VideoPlayer = (props: IVideoPlayerProps) => {
 
     const onPlayPauseClick = () => {
         setIsPlaying(!isPlaying);
+        setAccessiblityActionType(isPlaying ? 'pause' : 'play');
     };
 
     const onTimeUpdate: ReactEventHandler<HTMLVideoElement> = (e) => {

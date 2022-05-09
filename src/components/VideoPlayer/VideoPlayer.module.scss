@@ -103,7 +103,7 @@ $action-color: rgb(255 255 255 / 80%);
             transform-origin: center;
 
             // transition with css variable --accesibility-icon-transition-time in ms
-            transition: transform var(--accesibility-icon-transition-time) ease;
+            transition: transform calc(var(--accesibility-icon-transition-time) / 2) ease;
             user-select: none;
 
             &.showAccessibilityIcon {
@@ -129,11 +129,11 @@ $action-color: rgb(255 255 255 / 80%);
             }
 
             &.accessibilityPositionLeft {
-                margin-right: calc(100% - ($accessibilityIconWrapperDimension + 40px)); // 40px buffer padding
+                margin-right: calc(100% - ($accessibilityIconWrapperDimension + 10%)); // 40px buffer padding
             }
 
             &.accessibilityPositionRight {
-                margin-left: calc(100% - ($accessibilityIconWrapperDimension + 40px)); // 40px buffer padding
+                margin-left: calc(100% - ($accessibilityIconWrapperDimension + 10%)); // 40px buffer padding
             }
         }
 
