@@ -29,6 +29,7 @@ export const Editor = (props: IEditorProps) => {
             },
             autofocus: true,
             tools: tools,
+            tunes: ['textVariant'],
             minHeight: 0,
         });
     };

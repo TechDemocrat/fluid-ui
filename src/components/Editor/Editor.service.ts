@@ -4,6 +4,8 @@ import Table from '@editorjs/table';
 import Code from '@editorjs/code';
 import Image from '@editorjs/image';
 import Quote from '@editorjs/quote';
+import Underline from '@editorjs/underline';
+import TextVariantTune from '@editorjs/text-variant-tune';
 
 export class EditorService {
     // actions goes here
@@ -17,6 +19,11 @@ export class EditorService {
             code: Code,
             image: Image,
             quote: Quote,
+            underline: Underline,
+            textVariant: TextVariantTune,
+            paragraph: {
+                tunes: ['textVariant'],
+            },
         };
     };
 }
