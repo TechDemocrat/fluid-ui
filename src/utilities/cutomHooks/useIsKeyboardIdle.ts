@@ -3,7 +3,7 @@ import { useEventListener } from './useEventListener';
 
 export const useIsKeyboardIdle = (idleTime = 2500) => {
     // state
-    const [isIdle, setIsIdle] = useState(false);
+    const [isIdle, setIsIdle] = useState(true);
 
     // refs
     const timeOutRef = useRef<NodeJS.Timeout>();
