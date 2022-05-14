@@ -21,11 +21,6 @@ export interface IVideoPlayerProps {
     autoPlay?: boolean;
 }
 
-export type TvolumeState = Pick<
-    IPlayerControlsProps['volume'],
-    'currentLevel' | 'previousLevel' | 'isMuted'
->;
-
 export type TVolumeHandlerType = keyof Pick<
     IPlayerControlsProps['volume'],
     'onChange' | 'onMute' | 'onUnMute'

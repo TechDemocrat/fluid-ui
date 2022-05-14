@@ -1,5 +1,5 @@
 import { SyntheticEvent } from 'react';
-import { TvolumeState } from './VideoPlayer.types';
+import { TvolumeState } from '../PlayerControls/PlayerControls.types';
 
 export class VideoPlayerService {
     // gives volume state object for different actions
@@ -28,7 +28,9 @@ export class VideoPlayerService {
             };
         };
 
-    static getBufferedDuration = (e: SyntheticEvent<HTMLVideoElement, Event>): number => {
+    static getBufferedDuration = (
+        e: SyntheticEvent<HTMLVideoElement | HTMLAudioElement, Event>,
+    ): number => {
         const videoElement = e.currentTarget;
         const duration = videoElement.duration;
         if (duration > 0 && videoElement.buffered.length > 0) {

@@ -6,7 +6,7 @@ import {
     baselineVolumeOff,
     baselineVolumeUp,
 } from '../../utilities/icons/iconify';
-import { IPlayerControlsProps } from './PlayerControls.types';
+import { IPlayerControlsProps, TvolumeState } from './PlayerControls.types';
 
 export class PlayerControlsService {
     static getInitialState(): IPlayerControlsProps {
@@ -39,6 +39,14 @@ export class PlayerControlsService {
             setAccessiblityActionType: () => {},
         };
     }
+
+    static getDefaultVolumeState = (): TvolumeState => {
+        return {
+            currentLevel: 50,
+            previousLevel: 50,
+            isMuted: false,
+        };
+    };
 
     static getProgressHoverPercentage = (e: MouseEvent<HTMLDivElement>): number => {
         const { clientX } = e;

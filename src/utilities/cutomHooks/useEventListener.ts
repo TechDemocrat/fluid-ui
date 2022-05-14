@@ -15,10 +15,10 @@ import { useIsomorphicLayoutEffect } from './';
  *    // Define button ref
  *    const buttonRef = useRef<HTMLButtonElement>(null)
  *    const onScroll = (event: Event) => {
- *      console.log('window scrolled!', event)
+ *      cons*le.log('window scrolled!', event)
  *    }
  *    const onClick = (event: Event) => {
- *      console.log('button clicked!', event)
+ *      cons*le.log('button clicked!', event)
  *    }
  *    // example with window based event
  *    useEventListener('scroll', onScroll)

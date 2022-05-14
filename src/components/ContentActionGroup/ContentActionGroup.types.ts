@@ -31,4 +31,10 @@ export interface IContentActionGroupProps {
      * 'secondary' is used in video player - tweak styling with caution
      */
     theme?: 'primary' | 'secondary';
+    /**
+     * stop propagation helps to stop the event bubbling up to the parent element
+     *
+     * @default false
+     */
+    stopPropagation?: boolean;
 }
