@@ -58,6 +58,12 @@ export const PlayerControls = (props: IPlayerControlsProps) => {
     }, [progress]);
 
     // handlers
+    const onPlayerControlsWrapperClick = (event: MouseEvent<HTMLDivElement>) => {
+        // player controls wrapper click bubbing restriction -
+        // this helps fullscreen on double click and play pause action on single click by parent overall wrapper
+        event.stopPropagation();
+    };
+
     // on track hover handlers
     const onProgressMouseOver = (e: MouseEvent<HTMLDivElement>) => {
         if (isDragging) {
@@ -148,7 +154,7 @@ export const PlayerControls = (props: IPlayerControlsProps) => {
 
     // paint
     return (
-        <div className={cn(styles.wrapper, className)}>
+        <div className={cn(styles.wrapper, className)} onClick={onPlayerControlsWrapperClick}>
             <ProgressBar
                 ref={progressTrackRef}
                 progress={progress}

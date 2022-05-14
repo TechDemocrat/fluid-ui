@@ -3,6 +3,7 @@ import cn from 'classnames';
 
 import styles from './AudioPlayer.module.scss';
 import videoStyles from '../VideoPlayer/VideoPlayer.module.scss';
+import { AudioPlayerPoster } from './components/AudioPlayerPoster';
 import { IAudioPlayerProps } from './AudioPlayer.types';
 import { PlayerControls } from '../PlayerControls/PlayerControls';
 import { IPlayerControlsProps, TvolumeState } from '../PlayerControls/PlayerControls.types';
@@ -24,10 +25,9 @@ import { UnderlayGradientContainer } from '../VideoPlayer/components/UnderlayGra
 export const AudioPlayer = (props: IAudioPlayerProps) => {
     // props
     const {
-        source = { src: '', type: '', title: '' },
+        source = { src: '', type: '', title: '', poster: '' },
         autoPlay = true,
-        // poster,
-        // actionGroupOptions,
+        actionGroupOptions = {},
     } = props;
 
     // refs
@@ -207,6 +207,7 @@ export const AudioPlayer = (props: IAudioPlayerProps) => {
                 [videoStyles.hideCursor]: isMouseIdle,
             })}
             ref={audioPlayerWrapperRef}
+            onClick={onAccessibilityLayerClick}
         >
             <audio
                 className={cn(videoStyles.playerCore)}
@@ -225,6 +226,11 @@ export const AudioPlayer = (props: IAudioPlayerProps) => {
                 <source src={source.src} type={source.type} />
                 Your browser does not support the audio tag.
             </audio>
+            <AudioPlayerPoster
+                source={source}
+                actionGroupOptions={actionGroupOptions}
+                isFullScreen={isFullScreen}
+            />
 
             <PlayerControls
                 className={cn(videoStyles.playerControls, {
@@ -239,7 +245,6 @@ export const AudioPlayer = (props: IAudioPlayerProps) => {
                 seekSpeed={playerControlsProps.progress.fastForwardBackwardSpeed}
                 isLoading={isLoading}
                 isFullScreen={isFullScreen}
-                onClick={onAccessibilityLayerClick}
                 setActionType={setAccessiblityActionType}
             />
         </div>

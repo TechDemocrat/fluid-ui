@@ -25,11 +25,11 @@ Default.args = {
         title: 'Sample Video',
     },
     actionGroupOptions: {
-        comment: {
-            onClick: () => {},
-        },
         love: {
             active: false,
+            onClick: () => {},
+        },
+        comment: {
             onClick: () => {},
         },
         share: {

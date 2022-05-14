@@ -5,9 +5,70 @@
 @import "../../styles/mediaQueries";
 
 // z-index
+$z-index-audio-player-ui-wrapper: 3;
+$player-poster-background-color: rgb(46 46 46 / 80%);
+$player-foreground-color: rgb(255 255 255 / 80%);
 
 .wrapper {
     position: relative;
 
     // audio player specific
+    .audioPlayerUIWrapper {
+        position: absolute;
+        z-index: $z-index-audio-player-ui-wrapper;
+        top: 0;
+        left: 0;
+        display: grid;
+        width: 100%;
+        height: 100%;
+        color: $player-foreground-color;
+        place-items: center;
+
+        .audioPlayerPosterWrapper {
+            display: flex;
+            width: 100%;
+            height: 100%;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+
+            --audio-poster-min-width: 200px;
+            --audio-poster-min-height: 200px;
+            --audio-poster-optimal-height: 200px;
+
+            .audioPoster {
+                overflow: hidden;
+                width: auto;
+                min-width: var(--audio-poster-min-width);
+                max-width: 90%;
+                height: var(--audio-poster-optimal-height);
+                min-height: var(--audio-poster-min-height);
+                background-color: $player-poster-background-color;
+                border-radius: 5px;
+                box-shadow: 0 0 10px rgb(0 0 0 / 50%);
+
+                img {
+                    width: auto;
+                    height: 100%;
+                    object-fit: cover;
+                    user-select: none;
+                }
+            }
+
+            .audioPosterTitleHolder {
+                width: 80%;
+                font-size: 20px;
+                font-weight: bold;
+                text-align: center;
+                user-select: none;
+                white-space: pre-wrap;
+                word-break: break-all;
+            }
+
+            &.audioPlayerPosterWrapper[data-fullScreen="true"] {
+                --audio-poster-optimal-height: 350px;
+            }
+        }
+    }
 }

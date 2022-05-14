@@ -195,8 +195,9 @@ export const VideoPlayer = (props: IVideoPlayerProps) => {
         setAccessiblityActionType,
     } as IPlayerControlsProps;
 
-    const showTitleWithAction = isFullScreen && !(isMouseIdle && isKeyboardIdle);
-    const showPlayerControls = !(isMouseIdle && isKeyboardIdle);
+    const isUserInteracting = !isMouseIdle || !isKeyboardIdle;
+    const showTitleWithAction = isFullScreen && isUserInteracting;
+    const showPlayerControls = isUserInteracting;
 
     // paint
     return (
@@ -205,6 +206,7 @@ export const VideoPlayer = (props: IVideoPlayerProps) => {
                 [styles.hideCursor]: isMouseIdle,
             })}
             ref={videoPlayerWrapperRef}
+            onClick={onAccessibilityLayerClick}
         >
             <FullScreenVideoTitleWithAction
                 title={title}
@@ -245,7 +247,6 @@ export const VideoPlayer = (props: IVideoPlayerProps) => {
                 seekSpeed={playerControlsProps.progress.fastForwardBackwardSpeed}
                 isLoading={isLoading}
                 isFullScreen={isFullScreen}
-                onClick={onAccessibilityLayerClick}
                 setActionType={setAccessiblityActionType}
             />
         </div>

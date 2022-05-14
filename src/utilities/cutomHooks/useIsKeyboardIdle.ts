@@ -1,32 +1,28 @@
-import React, { useEffect } from 'react';
+import { useCallback, useRef, useState } from 'react';
+import { useEventListener } from './useEventListener';
 
 export const useIsKeyboardIdle = (idleTime = 2500) => {
     // state
-    const [isIdle, setIsIdle] = React.useState(false);
+    const [isIdle, setIsIdle] = useState(false);
 
     // refs
-    const timeOutRef = React.useRef<NodeJS.Timeout>();
+    const timeOutRef = useRef<NodeJS.Timeout>();
 
-    // effect
-    useEffect(() => {
-        const handleKeyDown = () => {
-            if (isIdle) setIsIdle(false);
-            // clear timeout
-            if (timeOutRef.current !== undefined)
-                clearTimeout(timeOutRef.current as NodeJS.Timeout);
+    // handlers
+    const handleKeyDown = useCallback(() => {
+        if (isIdle) setIsIdle(false);
 
-            // set time out to check if mouse is idle
-            timeOutRef.current = setTimeout(() => {
-                setIsIdle(true);
-            }, idleTime);
-        };
+        // clear timeout if it exists
+        clearTimeout(timeOutRef.current as NodeJS.Timeout);
 
-        window.addEventListener('keydown', handleKeyDown);
-
-        return () => {
-            window.removeEventListener('keydown', handleKeyDown);
-        };
+        // set time out to check if mouse is idle
+        timeOutRef.current = setTimeout(() => {
+            setIsIdle(true);
+        }, idleTime);
     }, [isIdle, idleTime]);
+
+    // hooks
+    useEventListener('keydown', handleKeyDown);
 
     return isIdle;
 };

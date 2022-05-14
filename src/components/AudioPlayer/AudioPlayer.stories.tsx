@@ -19,16 +19,18 @@ export const Default = Template.bind({});
 Default.args = {
     source: {
         // long music source url for testing
-        src: 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3',
+        src: 'https://pagalworld.com.se/files/download/id/3264',
         type: 'audio/mp3',
-        title: 'Sample Audio',
+        title: 'Shape of You - Ed Sheeran',
+        // an artist image from shutter stock
+        poster: 'https://upload.wikimedia.org/wikipedia/en/thumb/b/b4/Shape_Of_You_%28Official_Single_Cover%29_by_Ed_Sheeran.png/220px-Shape_Of_You_%28Official_Single_Cover%29_by_Ed_Sheeran.png',
     },
     actionGroupOptions: {
-        comment: {
-            onClick: () => {},
-        },
         love: {
             active: false,
+            onClick: () => {},
+        },
+        comment: {
             onClick: () => {},
         },
         share: {
@@ -37,5 +39,4 @@ Default.args = {
     },
     autoPlay: true,
     // sample Music poster image
-    poster: 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.jpg',
 } as IAudioPlayerProps;

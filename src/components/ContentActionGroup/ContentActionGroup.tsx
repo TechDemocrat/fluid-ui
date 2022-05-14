@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { MouseEvent } from 'react';
 import cn from 'classnames';
 
 import { IContentActionGroupOptions, IContentActionGroupProps } from './ContentActionGroup.types';
@@ -9,6 +9,11 @@ import { Icon } from '@iconify/react';
 export const ContentActionGroup = (props: IContentActionGroupProps) => {
     // props
     const { size = 'medium', theme = 'primary', options } = props;
+
+    // handlers
+    const onWrapperClick = (event: MouseEvent<HTMLDivElement>) => {
+        event.stopPropagation();
+    };
 
     // compute
     const contentActions = ContentActionGroupService.getContentActions(
@@ -23,6 +28,7 @@ export const ContentActionGroup = (props: IContentActionGroupProps) => {
                 [styles.mediumGap]: size === 'medium',
                 [styles.largeGap]: size === 'large',
             })}
+            onClick={onWrapperClick}
         >
             {contentActions.map(({ key, icon, label, onClick }) => (
                 <div

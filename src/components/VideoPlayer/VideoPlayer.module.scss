@@ -6,11 +6,11 @@
 
 // z-index
 $z-index-player-core: 1;
-$z-index-player-core-accessibility-layer: 2;
+$z-index-player-core-accessibility-layer: 4;
 $z-index-player-core-background-gradient: 2;
-$z-index-player-core-controls: 3;
+$z-index-player-core-controls: 4;
 $player-foreground-color: rgb(255 255 255 / 80%);
-$z-index-player-core-fullscreen-title-with-action: 3;
+$z-index-player-core-fullscreen-title-with-action: 4;
 
 .wrapper {
     position: relative;
@@ -53,85 +53,6 @@ $z-index-player-core-fullscreen-title-with-action: 3;
         height: 100%;
         align-items: center;
         justify-content: center;
-
-        .accessibilityIconWrapper {
-            $accessibilityIconWrapperDimension: 80px;
-            $accessibilityIconSize: 38px;
-
-            --accesibility-icon-transition-time: 500ms;
-
-            display: flex;
-            width: $accessibilityIconWrapperDimension;
-            height: $accessibilityIconWrapperDimension;
-            align-items: center;
-            justify-content: center;
-            background-color: rgb(36 36 36 / 0%);
-            border-radius: 50%;
-            color: $player-foreground-color;
-            transform: scale(0);
-            transform-origin: center;
-
-            // transition with css variable --accesibility-icon-transition-time in ms
-            transition: transform calc(var(--accesibility-icon-transition-time) / 2) ease;
-            user-select: none;
-
-            &.showAccessibilityIcon {
-                background-color: rgb(36 36 36 / 60%);
-                transform: scale(1);
-            }
-
-            .accessibilityIcon {
-                font-size: $accessibilityIconSize;
-            }
-
-            .accessibilitySeekIconWrapper {
-                position: relative;
-                display: flex;
-                flex-direction: column;
-                align-items: center;
-                justify-content: center;
-                gap: 2px;
-
-                span {
-                    font-size: 10px;
-                }
-            }
-
-            &.accessibilityPositionLeft {
-                margin-right: calc(100% - ($accessibilityIconWrapperDimension + 10%)); // 40px buffer padding
-            }
-
-            &.accessibilityPositionRight {
-                margin-left: calc(100% - ($accessibilityIconWrapperDimension + 10%)); // 40px buffer padding
-            }
-        }
-
-        .loaderWrapper {
-            position: absolute;
-            top: 0;
-            left: 0;
-            display: flex;
-            width: 100%;
-            height: 100%;
-            align-items: center;
-            justify-content: center;
-
-            --custom-loader-size: 80px;
-
-            .customLoader {
-                width: var(--custom-loader-size);
-                height: var(--custom-loader-size);
-
-                &::before,
-                &::after {
-                    --custom-loader-border-size: 4px;
-
-                    border-width: calc(var(--custom-loader-border-size) * 1);
-                    margin-top: calc(var(--custom-loader-border-size) * -1);
-                    margin-left: calc(var(--custom-loader-border-size) * -1);
-                }
-            }
-        }
     }
 
     .underlayGradientContaier {
@@ -169,6 +90,100 @@ $z-index-player-core-fullscreen-title-with-action: 3;
             --gradient-position: bottom;
 
             bottom: 0;
+        }
+    }
+
+    .accessibilityIconWrapper {
+        $accessibilityIconWrapperDimension: 80px;
+        $accessibilityIconSize: 38px;
+
+        // align position center with absolute
+        position: absolute;
+        z-index: $z-index-player-core-accessibility-layer;
+        top: 50%;
+        left: 50%;
+        width: $accessibilityIconWrapperDimension;
+        height: $accessibilityIconWrapperDimension;
+        transform: translate(-50%, -50%);
+        user-select: none;
+
+        .accessibilityiconholder {
+            --accesibility-icon-transition-time: 500ms;
+
+            display: flex;
+            width: 100%;
+            height: 100%;
+            align-items: center;
+            justify-content: center;
+            background-color: rgb(36 36 36 / 0%);
+            border-radius: 50%;
+            color: $player-foreground-color;
+            transform: scale(0);
+
+            // transition with css variable --accesibility-icon-transition-time in ms
+            transition: transform calc(var(--accesibility-icon-transition-time) / 2) ease;
+
+            &.showAccessibilityIcon {
+                background-color: rgb(36 36 36 / 60%);
+                transform: scale(1);
+            }
+
+            .accessibilityIcon {
+                font-size: $accessibilityIconSize;
+            }
+
+            .accessibilitySeekIconWrapper {
+                position: relative;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                justify-content: center;
+                gap: 2px;
+
+                span {
+                    font-size: 10px;
+                }
+            }
+        }
+
+        &.accessibilityPositionLeft {
+            right: unset;
+            left: 10%;
+            transform: translate(-50%, -50%);
+        }
+
+        &.accessibilityPositionRight {
+            right: 10%;
+            left: unset;
+            transform: translate(50%, -50%);
+        }
+    }
+
+    .loaderWrapper {
+        position: absolute;
+        z-index: $z-index-player-core-accessibility-layer;
+
+        // position center with absolute
+        top: 50%;
+        left: 50%;
+        align-items: center;
+        justify-content: center;
+        transform: translate(-50%, -50%);
+
+        --custom-loader-size: 80px;
+
+        .customLoader {
+            width: var(--custom-loader-size) !important;
+            height: var(--custom-loader-size) !important;
+
+            &::before,
+            &::after {
+                --custom-loader-border-size: 4px;
+
+                border-width: calc(var(--custom-loader-border-size) * 1);
+                margin-top: calc(var(--custom-loader-border-size) * -1);
+                margin-left: calc(var(--custom-loader-border-size) * -1);
+            }
         }
     }
 

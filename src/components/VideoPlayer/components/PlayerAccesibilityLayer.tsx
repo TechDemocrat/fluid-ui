@@ -1,11 +1,4 @@
-import React, {
-    CSSProperties,
-    Dispatch,
-    MouseEventHandler,
-    MutableRefObject,
-    useEffect,
-    useRef,
-} from 'react';
+import React, { CSSProperties, Dispatch, MutableRefObject, useEffect, useRef } from 'react';
 import cn from 'classnames';
 import styles from '../VideoPlayer.module.scss';
 import { Icon } from '@iconify/react';
@@ -38,12 +31,11 @@ interface IPlayerAccessibilityLayerProps {
     isLoading: boolean;
     isFullScreen: boolean;
     setActionType: Dispatch<TAccessibilityType>;
-    onClick: MouseEventHandler<HTMLDivElement>;
 }
 
 export const PlayerAccessibilityLayer = (props: IPlayerAccessibilityLayerProps) => {
     // props
-    const { actionType, isFullScreen, seekSpeed, isLoading, setActionType, onClick } = props;
+    const { actionType, isFullScreen, seekSpeed, isLoading, setActionType } = props;
 
     // locals
     const accessibilityIconTransitionTime = 400; // in milliseconds
@@ -105,20 +97,24 @@ export const PlayerAccessibilityLayer = (props: IPlayerAccessibilityLayerProps) 
     else if (actionType === 'seekBackward') seekPosition = 'left';
 
     return (
-        <div className={cn(styles.playerAccessibilityLayer)} onClick={onClick}>
+        <>
             <div
-                ref={accessiblityIconWrapperRef}
                 className={cn(styles.accessibilityIconWrapper, {
-                    [styles.accessibilityPositionRight]: seekPosition === 'right',
                     [styles.accessibilityPositionLeft]: seekPosition === 'left',
+                    [styles.accessibilityPositionRight]: seekPosition === 'right',
                 })}
-                style={
-                    {
-                        '--accesibility-icon-transition-time': `${accessibilityIconTransitionTime}ms`,
-                    } as CSSProperties
-                }
             >
-                {getActionIcon()}
+                <div
+                    ref={accessiblityIconWrapperRef}
+                    className={cn(styles.accessibilityiconholder)}
+                    style={
+                        {
+                            '--accesibility-icon-transition-time': `${accessibilityIconTransitionTime}ms`,
+                        } as CSSProperties
+                    }
+                >
+                    {getActionIcon()}
+                </div>
             </div>
             {isLoading && (
                 <div
@@ -132,6 +128,6 @@ export const PlayerAccessibilityLayer = (props: IPlayerAccessibilityLayerProps) 
                     <Spinner color="tertiary" className={styles.customLoader} />
                 </div>
             )}
-        </div>
+        </>
     );
 };
