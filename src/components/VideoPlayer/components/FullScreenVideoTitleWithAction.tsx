@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { MouseEvent } from 'react';
 import cn from 'classnames';
 import { ContentActionGroup } from '../../ContentActionGroup/ContentActionGroup';
 import { IContentActionGroupOptions } from '../../ContentActionGroup/ContentActionGroup.types';
@@ -14,15 +14,26 @@ export const FullScreenVideoTitleWithAction = (props: IFullScreenVideoTitleWithA
     // props
     const { title, actionGroupOptions, show } = props;
 
+    // handlers
+    const onWrapperClick = (e: MouseEvent<HTMLDivElement>) => {
+        e.stopPropagation();
+    };
+
     // paint
     return (
         <div
             className={cn(styles.fullScreenVideoTitleWithActionWrapper, {
                 [styles.showVideoTitleWithAction]: show,
             })}
+            onClick={onWrapperClick}
         >
             <div className={styles.fullScreenVideoTitle}>{title}</div>
-            <ContentActionGroup options={actionGroupOptions} size="large" theme="secondary" />
+            <ContentActionGroup
+                options={actionGroupOptions}
+                size="large"
+                theme="secondary"
+                stopPropagation
+            />
         </div>
     );
 };

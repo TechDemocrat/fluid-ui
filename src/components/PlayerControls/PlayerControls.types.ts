@@ -93,3 +93,8 @@ export interface IPlayerControlsProps {
     setAccessiblityActionType: Dispatch<TAccessibilityType>;
     className?: string;
 }
+
+export type TvolumeState = Pick<
+    IPlayerControlsProps['volume'],
+    'currentLevel' | 'previousLevel' | 'isMuted'
+>;
