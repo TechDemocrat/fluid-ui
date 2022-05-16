@@ -1,0 +1,16 @@
+@import "../../styles/fontSizes";
+@import "../../styles/colors";
+@import "../../styles/fontWeights";
+@import "../../styles/mixins";
+@import "../../styles/mediaQueries";
+
+.wrapper {
+    display: grid;
+    width: 100%;
+    height: 100%;
+    margin: 5px;
+
+    p {
+        line-height: 1.5em;
+    }
+}
