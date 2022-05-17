@@ -5,6 +5,7 @@ import { IEditorProps } from './Editor.types';
 import styles from './Editor.module.scss';
 import EditorJS, { OutputData } from '@editorjs/editorjs';
 import { EditorService } from './Editor.service';
+import Undo from 'editorjs-undo';
 
 export const Editor = (props: IEditorProps) => {
     // props
@@ -22,6 +23,8 @@ export const Editor = (props: IEditorProps) => {
             data: editorData,
             onReady: () => {
                 ejInstance.current = editor;
+                const undo = new Undo({ editor });
+                undo.initialize(data);
             },
             onChange: async () => {
                 const content = (await ejInstance?.current?.save()) as OutputData;
