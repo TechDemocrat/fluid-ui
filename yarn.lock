@@ -5345,6 +5345,13 @@ editorjs-html@^3.4.2:
   resolved "https://registry.yarnpkg.com/editorjs-html/-/editorjs-html-3.4.2.tgz#1ebe6b6631e3011ef974bb52727f645464c84428"
   integrity sha512-Gy8FV4oHMvnPDXLsdpZYW0Dgjaagff9bPd28/WW9aFdy87FvktJxQz8H+NKpxiGcGoNY27MmjFffurK2yhXjEg==
 
+editorjs-undo@2.0.1:
+  version "2.0.1"
+  resolved "https://registry.yarnpkg.com/editorjs-undo/-/editorjs-undo-2.0.1.tgz#59779f30606ee836c10cd129d78aaf952a67a166"
+  integrity sha512-9HxHDOA7ogsrgtTQLvqpGsnLPyTZNkdvt9En09Rvn1xMWhVlGIWGZMU+dZVnNPPYD46+CcduniAT1DxdYO0xpg==
+  dependencies:
+    vanilla-caret-js "^1.0.1"
+
 ee-first@1.1.1:
   version "1.1.1"
   resolved "https://registry.npmjs.org/ee-first/-/ee-first-1.1.1.tgz"
@@ -12007,6 +12014,11 @@ validate-npm-package-license@^3.0.1:
   dependencies:
     spdx-correct "^3.0.0"
     spdx-expression-parse "^3.0.0"
+
+vanilla-caret-js@^1.0.1:
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/vanilla-caret-js/-/vanilla-caret-js-1.0.1.tgz#96cf4e6ee154ca87c813bb4604c90a24555abc35"
+  integrity sha512-s5hXdyIMmeJ1dzfqvZSEGIXGi5xaHrWKsfRZfNUFVqDLwD2TA5QlPJqFhUhZ4D3wgyf6Pjw5ygUbOpj/QePsSw==
 
 vary@~1.1.2:
   version "1.1.2"
