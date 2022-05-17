@@ -20,3 +20,5 @@ export { Popper } from './components/Popper/Popper';
 export { VideoPlayer } from './components/VideoPlayer/VideoPlayer';
 export { Toast } from './components/Toast/Toast';
 export { AudioPlayer } from './components/AudioPlayer/AudioPlayer';
+export { ImageUploader } from './components/ImageUploader/ImageUploader';
+export { CircularProgress } from './components/CircularProgress/CircularProgress';
