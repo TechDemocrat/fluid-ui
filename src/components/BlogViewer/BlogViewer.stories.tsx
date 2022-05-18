@@ -1,16 +1,16 @@
 import React from 'react';
 import { Story, Meta } from '@storybook/react';
 
-import { EditorViewer } from './EditorViewer';
-import { IEditorViewerProps } from './EditorViewer.types';
+import { BlogViewer } from './BlogViewer';
+import { IBlogViewerProps } from './BlogViewer.types';
 
 export default {
-    title: 'fluid-ui/EditorViewer',
-    component: EditorViewer,
+    title: 'fluid-ui/BlogViewer',
+    component: BlogViewer,
     argTypes: {},
-} as Meta<typeof EditorViewer>;
+} as Meta<typeof BlogViewer>;
 
-const Template: Story<IEditorViewerProps> = (args) => <EditorViewer {...args} />;
+const Template: Story<IBlogViewerProps> = (args) => <BlogViewer {...args} />;
 
 export const Default = Template.bind({});
 Default.args = {
@@ -35,4 +35,4 @@ Default.args = {
         ],
         version: '2.24.2',
     },
-} as IEditorViewerProps;
+} as IBlogViewerProps;

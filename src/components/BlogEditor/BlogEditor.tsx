@@ -1,24 +1,24 @@
 import React, { useEffect, useRef } from 'react';
 import cn from 'classnames';
 
-import { IEditorProps } from './Editor.types';
-import styles from './Editor.module.scss';
-import EditorJS, { OutputData } from '@editorjs/editorjs';
-import { EditorService } from './Editor.service';
+import { IBlogEditorProps } from './BlogEditor.types';
+import styles from './BlogEditor.module.scss';
+import BlogEditorJS, { OutputData } from '@editorjs/editorjs';
+import { BlogEditorService } from './BlogEditor.service';
 import Undo from 'editorjs-undo';
 
-export const Editor = (props: IEditorProps) => {
+export const BlogEditor = (props: IBlogEditorProps) => {
     // props
     const { title, data, onSave } = props;
     // local state
-    const [editorData, setEditorData] = React.useState<OutputData>(data);
+    const [editorData, setBlogEditorData] = React.useState<OutputData>(data);
     // refs
-    const ejInstance = useRef<EditorJS>();
+    const ejInstance = useRef<BlogEditorJS>();
 
-    const tools = EditorService.getTools();
+    const tools = BlogEditorService.getTools();
 
-    const initEditor = () => {
-        const editor = new EditorJS({
+    const initBlogEditor = () => {
+        const editor = new BlogEditorJS({
             holder: 'editor-js',
             data: editorData,
             onReady: () => {
@@ -28,7 +28,7 @@ export const Editor = (props: IEditorProps) => {
             },
             onChange: async () => {
                 const content = (await ejInstance?.current?.save()) as OutputData;
-                setEditorData(content);
+                setBlogEditorData(content);
             },
             autofocus: true,
             tools: tools,
@@ -40,7 +40,7 @@ export const Editor = (props: IEditorProps) => {
     // Effects
     useEffect(() => {
         if (!ejInstance.current) {
-            initEditor();
+            initBlogEditor();
         }
     });
 
