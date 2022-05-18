@@ -15,3 +15,6 @@ export { default as reply } from '@iconify/icons-mdi/reply';
 
 // Profile
 export { default as account } from '@iconify/icons-mdi/account-circle-outline';
+
+// close icon with solid circle
+export { default as closeCircle } from '@iconify/icons-mdi/close-circle';

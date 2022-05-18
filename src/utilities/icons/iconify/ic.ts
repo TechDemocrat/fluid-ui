@@ -29,3 +29,6 @@ export { default as baselineFullScreen } from '@iconify/icons-ic/baseline-fullsc
 export { default as baselineFullScreenExit } from '@iconify/icons-ic/baseline-fullscreen-exit';
 export { default as baselineSettings } from '@iconify/icons-ic/baseline-settings';
 export { default as baselineClosedCaption } from '@iconify/icons-ic/baseline-closed-caption';
+
+// upload photo add icon
+export { default as baselineAdd } from '@iconify/icons-ic/baseline-add';
