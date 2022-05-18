@@ -22,6 +22,7 @@ import { useIsMounted } from '../../utilities/cutomHooks';
 export const ContentUploader = (props: IContentUploaderProps) => {
     // props
     const {
+        label = 'Video',
         status = 'idle',
         uploadedContentMeta,
         uploadProgress,
@@ -125,7 +126,7 @@ export const ContentUploader = (props: IContentUploaderProps) => {
     return (
         <div className={cn(styles.wrapper)}>
             <div className={styles.core}>
-                <div className={styles.label}>Video</div>
+                <div className={styles.label}>{label}</div>
                 <div className={styles.contentWrapper}>
                     {status === 'idle' && (
                         <div
