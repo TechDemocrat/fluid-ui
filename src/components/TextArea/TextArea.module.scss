@@ -1,0 +1,45 @@
+@import "../../styles/fontSizes";
+@import "../../styles/colors";
+@import "../../styles/fontWeights";
+@import "../../styles/mixins";
+@import "../../styles/mediaQueries";
+
+.textAreaWrapper {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    &.small {
+        width: 200px;
+        height: 50px;
+    }
+
+    &.medium {
+        width: 300px;
+        height: 50px;
+    }
+
+    &.large {
+        width: 400px;
+        height: 100px;
+    }
+
+    .textarea {
+        width: 100%;
+        height: 100%;
+        padding: 5px;
+        border: 0 solid var(--color-foregroundTertiary);
+        background: var(--color-backgroundSecondary);
+        border-radius: 4px;
+        outline: none;
+        resize: none;
+    }
+
+    .disabled {
+        border: 1px solid $color-foregroundTertiary;
+        background: $color-backgroundTertiary;
+        color: $color-foregroundTertiary;
+        cursor: not-allowed;
+        pointer-events: none;
+    }
+}

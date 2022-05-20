@@ -23,3 +23,4 @@ export { BlogEditor } from './components/BlogEditor/BlogEditor';
 export { BlogViewer } from './components/BlogViewer/BlogViewer';
 export { AudioPlayer } from './components/AudioPlayer/AudioPlayer';
 export { Comments } from './components/Comments/Comments';
+export { TextArea } from './components/TextArea/TextArea';
