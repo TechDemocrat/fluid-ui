@@ -32,3 +32,9 @@ export { default as baselineClosedCaption } from '@iconify/icons-ic/baseline-clo
 
 // upload photo add icon
 export { default as baselineAdd } from '@iconify/icons-ic/baseline-add';
+
+// delete icon outline
+export { default as baselineDeleteOutline } from '@iconify/icons-ic/baseline-delete-outline';
+
+// zoom in icon
+export { default as baselineZoomIn } from '@iconify/icons-ic/baseline-zoom-in';

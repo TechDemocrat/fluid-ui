@@ -19,6 +19,43 @@
         background-color: $color-backgroundSecondary;
         border-radius: 5px;
 
+        .dropToUploadOverlay {
+            position: absolute;
+            z-index: 1;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border: 1px dashed $color-primary;
+            background-color: rgb(218 218 218 / 74.7%);
+            border-radius: 5px;
+            pointer-events: none;
+            user-select: none;
+
+            .dropToUploadText {
+                position: absolute;
+                z-index: 2;
+                top: 50%;
+                left: 50%;
+                display: flex;
+                width: 100%;
+                flex-direction: column;
+                align-items: center;
+                color: $color-primary;
+                font-size: $fontsize-bodyIntro;
+                font-weight: $fontweight-bold;
+                gap: 10px;
+                letter-spacing: 0.1em;
+                text-align: center;
+                text-transform: uppercase;
+                transform: translate(-50%, -50%);
+
+                .uploadIcon {
+                    font-size: 80px;
+                }
+            }
+        }
+
         .label {
             position: absolute;
             top: calc((($fontsize-medium / 2)) * -1);
@@ -29,7 +66,6 @@
         }
 
         .contentWrapper {
-            overflow: hidden;
             width: 100%;
             height: 100%;
 
@@ -79,12 +115,26 @@
             }
 
             .previewWithUploaderState {
+                position: relative;
                 display: grid;
-                overflow: hidden;
                 width: 100%;
                 height: 100%;
-                gap: 5px;
+                gap: 0;
                 grid-template-rows: 1fr auto;
+
+                .previewActionsWrapper {
+                    position: absolute;
+                    z-index: 1;
+                    top: -10px;
+                    right: 0;
+                    display: flex;
+                    gap: 5px;
+
+                    .previewActionIcon {
+                        color: $color-foregroundSecondary;
+                        font-size: 16px;
+                    }
+                }
 
                 .previewWrapper {
                     display: grid;
@@ -92,6 +142,7 @@
                     width: 100%;
                     height: 100%;
                     padding: 10px;
+                    cursor: zoom-in;
                     place-items: center;
                     user-select: none;
 
@@ -144,7 +195,7 @@
                         min-height: 60px;
                         align-items: center;
                         justify-content: center;
-                        margin-top: 10px;
+                        margin-top: 5px;
                         margin-right: 5px;
                         background-color: $color-backgroundTertiary;
                         border-radius: 5px;
@@ -155,6 +206,10 @@
 
                         &.imageStackNodeAdd {
                             margin-right: 0;
+                        }
+
+                        &.imageStackNodeActive {
+                            border: 2px dashed $color-primary;
                         }
 
                         .stackNodeUploadIcon {
@@ -178,7 +233,7 @@
                             height: 100%;
                             align-items: center;
                             justify-content: center;
-                            background-color: rgb(224 224 224 / 80%);
+                            background-color: rgb(224 224 224 / 60%);
                             border-radius: 5px;
                         }
 

@@ -1,7 +1,9 @@
 import React, {
     ChangeEventHandler,
     DragEvent,
+    MouseEvent,
     useCallback,
+    useEffect,
     useMemo,
     useRef,
     useState,
@@ -15,8 +17,14 @@ import { useIsMounted } from '../../utilities/cutomHooks';
 import { ImageUploaderIdleState } from './components/ImageUploaderIdleState';
 import { CircularProgress } from '../CircularProgress/CircularProgress';
 import { Icon } from '@iconify/react';
-import { baselineAdd, closeCircle } from '../../utilities/icons/iconify';
-import { times } from 'lodash';
+import {
+    baselineAdd,
+    baselineCloudUpload,
+    baselineDeleteOutline,
+    baselineZoomIn,
+    closeCircle,
+} from '../../utilities/icons/iconify';
+import { IconButton } from '../IconButton/IconButton';
 
 export interface IUploaderErrorMessage {
     enabled: boolean;
@@ -25,7 +33,14 @@ export interface IUploaderErrorMessage {
 
 export const ImageUploader = (props: IImageUploaderProps) => {
     // props
-    const { label = 'Photo', status = 'uploaded', allowedFileTypes = [], onUpload } = props;
+    const {
+        label = 'Photo',
+        allowMultiple = false,
+        uploadProgress,
+        allowedFileTypes = [],
+        onUpload,
+        onDelete,
+    } = props;
     const errorInitialState = useMemo<IUploaderErrorMessage>(
         () => ({ enabled: false, message: '' }),
         [],
@@ -36,9 +51,11 @@ export const ImageUploader = (props: IImageUploaderProps) => {
 
     // state
     const [isDragging, setIsDragging] = useState(false);
+    const [previewImageIndex, setPreviewImageIndex] = useState<number>(0);
     const [error, seterror] = useState(errorInitialState);
 
     // refs
+    const previousLoadedRef = useRef<number[]>([]);
     const inputFileRef = useRef<HTMLInputElement>(null);
 
     // handlers
@@ -52,9 +69,9 @@ export const ImageUploader = (props: IImageUploaderProps) => {
     );
 
     const validateAndTriggerOnUpload = useCallback(
-        (files: FileList | null | undefined) => {
-            const { validationError, file } = ImageUploaderService.validateSelectedFile(
-                files,
+        (selectedFiles: FileList | null | undefined) => {
+            const { validationError, files } = ImageUploaderService.validateSelectedFiles(
+                selectedFiles,
                 allowedFileTypes,
             );
             if (validationError) {
@@ -62,13 +79,17 @@ export const ImageUploader = (props: IImageUploaderProps) => {
                 return setErrorMessage(validationError);
             }
             // on validation success
-            onUpload?.(file as File);
+            onUpload?.(files as File[]);
         },
         [allowedFileTypes, setErrorMessage, onUpload],
     );
 
-    const inputFileOnChange: ChangeEventHandler<HTMLInputElement> = (e) =>
-        validateAndTriggerOnUpload(e.target.files);
+    const inputFileOnChange: ChangeEventHandler<HTMLInputElement> = useCallback(
+        (e) => {
+            validateAndTriggerOnUpload(e.target.files);
+        },
+        [validateAndTriggerOnUpload],
+    );
 
     const onFileDrop = useCallback(
         (e: DragEvent<HTMLDivElement>) => {
@@ -80,83 +101,150 @@ export const ImageUploader = (props: IImageUploaderProps) => {
         [validateAndTriggerOnUpload],
     );
 
-    const onFileDragOver = (e: DragEvent<HTMLDivElement>) => {
+    const onFileDragOver = useCallback((e: DragEvent<HTMLDivElement>) => {
         e.preventDefault();
         e.stopPropagation();
         setIsDragging(true);
-    };
+    }, []);
 
-    const onFileDragLeave = (e: DragEvent<HTMLDivElement>) => {
+    const onFileDragLeave = useCallback((e: DragEvent<HTMLDivElement>) => {
         e.preventDefault();
         e.stopPropagation();
         setIsDragging(false);
+    }, []);
+
+    const onAddButtonClick = () => {
+        inputFileRef.current?.click();
     };
 
+    const onPreviewImageChange = (index: number) => () => {
+        setPreviewImageIndex(index);
+    };
+
+    const onDeleteImage =
+        (index: number = previewImageIndex) =>
+        (e: MouseEvent<SVGElement>) => {
+            e.preventDefault();
+            e.stopPropagation();
+            onDelete?.(index);
+        };
+
     // effects
+    useEffect(() => {
+        if (previewImageIndex >= uploadProgress.length || previewImageIndex < 0) {
+            setPreviewImageIndex(uploadProgress.length - 1 || 0);
+        }
+    }, [uploadProgress, previewImageIndex]);
 
     // compute
+    const isIdle = uploadProgress.length === 0;
+    const currentImage = uploadProgress[previewImageIndex] ?? uploadProgress[0];
 
     // paint
     return (
         <div className={cn(styles.wrapper)}>
-            <div className={styles.core}>
+            <div
+                className={styles.core}
+                onDragOver={onFileDragOver}
+                onDragEnter={onFileDragOver}
+                onDragLeave={onFileDragLeave}
+                onDrop={onFileDrop}
+            >
                 <div className={styles.label}>{label}</div>
-                <div className={styles.contentWrapper}>
-                    {status === 'idle' && (
-                        <ImageUploaderIdleState
-                            isDragging={isDragging}
-                            error={error}
-                            ref={inputFileRef}
-                            allowedFileTypes={allowedFileTypes}
-                            onFileDragOver={onFileDragOver}
-                            onFileDragLeave={onFileDragLeave}
-                            onFileDrop={onFileDrop}
-                            inputFileOnChange={inputFileOnChange}
-                        />
-                    )}
-                    {(status === 'uploading' || status === 'uploaded') && (
-                        <div className={styles.previewWithUploaderState}>
+                <div className={cn(styles.contentWrapper)}>
+                    <ImageUploaderIdleState
+                        showIdlePage={isIdle}
+                        ref={inputFileRef}
+                        isDragging={isDragging}
+                        error={error}
+                        allowedFileTypes={allowedFileTypes}
+                        allowMultiple={allowMultiple}
+                        inputFileOnChange={inputFileOnChange}
+                    />
+                    {!isIdle && (
+                        <div className={cn(styles.previewWithUploaderState)}>
+                            {/* delete action button */}
+                            <div className={styles.previewActionsWrapper}>
+                                <IconButton title="Zoom in" padding={3}>
+                                    <Icon
+                                        className={styles.previewActionIcon}
+                                        icon={baselineZoomIn}
+                                    />
+                                </IconButton>
+                                <IconButton
+                                    title="Remove current image"
+                                    padding={3}
+                                    onClick={onDeleteImage() as () => void}
+                                >
+                                    <Icon
+                                        className={styles.previewActionIcon}
+                                        icon={baselineDeleteOutline}
+                                    />
+                                </IconButton>
+                            </div>
                             <div className={styles.previewWrapper}>
-                                <img
-                                    className={styles.previewImage}
-                                    src={
-                                        'https://upload.wikimedia.org/wikipedia/en/thumb/b/b4/Shape_Of_You_%28Official_Single_Cover%29_by_Ed_Sheeran.png/220px-Shape_Of_You_%28Official_Single_Cover%29_by_Ed_Sheeran.png'
-                                    }
-                                    alt="preview"
-                                    draggable={false}
-                                />
+                                {currentImage && (
+                                    <img
+                                        className={styles.previewImage}
+                                        src={currentImage.url}
+                                        alt="preview"
+                                        draggable={false}
+                                    />
+                                )}
                             </div>
                             <div className={styles.imageStackWrapper}>
                                 <div className={styles.imageStackContainerWrapper}>
                                     <div className={styles.imageStackContainer}>
-                                        {times(2).map((value) => (
-                                            <div className={styles.imageStackNode} key={value}>
-                                                <img
-                                                    className={styles.imageStackImage}
-                                                    src={
-                                                        'https://upload.wikimedia.org/wikipedia/en/thumb/b/b4/Shape_Of_You_%28Official_Single_Cover%29_by_Ed_Sheeran.png/220px-Shape_Of_You_%28Official_Single_Cover%29_by_Ed_Sheeran.png'
-                                                    }
-                                                    draggable={false}
-                                                />
-                                                <div className={styles.imageStackProgressWrapper}>
-                                                    <CircularProgress
-                                                        radius={25}
-                                                        strokeWidth={3}
-                                                        labelSize={10}
-                                                        currentProgress={50}
-                                                        totalProgress={100}
+                                        {uploadProgress.map(({ url, id, progress }, index) => {
+                                            const { percentage } =
+                                                ImageUploaderService.getUploadProgressInfo(
+                                                    index,
+                                                    previousLoadedRef,
+                                                    progress,
+                                                );
+                                            return (
+                                                <div
+                                                    className={cn(styles.imageStackNode, {
+                                                        [styles.imageStackNodeActive]:
+                                                            index === previewImageIndex,
+                                                    })}
+                                                    key={id}
+                                                    onClick={onPreviewImageChange(index)}
+                                                >
+                                                    <img
+                                                        className={styles.imageStackImage}
+                                                        src={url}
+                                                        draggable={false}
+                                                    />
+                                                    {progress?.status === 'uploading' && (
+                                                        <div
+                                                            className={
+                                                                styles.imageStackProgressWrapper
+                                                            }
+                                                        >
+                                                            <CircularProgress
+                                                                radius={25}
+                                                                strokeWidth={3}
+                                                                labelSize={10}
+                                                                currentProgress={percentage}
+                                                                totalProgress={100}
+                                                            />
+                                                        </div>
+                                                    )}
+                                                    <Icon
+                                                        className={styles.imageStackNodeDeleteIcon}
+                                                        icon={closeCircle}
+                                                        onClick={onDeleteImage(index)}
                                                     />
                                                 </div>
-                                                <Icon
-                                                    className={styles.imageStackNodeDeleteIcon}
-                                                    icon={closeCircle}
-                                                />
-                                            </div>
-                                        ))}
+                                            );
+                                        })}
                                     </div>
                                 </div>
                                 <div
                                     className={cn(styles.imageStackNode, styles.imageStackNodeAdd)}
+                                    role="button"
+                                    onClick={onAddButtonClick}
                                 >
                                     <Icon
                                         className={styles.stackNodeUploadIcon}
@@ -167,6 +255,14 @@ export const ImageUploader = (props: IImageUploaderProps) => {
                         </div>
                     )}
                 </div>
+                {!isIdle && isDragging && (
+                    <div className={styles.dropToUploadOverlay}>
+                        <div className={styles.dropToUploadText}>
+                            <Icon icon={baselineCloudUpload} className={cn(styles.uploadIcon)} />
+                            <span>Drop to Upload</span>
+                        </div>
+                    </div>
+                )}
             </div>
         </div>
     );

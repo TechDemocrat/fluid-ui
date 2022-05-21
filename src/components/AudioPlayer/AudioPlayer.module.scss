@@ -66,7 +66,7 @@ $player-foreground-color: rgb(255 255 255 / 80%);
                 word-break: break-all;
             }
 
-            &.audioPlayerPosterWrapper[data-fullScreen="true"] {
+            &.audioPlayerPosterWrapper[data-fullscreen="true"] {
                 --audio-poster-optimal-height: 350px;
             }
         }

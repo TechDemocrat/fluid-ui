@@ -1,5 +1,5 @@
 import { MutableRefObject } from 'react';
-import { TAllowedFileTypes, TContentUploadStatus } from './ImageUploader.types';
+import { IUploadProgress, TAllowedFileTypes } from './ImageUploader.types';
 
 interface IUploadProgerssMeta {
     formattedTotal: string;
@@ -10,28 +10,31 @@ interface IUploadProgerssMeta {
 
 export class ImageUploaderService {
     // used to calculate the remaining upload time
-    static uploadStartTime: number;
+    static uploadStartTime: number[] = [];
 
     static getUploadProgressInfo = (
-        status: TContentUploadStatus,
-        previousLoaded: MutableRefObject<number>,
-        loaded = 0,
-        total = 0,
+        index: number,
+        previousLoaded: MutableRefObject<number[]>,
+        progress: IUploadProgress['progress'],
     ): IUploadProgerssMeta => {
-        if (status !== 'uploading')
-            return {
-                formattedTotal: '',
-                formattedLoaded: '',
-                percentage: 0,
-                remainingTime: '',
-            };
+        const { status, loaded, total } = progress ?? { status: 'done', loaded: 0, total: 0 };
+
+        if (status === 'done') {
+            return {} as IUploadProgerssMeta;
+        }
         const formattedTotal = ImageUploaderService.formatBytes(total);
         const formattedLoaded = ImageUploaderService.formatBytes(loaded);
         let percentage = Math.round((loaded / total) * 100);
         percentage = percentage || 0;
-        const remainingTime = ImageUploaderService.getRemainingTime(previousLoaded, loaded, total);
+        percentage = percentage > 100 ? 100 : percentage;
+        const remainingTime = ImageUploaderService.getRemainingTime(
+            index,
+            previousLoaded,
+            loaded,
+            total,
+        );
         // set previous loaded at last
-        ImageUploaderService.setPreviousLoaded(loaded, previousLoaded);
+        ImageUploaderService.setPreviousLoaded(index, loaded, previousLoaded);
 
         return {
             formattedTotal,
@@ -46,27 +49,28 @@ export class ImageUploaderService {
         return allowedFileTypes.join(', ');
     };
 
-    static validateSelectedFile = (
+    static validateSelectedFiles = (
         files: FileList | null | undefined,
         allowedFileTypes: TAllowedFileTypes[],
-    ): { validationError?: string | undefined; file?: File } => {
+    ): { validationError?: string | undefined; files?: File[] } => {
         if (!files) return { validationError: 'No files selected' };
 
         if (files.length === 0) return { validationError: 'No files selected' };
 
-        if (files.length > 1) return { validationError: 'Multiple files selected' };
+        const validFiles: File[] = [];
+        for (let i = 0; i < files.length; i++) {
+            const fileType = files[i].type.split('/')[0];
+            const isAllowed =
+                allowedFileTypes.length === 0 ||
+                allowedFileTypes.some((allowedType: TAllowedFileTypes) => {
+                    return allowedType.includes(fileType);
+                });
+            if (isAllowed) {
+                validFiles.push(files[i]);
+            }
+        }
 
-        const file = files[0];
-
-        if (!allowedFileTypes) return { file };
-
-        const fileType = file.type.split('/')[0];
-        const isAllowed = allowedFileTypes.some((allowedType: TAllowedFileTypes) => {
-            return allowedType.includes(fileType);
-        });
-        if (!isAllowed) return { validationError: 'File type not supported' };
-
-        return { file };
+        return { files: validFiles };
     };
 
     private static formatBytes = (bytes: number): string => {
@@ -81,24 +85,26 @@ export class ImageUploaderService {
     };
 
     private static setPreviousLoaded = (
+        index: number,
         loaded: number,
-        previousLoaded: MutableRefObject<number>,
+        previousLoaded: MutableRefObject<number[]>,
     ): void => {
-        previousLoaded.current = loaded;
+        previousLoaded.current[index] = loaded;
     };
 
     private static getRemainingTime = (
-        previousLoaded: MutableRefObject<number>,
+        index: number,
+        previousLoaded: MutableRefObject<number[]>,
         loaded: number,
         total: number,
     ): string => {
-        if (previousLoaded.current === 0) {
-            ImageUploaderService.uploadStartTime = new Date().getTime();
+        if (previousLoaded.current[index] === 0) {
+            ImageUploaderService.uploadStartTime[index] = new Date().getTime();
         }
 
         // calculate remaining time
         const remainingBytes = total - loaded;
-        const elapsedTime = new Date().getTime() - ImageUploaderService.uploadStartTime;
+        const elapsedTime = new Date().getTime() - ImageUploaderService.uploadStartTime[index];
         const remainingTime = Math.round(elapsedTime / (loaded / remainingBytes));
         const remainingTimeInSeconds = Math.round(remainingTime / 1000);
         const hours = Math.floor(remainingTimeInSeconds / 3600) || 0;
@@ -115,4 +121,23 @@ export class ImageUploaderService {
 
         return `${seconds} second(s)`;
     };
+
+    public static getBase64Image(img: ImageBitmap) {
+        // Create an empty canvas element
+        const canvas = document.createElement('canvas');
+        canvas.width = img.width;
+        canvas.height = img.height;
+
+        // Copy the image contents to the canvas
+        const ctx = canvas.getContext('2d');
+        ctx?.drawImage(img, 0, 0);
+
+        // Get the data-URL formatted image
+        // Firefox supports PNG and JPEG. You could check img.src to
+        // guess the original format, but be aware the using "image/jpg"
+        // will re-encode the image.
+        const dataURL = canvas.toDataURL('image/png');
+
+        return dataURL.replace(/^data:image\/(png|jpg);base64,/, '');
+    }
 }
