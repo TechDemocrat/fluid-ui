@@ -21,7 +21,7 @@ const exportIndexDirectory = path.resolve(__dirname, '../src/index.ts');
 // check if the component name is valid or not
 const isValidComponentName = (componentName) => {
     if (!/^[A-Z][a-zA-Z]+$/.test(componentName)) {
-        console.log('Component name should be in PascalCase!');
+        console.info('Component name should be in PascalCase!');
         process.exit(1);
     }
 };
@@ -43,7 +43,7 @@ const createComponent = (componentName) => {
 
     // check if the component already exists
     if (checkIsComponentExist(componentName)) {
-        console.log(`Component ${componentName} already exists, use different name!`);
+        console.info(`Component ${componentName} already exists, use different name!`);
         process.exit(1);
     }
 
@@ -89,7 +89,7 @@ const deleteComponent = (componentName) => {
 
     // check if the component exist or not
     if (!components.includes(componentName)) {
-        console.log(`Component ${componentName} is not exist, Check component spelling!`);
+        console.info(`Component ${componentName} is not exist, Check component spelling!`);
         process.exit(1);
     }
 
@@ -117,7 +117,7 @@ const renameComponent = (componentName, newComponentName) => {
 
     // check if the component exist or not
     if (!components.includes(componentName)) {
-        console.log(`Component ${componentName} is not exist, Check component spelling!`);
+        console.info(`Component ${componentName} is not exist, Check component spelling!`);
         process.exit(1);
     }
 
@@ -126,7 +126,7 @@ const renameComponent = (componentName, newComponentName) => {
 
     // check if the new component already exists
     if (checkIsComponentExist(newComponentName)) {
-        console.log(`Component ${newComponentName} already exists, use different name!`);
+        console.info(`Component ${newComponentName} already exists, use different name!`);
         process.exit(1);
     }
 
@@ -170,7 +170,7 @@ const main = () => {
 
     // check if the component name is given
     if (!componentName) {
-        console.log('Component name is not given!');
+        console.info('Component name is not given!');
         process.exit(1);
     }
 

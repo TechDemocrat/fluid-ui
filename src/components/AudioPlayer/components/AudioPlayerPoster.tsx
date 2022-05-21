@@ -24,7 +24,7 @@ export const AudioPlayerPoster = (props: IAudioPlayerPosterProps) => {
         <div className={styles.audioPlayerUIWrapper}>
             <div
                 className={styles.audioPlayerPosterWrapper}
-                data-fullScreen={isFullScreen ? 'true' : 'false'}
+                data-fullscreen={isFullScreen ? 'true' : 'false'}
             >
                 <div className={styles.audioPoster}>
                     <img

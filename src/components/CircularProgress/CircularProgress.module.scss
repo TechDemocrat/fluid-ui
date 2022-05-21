@@ -1,0 +1,34 @@
+@import "../../styles/fontSizes";
+@import "../../styles/colors";
+@import "../../styles/fontWeights";
+@import "../../styles/mixins";
+@import "../../styles/mediaQueries";
+
+.wrapper {
+    display: grid;
+    width: auto;
+    height: auto;
+    background-color: transparent;
+    place-items: center;
+
+    .circularProgressContainer {
+        width: auto;
+        height: auto;
+        transform: rotate(-90deg);
+        transform-origin: 50% 50%;
+    }
+
+    .circularProgressTrack {
+        fill: none;
+    }
+
+    .circularProgressBar {
+        fill: none;
+        transition: stroke-dashoffset 0.7s linear 0s;
+    }
+
+    .circularProgressPercentageLabel {
+        position: absolute;
+        font-weight: bold;
+    }
+}
