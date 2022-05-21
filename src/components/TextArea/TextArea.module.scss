@@ -33,6 +33,14 @@
         border-radius: 4px;
         outline: none;
         resize: none;
+
+        &:hover {
+            outline: 1px solid $color-foregroundTertiary;
+        }
+    }
+
+    .textarea:focus {
+        outline: 1px solid $color-foregroundTertiary;
     }
 
     .disabled {
