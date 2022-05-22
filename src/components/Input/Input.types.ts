@@ -2,6 +2,7 @@ export enum EInputSize {
     SMALL = 'small',
     MEDIUM = 'medium',
     LARGE = 'large',
+    AUTO = 'auto',
 }
 
 export enum EInputType {

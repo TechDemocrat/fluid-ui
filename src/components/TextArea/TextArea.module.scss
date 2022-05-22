@@ -21,7 +21,12 @@
 
     &.large {
         width: 400px;
-        height: 100px;
+        height: 50px;
+    }
+
+    &.auto {
+        width: 100%;
+        height: 50px;
     }
 
     .textarea {

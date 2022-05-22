@@ -1,0 +1,71 @@
+@import "../../styles/fontSizes";
+@import "../../styles/colors";
+@import "../../styles/fontWeights";
+@import "../../styles/mixins";
+@import "../../styles/mediaQueries";
+
+.wrapper {
+    display: flex;
+    width: 100%;
+    flex-direction: column;
+
+    .commentEditorWrapper {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .commentEditor {
+        display: flex;
+        align-items: center;
+        padding: 5px 0;
+
+        .commentInput {
+            display: flex;
+            width: 100%;
+            height: auto;
+        }
+    }
+
+    .commentAction {
+        display: flex;
+        align-items: center;
+        justify-content: end;
+        gap: 10px;
+    }
+
+    .comments {
+        display: flex;
+        flex-direction: row;
+        margin-bottom: 10px;
+
+        .commentContent {
+            font-size: 14px;
+
+            .commentContentAuthor {
+                display: flex;
+                margin: 5px 0;
+                gap: 5px;
+            }
+
+            .commentContentAction {
+                margin-top: 5px;
+            }
+
+            .commentContentViewAll {
+                span {
+                    color: $color-link;
+                    cursor: pointer;
+                    font-size: 12px;
+                }
+            }
+        }
+    }
+
+    .commentReplies {
+        margin-left: 30px;
+    }
+
+    .commentEdit {
+        margin-left: 30px;
+    }
+}
