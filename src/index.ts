@@ -24,3 +24,5 @@ export { BlogViewer } from './components/BlogViewer/BlogViewer';
 export { AudioPlayer } from './components/AudioPlayer/AudioPlayer';
 export { Comments } from './components/Comments/Comments';
 export { TextArea } from './components/TextArea/TextArea';
+export { ImageUploader } from './components/ImageUploader/ImageUploader';
+export { CircularProgress } from './components/CircularProgress/CircularProgress';

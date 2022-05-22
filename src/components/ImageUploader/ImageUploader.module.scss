@@ -1,0 +1,269 @@
+@use "sass:color";
+@import "../../styles/fontSizes";
+@import "../../styles/colors";
+@import "../../styles/fontWeights";
+@import "../../styles/mixins";
+@import "../../styles/mediaQueries";
+@import "../../styles/functions";
+
+.wrapper {
+    width: 100%;
+    height: 300px;
+    padding-top: calc($fontsize-medium / 2);
+
+    .core {
+        position: relative;
+        width: 100%;
+        height: 100%;
+        padding: calc(($fontsize-medium / 2) + 5px) 5px 5px;
+        background-color: $color-backgroundSecondary;
+        border-radius: 5px;
+
+        .dropToUploadOverlay {
+            position: absolute;
+            z-index: 1;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border: 1px dashed $color-primary;
+            background-color: rgb(218 218 218 / 74.7%);
+            border-radius: 5px;
+            pointer-events: none;
+            user-select: none;
+
+            .dropToUploadText {
+                position: absolute;
+                z-index: 2;
+                top: 50%;
+                left: 50%;
+                display: flex;
+                width: 100%;
+                flex-direction: column;
+                align-items: center;
+                color: $color-primary;
+                font-size: $fontsize-bodyIntro;
+                font-weight: $fontweight-bold;
+                gap: 10px;
+                letter-spacing: 0.1em;
+                text-align: center;
+                text-transform: uppercase;
+                transform: translate(-50%, -50%);
+
+                .uploadIcon {
+                    font-size: 80px;
+                }
+            }
+        }
+
+        .label {
+            position: absolute;
+            top: calc((($fontsize-medium / 2)) * -1);
+            left: 10px;
+            color: $color-foregroundSecondary;
+            font-size: $fontsize-medium;
+            font-weight: $fontweight-bold;
+        }
+
+        .contentWrapper {
+            width: 100%;
+            height: 100%;
+
+            .idleState {
+                display: flex;
+                width: 100%;
+                height: 100%;
+                flex-direction: column;
+                align-items: center;
+                justify-content: center;
+                border-radius: 5px;
+
+                &.onDragOver {
+                    background-color: $color-secondaryLight;
+                    outline: 1px dashed $color-primary;
+                }
+
+                &.onError {
+                    background-color: $color-dangerLight;
+                    outline: 1px dashed $color-danger;
+                }
+
+                .uploadIcon {
+                    color: $color-secondary;
+                    font-size: 80px;
+
+                    &.errorColor {
+                        color: $color-danger;
+                    }
+                }
+
+                .uploadText {
+                    color: $color-foregroundSecondary;
+                    font-size: $fontsize-bodyMain;
+                    font-weight: $fontweight-bold;
+                    text-align: center;
+
+                    .supportedFilesText {
+                        font-size: $fontsize-medium;
+                        font-weight: $fontweight-normal;
+                    }
+                }
+
+                .uploadButton {
+                    margin-top: 15px;
+                }
+            }
+
+            .previewWithUploaderState {
+                position: relative;
+                display: grid;
+                width: 100%;
+                height: 100%;
+                gap: 0;
+                grid-template-rows: 1fr auto;
+
+                .previewActionsWrapper {
+                    position: absolute;
+                    z-index: 1;
+                    top: -10px;
+                    right: 0;
+                    display: flex;
+                    gap: 5px;
+
+                    .previewActionIcon {
+                        color: $color-foregroundSecondary;
+                        font-size: 16px;
+                    }
+                }
+
+                .previewWrapper {
+                    display: grid;
+                    overflow: hidden;
+                    width: 100%;
+                    height: 100%;
+                    padding: 10px;
+                    cursor: zoom-in;
+                    place-items: center;
+                    user-select: none;
+
+                    .previewImage {
+                        overflow: auto;
+                        width: auto;
+                        height: 100%;
+                        user-select: none;
+                    }
+                }
+
+                .imageStackWrapper {
+                    display: grid;
+
+                    // overflow: hidden;
+                    gap: 5px;
+                    grid-template-columns: auto 1fr;
+
+                    .imageStackContainerWrapper {
+                        overflow: auto;
+                        width: auto;
+                        max-width: 100%;
+
+                        /* for Internet Explorer, Edge */
+                        -ms-overflow-style: none;
+
+                        /* for Firefox */
+                        scrollbar-width: none;
+
+                        /* for chrome */
+                        &::-webkit-scrollbar {
+                            display: none;
+                        }
+
+                        .imageStackContainer {
+                            display: flex;
+                            width: auto;
+                            height: auto;
+                            flex-direction: row;
+                            gap: 5px;
+                        }
+                    }
+
+                    .imageStackNode {
+                        position: relative;
+                        display: flex;
+                        width: 60px;
+                        min-width: 60px;
+                        height: 60px;
+                        min-height: 60px;
+                        align-items: center;
+                        justify-content: center;
+                        margin-top: 5px;
+                        margin-right: 5px;
+                        background-color: $color-backgroundTertiary;
+                        border-radius: 5px;
+                        color: $color-foregroundPrimary;
+                        cursor: pointer;
+                        transform: scale(0.95);
+                        user-select: none;
+
+                        &.imageStackNodeAdd {
+                            margin-right: 0;
+                        }
+
+                        &.imageStackNodeActive {
+                            border: 2px dashed $color-primary;
+                        }
+
+                        .stackNodeUploadIcon {
+                            font-size: 25px;
+                        }
+
+                        .imageStackImage {
+                            width: 100%;
+                            height: 100%;
+                            border-radius: 5px;
+                            user-select: none;
+                        }
+
+                        .imageStackProgressWrapper {
+                            position: absolute;
+                            z-index: 1;
+                            top: 0;
+                            left: 0;
+                            display: flex;
+                            width: 100%;
+                            height: 100%;
+                            align-items: center;
+                            justify-content: center;
+                            background-color: rgb(224 224 224 / 60%);
+                            border-radius: 5px;
+                        }
+
+                        .imageStackNodeDeleteIcon {
+                            position: absolute;
+                            z-index: 2;
+                            top: -5px;
+                            right: -5px;
+                            color: $color-foregroundTertiary;
+                            cursor: pointer;
+                            font-size: 15px;
+                            transform: scale(0.9);
+                            visibility: hidden;
+
+                            &:hover {
+                                color: $color-foregroundSecondary;
+                                transform: scale(1);
+                            }
+                        }
+
+                        &:hover {
+                            transform: scale(1);
+
+                            .imageStackNodeDeleteIcon {
+                                visibility: visible;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
