@@ -1,24 +1,24 @@
 import React from 'react';
 import { Story, Meta } from '@storybook/react';
 
-import { Editor } from './Editor';
-import { IEditorProps } from './Editor.types';
+import { BlogEditor } from './BlogEditor';
+import { IBlogEditorProps } from './BlogEditor.types';
 
 export default {
-    title: 'fluid-ui/Editor',
-    component: Editor,
+    title: 'fluid-ui/BlogEditor',
+    component: BlogEditor,
     argTypes: {},
-} as Meta<typeof Editor>;
+} as Meta<typeof BlogEditor>;
 
-const Template: Story<IEditorProps> = (args) => (
+const Template: Story<IBlogEditorProps> = (args) => (
     <div>
-        <Editor {...args} />
+        <BlogEditor {...args} />
     </div>
 );
 
 export const Default = Template.bind({});
 Default.args = {
-    title: 'Editor',
+    title: 'BlogEditor',
     data: {
         time: 1652031233623,
         blocks: [
@@ -40,4 +40,4 @@ Default.args = {
         ],
         version: '2.24.2',
     },
-} as IEditorProps;
+} as IBlogEditorProps;

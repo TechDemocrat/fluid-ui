@@ -1,19 +1,19 @@
 import React from 'react';
 import cn from 'classnames';
 
-import { IEditorViewerProps } from './EditorViewer.types';
-import styles from './EditorViewer.module.scss';
-import { EditorViewerService } from './EditorViewer.service';
+import { IBlogViewerProps } from './BlogViewer.types';
+import styles from './BlogViewer.module.scss';
+import { BlogViewerService } from './BlogViewer.service';
 import edjsHTML from 'editorjs-html';
 import parser from 'html-react-parser';
 const edjsParser = edjsHTML();
 
-export const EditorViewer = (props: IEditorViewerProps) => {
+export const BlogViewer = (props: IBlogViewerProps) => {
     // props
     const { title, data } = props;
 
     // compute
-    const originalTitle = EditorViewerService.getTitle(title);
+    const originalTitle = BlogViewerService.getTitle(title);
     const htmlData: [] = edjsParser.parse(data);
 
     // paint

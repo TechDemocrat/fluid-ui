@@ -13,6 +13,7 @@ export const ProfileImage = (props: IProfileImageProps) => {
     const profileClass = cn(
         styles.profileDisplay,
         { [styles.small]: size === 'small' },
+        { [styles.medium]: size === 'medium' },
         { [styles.large]: size === 'large' },
     );
 

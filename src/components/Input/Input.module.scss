@@ -51,8 +51,7 @@
 }
 
 .input:focus {
-    border: 1px solid $color-foregroundTertiary;
-    outline: none;
+    outline: 1px solid $color-foregroundTertiary;
 }
 
 input:focus::placeholder {
