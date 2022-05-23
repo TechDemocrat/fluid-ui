@@ -19,6 +19,7 @@ $progress-bar-scafflod-padding: 10px;
 $player-duration-font-size: 12px;
 $player-controls-icon-size: 22px;
 $player-controls-play-icon-size: 26px;
+$player-controls-fullscreen-icon-size: 25px;
 
 // volume controls
 $player-volume-slider-width: 80px;
@@ -31,6 +32,48 @@ $player-volume-progress-bar-opacity: 0.8;
 $player-volume-progress-head-color: #fff;
 $player-volume-control-padding-size: 8px;
 $player-volume-icon-slider-gap: 8px;
+
+.actionIcon {
+    color: $player-icon-color;
+    cursor: pointer;
+    font-size: $player-controls-icon-size;
+    opacity: 0.9; // gives bit dim effect
+    outline: none;
+    vertical-align: baseline;
+
+    &.iconDisabled {
+        opacity: 0.5;
+        pointer-events: none;
+        user-select: none;
+    }
+
+    &:hover {
+        transform: scale(1.1);
+    }
+
+    &:active {
+        transform: scale(1);
+    }
+
+    &.fullScreenIcon {
+        font-size: $player-controls-fullscreen-icon-size;
+    }
+
+    &.playPauseIcon {
+        font-size: $player-controls-play-icon-size;
+    }
+}
+
+.playerTimerWrapper {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    color: $player-duration-color;
+    font-size: $player-duration-font-size;
+    gap: 5px;
+    user-select: none;
+}
 
 .wrapper {
     display: grid;
@@ -152,40 +195,6 @@ $player-volume-icon-slider-gap: 8px;
             flex-direction: row;
             align-items: center;
             justify-content: flex-start;
-
-            .playerTimerWrapper {
-                display: flex;
-                flex-direction: row;
-                align-items: center;
-                justify-content: center;
-                color: $player-duration-color;
-                font-size: $player-duration-font-size;
-                gap: 5px;
-                user-select: none;
-            }
-        }
-
-        .actionIcon {
-            color: $player-icon-color;
-            cursor: pointer;
-            font-size: $player-controls-icon-size;
-            opacity: 0.9; // gives bit dim effect
-            outline: none;
-            vertical-align: baseline;
-
-            &.iconDisabled {
-                opacity: 0.5;
-                pointer-events: none;
-                user-select: none;
-            }
-
-            &:hover {
-                transform: scale(1.2);
-            }
-
-            &.playPauseIcon {
-                font-size: $player-controls-play-icon-size;
-            }
         }
 
         .controlsMiddleSectionWrapper {

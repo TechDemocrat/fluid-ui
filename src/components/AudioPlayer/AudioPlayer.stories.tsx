@@ -1,5 +1,5 @@
+import { ComponentMeta, ComponentStory } from '@storybook/react';
 import React from 'react';
-import { Story, Meta } from '@storybook/react';
 
 import { AudioPlayer } from './AudioPlayer';
 import { IAudioPlayerProps } from './AudioPlayer.types';
@@ -8,14 +8,15 @@ export default {
     title: 'fluid-ui/AudioPlayer',
     component: AudioPlayer,
     argTypes: {},
-} as Meta<typeof AudioPlayer>;
-const Template: Story<IAudioPlayerProps> = (args) => (
+} as ComponentMeta<typeof AudioPlayer>;
+const Template: ComponentStory<typeof AudioPlayer> = (args) => (
     <div style={{ width: 800, height: 400, overflow: 'hidden' }}>
         <AudioPlayer {...args} />
     </div>
 );
 
 export const Default = Template.bind({});
+
 Default.args = {
     source: {
         // long music source url for testing

@@ -40,7 +40,7 @@ export const AudioPlayer = (props: IAudioPlayerProps) => {
     const [duration, setDuration] = useState(0);
     const [bufferedDuration, setBufferedDuration] = useState(0);
     const [isAudioReady, setIsAudioReady] = useState(false);
-    const [isPlaying, setIsPlaying] = useState(autoPlay);
+    const [isPlaying, setIsPlaying] = useState(false);
     const [isFullScreen, setIsFullScreen] = useState(false);
     const [accessiblityActionType, setAccessiblityActionType] = useState<TAccessibilityType>(null);
 
@@ -198,7 +198,8 @@ export const AudioPlayer = (props: IAudioPlayerProps) => {
         setAccessiblityActionType,
     } as IPlayerControlsProps;
 
-    const showPlayerControls = !(isMouseIdle && isKeyboardIdle);
+    const isUserInteracting = !(isMouseIdle && isKeyboardIdle);
+    const showPlayerControls = isUserInteracting;
 
     // paint
     return (

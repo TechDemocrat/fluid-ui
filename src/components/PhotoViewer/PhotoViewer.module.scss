@@ -1,0 +1,157 @@
+@import "../../styles/fontSizes";
+@import "../../styles/colors";
+@import "../../styles/fontWeights";
+@import "../../styles/mixins";
+@import "../../styles/mediaQueries";
+
+// z-index
+$player-foreground-color: rgb(192 190 190);
+
+.wrapper {
+    position: relative;
+    display: grid;
+    width: 100%;
+    height: 100%;
+    grid-template-rows: 1fr auto;
+
+    // photo viewer player specific
+    .photoViewerCore {
+        // intentionally left out for pushing the navigaiton controls
+        // relative to the core wrapper to make it look like centered
+        // position: relative;
+        display: flex;
+        width: 100%;
+        height: 100%;
+        align-items: center;
+        justify-content: center;
+
+        .photoViewerCoreImage {
+            width: auto;
+            height: 90%;
+            user-select: none;
+        }
+
+        .photoViewerCoreNavigation {
+            // vertically align center
+            position: absolute;
+            top: 50%;
+            display: none; // make it none
+            color: $player-foreground-color;
+            cursor: pointer;
+            font-size: 70px;
+            transform: translateY(-50%);
+
+            &:hover {
+                color: $color-primary;
+            }
+
+            // on click show click animation
+            &:active {
+                transform: translateY(-50%) scale(0.9);
+            }
+
+            &.photoViewerCoreNavigationVisible {
+                display: block;
+            }
+
+            &.photoViewerCoreNavigationLeft {
+                left: 0;
+            }
+
+            &.photoViewerCoreNavigationRight {
+                right: 0;
+            }
+        }
+    }
+
+    .photoViewerControls {
+        display: grid;
+        width: 100%;
+        height: auto;
+        align-items: center;
+        padding: 5px 10px 10px;
+        gap: 10px;
+        grid-template-columns: auto 1fr auto;
+
+        .photoViewerControlsActions {
+            display: flex;
+            width: auto;
+            height: auto;
+            height: 100%;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+            transform: scaleY(0);
+            transform-origin: bottom;
+            transition: transform 0.1s ease-in-out;
+
+            &.photoViewerControlsActionsVisible {
+                transform: scaleY(1);
+            }
+        }
+    }
+
+    .photoViewerStackWrapper {
+        display: grid;
+        overflow: hidden;
+        width: 100%;
+        max-width: 100%;
+        height: 30px;
+        place-items: center;
+
+        .photoViewerStack {
+            display: flex;
+            overflow: auto;
+            width: auto;
+            max-width: 100%;
+            height: 100%;
+            flex-wrap: nowrap;
+            align-items: center;
+            justify-content: center;
+            gap: 5px;
+
+            .photoViewerstackNode {
+                position: relative;
+                overflow: hidden;
+                width: 30px;
+                height: 100%;
+                border-radius: 2px;
+                cursor: pointer;
+                transform: scale(0.9);
+                user-select: none;
+
+                &.photoViewerstackNodeActive {
+                    transform: scale(1);
+                }
+
+                .photoViewerstackNodeProgress {
+                    position: absolute;
+                    z-index: 1;
+                    top: 0;
+                    left: 0;
+                    height: 100%;
+                    background-color: $color-primary;
+                    opacity: 0.6;
+
+                    &.photoViewerstackNodeProgressFilled {
+                        width: 100%;
+                    }
+
+                    &.photoViewerstackNodeProgressFilling {
+                        width: 0%; // will be filled via js
+                    }
+                }
+
+                &:active {
+                    transform: scale(0.9);
+                }
+
+                img {
+                    width: 100%;
+                    height: 100%;
+                    object-fit: cover;
+                }
+            }
+        }
+    }
+}

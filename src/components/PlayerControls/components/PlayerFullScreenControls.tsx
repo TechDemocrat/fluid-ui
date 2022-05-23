@@ -1,22 +1,26 @@
 import React from 'react';
 import cn from 'classnames';
-import { Icon } from '@iconify/react';
 import styles from '../PlayerControls.module.scss';
-import { baselinePlayArrow, baselinePause } from '../../../utilities/icons/iconify';
+import { Icon } from '@iconify/react';
 import { IPlayerControlsProps } from '../PlayerControls.types';
+import { baselineFullScreen, baselineFullScreenExit } from '../../../utilities/icons/iconify';
 import { useEventListener } from '../../../utilities/cutomHooks';
 
-export const PlayPause = (props: { playPause: IPlayerControlsProps['playPause'] }) => {
+interface IPlayerFullScreenControlsProps {
+    fullScreen: IPlayerControlsProps['fullScreen'];
+}
+
+export const PlayerFullScreenControls = (props: IPlayerFullScreenControlsProps) => {
     // props
     const {
-        playPause: { isPlaying, isDisabled, onClick },
+        fullScreen: { isFullScreen: isFullScreen, isDisabled, onClick },
     } = props;
 
     // handlers
     const onKeyDown = (e: WindowEventMap['keydown']) => {
-        // if space is pressed and player is not disabled then play/pause
-        if (e.key === ' ' && !isDisabled) {
-            onClick?.();
+        // on f key press toggle full screen
+        if (e.key === 'f') {
+            onClick();
         }
     };
 
@@ -24,14 +28,14 @@ export const PlayPause = (props: { playPause: IPlayerControlsProps['playPause'] 
     useEventListener('keydown', onKeyDown);
 
     // compute
-    const currentIcon = isPlaying ? baselinePause : baselinePlayArrow;
+    const currentIcon = isFullScreen ? baselineFullScreenExit : baselineFullScreen;
 
     // paint
     return (
         <div>
             <Icon
                 icon={currentIcon}
-                className={cn(styles.actionIcon, styles.playPauseIcon, {
+                className={cn(styles.actionIcon, styles.fullScreenIcon, {
                     [styles.iconDisabled]: isDisabled,
                 })}
                 onClick={onClick}

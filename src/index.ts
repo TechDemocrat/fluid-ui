@@ -24,3 +24,4 @@ export { EditorViewer } from './components/EditorViewer/EditorViewer';
 export { AudioPlayer } from './components/AudioPlayer/AudioPlayer';
 export { ImageUploader } from './components/ImageUploader/ImageUploader';
 export { CircularProgress } from './components/CircularProgress/CircularProgress';
+export { PhotoViewer } from './components/PhotoViewer/PhotoViewer';

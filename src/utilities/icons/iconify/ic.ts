@@ -38,3 +38,7 @@ export { default as baselineDeleteOutline } from '@iconify/icons-ic/baseline-del
 
 // zoom in icon
 export { default as baselineZoomIn } from '@iconify/icons-ic/baseline-zoom-in';
+
+// photo viewer left and right navigation icon
+export { default as baselineChevronRight } from '@iconify/icons-ic/baseline-chevron-right';
+export { default as baselineChevronLeft } from '@iconify/icons-ic/baseline-chevron-left';
