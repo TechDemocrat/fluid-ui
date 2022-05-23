@@ -33,5 +33,5 @@ export interface IProfileImageProps {
      * @example
      * 'small'
      */
-    size?: 'small' | 'large';
+    size?: 'small' | 'large' | 'medium';
 }

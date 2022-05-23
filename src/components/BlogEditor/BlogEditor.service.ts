@@ -7,7 +7,7 @@ import Quote from '@editorjs/quote';
 import Underline from '@editorjs/underline';
 import TextVariantTune from '@editorjs/text-variant-tune';
 
-export class EditorService {
+export class BlogEditorService {
     // actions goes here
     static getTitle = (title: string) => title;
 

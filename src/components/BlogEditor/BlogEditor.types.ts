@@ -1,6 +1,6 @@
 import { OutputData } from '@editorjs/editorjs';
 
-export interface IEditorProps {
+export interface IBlogEditorProps {
     title?: string;
     data: OutputData;
     onSave: (data: OutputData) => void;
