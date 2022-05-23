@@ -40,12 +40,12 @@
         resize: none;
 
         &:hover {
-            outline: 1px solid $color-foregroundTertiary;
+            background: var(--color-backgroundSecondaryDark);
         }
     }
 
     .textarea:focus {
-        outline: 1px solid $color-foregroundTertiary;
+        background: var(--color-backgroundSecondaryDark);
     }
 
     .disabled {
