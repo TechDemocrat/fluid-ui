@@ -26,10 +26,27 @@ $player-foreground-color: rgb(192 190 190);
         align-items: center;
         justify-content: center;
 
-        .photoViewerCoreImage {
-            width: auto;
-            height: 90%;
-            user-select: none;
+        .photoViewerCoreImageWrapper {
+            position: relative;
+            overflow: hidden;
+            width: 100%;
+            height: 100%;
+
+            .photoViewerCoreImage {
+                position: absolute;
+                top: 50%;
+                left: 50%;
+                width: auto;
+                height: 90%;
+                opacity: 1;
+                transform: translate(-50%, -50%);
+                transition: opacity 0.8s linear;
+                user-select: none;
+
+                &.hidden {
+                    opacity: 0;
+                }
+            }
         }
 
         .photoViewerCoreNavigation {
@@ -120,7 +137,7 @@ $player-foreground-color: rgb(192 190 190);
                 border-radius: 2px;
                 cursor: pointer;
                 transform: scale(0.9);
-                transition: transform 0.3s ease-in-out;
+                transition: transform 0.2s ease-in-out;
                 user-select: none;
 
                 &.photoViewerstackNodeActive {

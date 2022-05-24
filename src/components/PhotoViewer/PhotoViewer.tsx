@@ -10,7 +10,7 @@ import {
 } from '../VideoPlayer/components/PlayerAccesibilityLayer';
 import {
     useClickHandler,
-    useIsKeyboardIdle,
+    useEventListener,
     useIsMouseIdle,
     useProgressTimer,
 } from '../../utilities/cutomHooks';
@@ -38,7 +38,6 @@ export const PhotoViewer = (props: IPhotoViewerProps) => {
 
     // custom hooks
     const isMouseIdle = useIsMouseIdle(photoViewerWrapperRef);
-    const isKeyboardIdle = useIsKeyboardIdle();
     const onProgressDone = () => {
         if (currentSourceIndex === source.length - 1) {
             setIsPlaying(false);
@@ -97,19 +96,10 @@ export const PhotoViewer = (props: IPhotoViewerProps) => {
     }, [isFullScreen]);
 
     // handlers
-    const onPlayPauseClick = () => {
-        setIsPlaying(!isPlaying);
-        setAccessiblityActionType(isPlaying ? 'pause' : 'play');
-    };
 
     const onFullScreenClick = () => {
         setIsFullScreen(!isFullScreen);
     };
-
-    const onAccessibilityLayerClick = useClickHandler({
-        onSingleClick: onPlayPauseClick,
-        onDoubleClick: onFullScreenClick,
-    });
 
     const onSourceIndexChangeHandler = (index: number) => {
         let requiredIndex = index;
@@ -131,10 +121,34 @@ export const PhotoViewer = (props: IPhotoViewerProps) => {
         );
     };
 
+    const onKeyDown = (e: WindowEventMap['keydown']) => {
+        if (e.key === 'ArrowRight') {
+            onNavigationChangeHandler('next');
+            setAccessiblityActionType('seekForward');
+        } else if (e.key === 'ArrowLeft') {
+            onNavigationChangeHandler('previous');
+            setAccessiblityActionType('seekBackward');
+        }
+    };
+
+    const onPlayPauseClick = () => {
+        if (currentSourceIndex === source.length - 1 && progress === 100) {
+            onNavigationChangeHandler('next');
+        }
+        setIsPlaying(!isPlaying);
+        setAccessiblityActionType(isPlaying ? 'pause' : 'play');
+    };
+    const onAccessibilityLayerClick = useClickHandler({
+        onSingleClick: onPlayPauseClick,
+        onDoubleClick: onFullScreenClick,
+    });
+
+    // hooks
+    useEventListener('keydown', onKeyDown);
+
     // compute
-    const isUserInteracting = !(isMouseIdle && isKeyboardIdle);
-    const showTitleWithAction = isFullScreen && isUserInteracting;
-    const showPlayerControls = isUserInteracting;
+    const showTitleWithAction = isFullScreen && !isMouseIdle;
+    const showPlayerControls = !isMouseIdle;
 
     // paint
     return (
@@ -182,6 +196,7 @@ export const PhotoViewer = (props: IPhotoViewerProps) => {
                 isLoading={isLoading}
                 isFullScreen={isFullScreen}
                 setActionType={setAccessiblityActionType}
+                seekSpeedFormatter={() => `${currentSourceIndex + 1} / ${source.length}`}
             />
         </div>
     );

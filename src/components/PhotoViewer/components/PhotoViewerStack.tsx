@@ -41,7 +41,7 @@ export const PhotoViewerStack = (props: IPhotoViewerStackProps) => {
 
                     const isCurrentIndexAndPlaying =
                         isCurrentIsSourceIndex &&
-                        (isPlaying || (!isPlaying && progress > 0 && progress < 100));
+                        (isPlaying || (!isPlaying && progress > 0 && progress <= 100));
 
                     const isFilled = isCurrentItemIsBeforeSourceIndex;
 

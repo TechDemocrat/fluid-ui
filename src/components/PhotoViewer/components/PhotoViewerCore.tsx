@@ -1,4 +1,4 @@
-import React, { MouseEvent, SyntheticEvent } from 'react';
+import React, { MouseEvent, SyntheticEvent, useEffect, useState } from 'react';
 import cn from 'classnames';
 import styles from '../PhotoViewer.module.scss';
 import { IPhotoViewerProps } from '../PhotoViewer.types';
@@ -16,6 +16,32 @@ export const PhotoViewerCore = (props: IPhotoViewerCoreProps) => {
     // props
     const { source, currentSourceIndex, showControls, onNavigationChange } = props;
 
+    // state
+    const [coreImageSwitch, setCoreImageSwitch] = useState<'top' | 'bottom'>('top');
+    const [sourceIndexMapping, setSourceIndexMapping] = useState<{
+        previous: number;
+        current: number;
+    }>({
+        previous: currentSourceIndex,
+        current: currentSourceIndex,
+    });
+
+    // effects
+    useEffect(() => {
+        if (currentSourceIndex !== sourceIndexMapping.current) {
+            setSourceIndexMapping({
+                previous: sourceIndexMapping.current,
+                current: currentSourceIndex,
+            });
+            // previousSourceIndex.current = currentSourceIndex;
+            if (coreImageSwitch === 'top') {
+                setCoreImageSwitch('bottom');
+            } else {
+                setCoreImageSwitch('top');
+            }
+        }
+    }, [currentSourceIndex, coreImageSwitch, sourceIndexMapping]);
+
     // handlers
     const onNavigationChangeHandler =
         (direction: 'next' | 'previous') => (e: MouseEvent<HTMLDivElement>) => {
@@ -28,18 +54,34 @@ export const PhotoViewerCore = (props: IPhotoViewerCoreProps) => {
     };
 
     // compute
-    const { src } = source[currentSourceIndex];
+    const { src } = source[sourceIndexMapping.current];
+    const { src: previousSource } = source[sourceIndexMapping.previous];
+    const imageASrc = coreImageSwitch === 'top' ? src : previousSource;
+    const imageBSrc = coreImageSwitch === 'bottom' ? src : previousSource;
 
     // paint
     return (
         <div className={cn(styles.photoViewerCore)}>
-            <img
-                className={styles.photoViewerCoreImage}
-                src={src}
-                alt={src}
-                draggable={false}
-                onError={onImageLoadError}
-            />
+            <div className={cn(styles.photoViewerCoreImageWrapper)}>
+                <img
+                    className={cn(styles.photoViewerCoreImage, {
+                        [styles.hidden]: coreImageSwitch === 'bottom',
+                        [styles.coreImage]: coreImageSwitch === 'top',
+                    })}
+                    src={imageASrc}
+                    draggable={false}
+                    onError={onImageLoadError}
+                />
+                <img
+                    className={cn(styles.photoViewerCoreImage, {
+                        [styles.hidden]: coreImageSwitch === 'top',
+                        [styles.coreImage]: coreImageSwitch === 'bottom',
+                    })}
+                    src={imageBSrc}
+                    draggable={false}
+                    onError={onImageLoadError}
+                />
+            </div>
 
             <div
                 className={cn(
