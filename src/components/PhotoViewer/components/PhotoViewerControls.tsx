@@ -1,4 +1,4 @@
-import React, { ReactNode } from 'react';
+import React, { MouseEvent, ReactNode } from 'react';
 import cn from 'classnames';
 import { PlayerFullScreenControls } from '../../PlayerControls/components/PlayerFullScreenControls';
 import { PlayerSettings } from '../../PlayerControls/components/PlayerSettings';
@@ -9,29 +9,46 @@ import styles from '../PhotoViewer.module.scss';
 interface IPhotoViewerControlsProps {
     children: ReactNode;
     showPlayerControls: boolean;
+    isFullScreen: boolean;
+    isPlaying: boolean;
+    currentSource: number;
+    totalSources: number;
+    onPlayPauseClick: () => void;
+    onFullScreenClick: () => void;
 }
 
 export const PhotoViewerControls = (props: IPhotoViewerControlsProps) => {
     // props
-    const { children, showPlayerControls } = props;
+    const {
+        children,
+        showPlayerControls,
+        isPlaying,
+        isFullScreen,
+        currentSource,
+        totalSources,
+        onPlayPauseClick,
+        onFullScreenClick,
+    } = props;
 
     // handlers
-    const onPlayPauseClickHandler = () => {};
+    const wrapperClickHandler = (e: MouseEvent<HTMLDivElement>) => {
+        e.stopPropagation(); // this prevents the click event from bubbling up to the parent
+    };
 
-    const onFullScreenClickHandler = () => {};
+    const onPlayPauseClickHandler = () => onPlayPauseClick();
+
+    const onFullScreenClickHandler = () => onFullScreenClick();
 
     // paint
     return (
-        <div className={styles.photoViewerControls}>
+        <div className={styles.photoViewerControls} onClick={wrapperClickHandler}>
             <div
                 className={cn(styles.photoViewerControlsActions, {
                     [styles.photoViewerControlsActionsVisible]: showPlayerControls,
                 })}
             >
-                <PlayerPlayPause
-                    playPause={{ isPlaying: false, onClick: onPlayPauseClickHandler }}
-                />
-                <PlayerTimer current={1} total={1} />
+                <PlayerPlayPause playPause={{ isPlaying, onClick: onPlayPauseClickHandler }} />
+                <PlayerTimer current={currentSource} total={totalSources} />
             </div>
             {children}
             <div
@@ -41,7 +58,7 @@ export const PhotoViewerControls = (props: IPhotoViewerControlsProps) => {
             >
                 <PlayerSettings />
                 <PlayerFullScreenControls
-                    fullScreen={{ isFullScreen: false, onClick: onFullScreenClickHandler }}
+                    fullScreen={{ isFullScreen, onClick: onFullScreenClickHandler }}
                 />
             </div>
         </div>

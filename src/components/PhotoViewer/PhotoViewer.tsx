@@ -8,7 +8,12 @@ import {
     PlayerAccessibilityLayer,
     TAccessibilityType,
 } from '../VideoPlayer/components/PlayerAccesibilityLayer';
-import { useClickHandler, useIsKeyboardIdle, useIsMouseIdle } from '../../utilities/cutomHooks';
+import {
+    useClickHandler,
+    useIsKeyboardIdle,
+    useIsMouseIdle,
+    useProgressTimer,
+} from '../../utilities/cutomHooks';
 import { PhotoViewerControls } from './components/PhotoViewerControls';
 import { PhotoViewerCore } from './components/PhotoViewerCore';
 import { PhotoViewerStack } from './components/PhotoViewerStack';
@@ -18,7 +23,7 @@ import { UnderlayGradientContainer } from '../VideoPlayer/components/UnderlayGra
 
 export const PhotoViewer = (props: IPhotoViewerProps) => {
     // props
-    const { title, source = [], autoPlay = true, actionGroupOptions = {} } = props;
+    const { title, source = [], actionGroupOptions = {} } = props;
 
     // refs
     const photoViewerWrapperRef = useRef<HTMLDivElement>(null);
@@ -27,19 +32,38 @@ export const PhotoViewer = (props: IPhotoViewerProps) => {
     const [isLoading, setIsLoading] = useState(true);
     // const [isPhotosReady, setIsPhotosReady] = useState(false);
     const [currentSourceIndex, setCurrentSourceIndex] = useState(0);
-    const [isPlaying, setIsPlaying] = useState(autoPlay);
+    const [isPlaying, setIsPlaying] = useState(false);
     const [isFullScreen, setIsFullScreen] = useState(false);
     const [accessiblityActionType, setAccessiblityActionType] = useState<TAccessibilityType>(null);
 
     // custom hooks
     const isMouseIdle = useIsMouseIdle(photoViewerWrapperRef);
     const isKeyboardIdle = useIsKeyboardIdle();
+    const onProgressDone = () => {
+        if (currentSourceIndex === source.length - 1) {
+            setIsPlaying(false);
+        } else {
+            // eslint-disable-next-line @typescript-eslint/no-use-before-define
+            onNavigationChangeHandler('next');
+        }
+    };
+
+    const { progress, start, pause, resume, reset } = useProgressTimer(100, 1, 50, onProgressDone);
 
     // effects
     // on ready loader hide
     useEffect(() => {
         setIsLoading(false);
     }, []);
+
+    // play pause handler effect
+    useEffect(() => {
+        if (isPlaying) {
+            resume();
+        } else {
+            pause();
+        }
+    }, [isPlaying, pause, resume]);
 
     // fullScreen handler effect
     useEffect(() => {
@@ -95,9 +119,13 @@ export const PhotoViewer = (props: IPhotoViewerProps) => {
             requiredIndex = 0;
         }
         setCurrentSourceIndex(requiredIndex);
+        if (isPlaying) {
+            start();
+        }
     };
 
     const onNavigationChangeHandler = (direction: 'next' | 'previous') => {
+        reset();
         onSourceIndexChangeHandler(
             direction === 'next' ? currentSourceIndex + 1 : currentSourceIndex - 1,
         );
@@ -132,10 +160,20 @@ export const PhotoViewer = (props: IPhotoViewerProps) => {
                 onNavigationChange={onNavigationChangeHandler}
             />
             {/* photo player controls area */}
-            <PhotoViewerControls showPlayerControls={showPlayerControls}>
+            <PhotoViewerControls
+                showPlayerControls={showPlayerControls}
+                totalSources={source.length}
+                currentSource={currentSourceIndex + 1}
+                isPlaying={isPlaying}
+                isFullScreen={isFullScreen}
+                onFullScreenClick={onFullScreenClick}
+                onPlayPauseClick={onPlayPauseClick}
+            >
                 <PhotoViewerStack
                     source={source}
+                    isPlaying={isPlaying}
                     currentSourceIndex={currentSourceIndex}
+                    progress={progress}
                     onSourceIndexChange={onSourceIndexChangeHandler}
                 />
             </PhotoViewerControls>

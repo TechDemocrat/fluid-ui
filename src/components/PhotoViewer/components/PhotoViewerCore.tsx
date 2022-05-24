@@ -1,4 +1,4 @@
-import React, { MouseEvent } from 'react';
+import React, { MouseEvent, SyntheticEvent } from 'react';
 import cn from 'classnames';
 import styles from '../PhotoViewer.module.scss';
 import { IPhotoViewerProps } from '../PhotoViewer.types';
@@ -23,13 +23,23 @@ export const PhotoViewerCore = (props: IPhotoViewerCoreProps) => {
             onNavigationChange(direction);
         };
 
+    const onImageLoadError = (event: SyntheticEvent<HTMLImageElement, Event>) => {
+        event.currentTarget.style.display = 'none';
+    };
+
     // compute
     const { src } = source[currentSourceIndex];
 
     // paint
     return (
         <div className={cn(styles.photoViewerCore)}>
-            <img className={styles.photoViewerCoreImage} src={src} alt={src} draggable={false} />
+            <img
+                className={styles.photoViewerCoreImage}
+                src={src}
+                alt={src}
+                draggable={false}
+                onError={onImageLoadError}
+            />
 
             <div
                 className={cn(

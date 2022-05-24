@@ -20,6 +20,7 @@ $player-foreground-color: rgb(192 190 190);
         // relative to the core wrapper to make it look like centered
         // position: relative;
         display: flex;
+        overflow: hidden;
         width: 100%;
         height: 100%;
         align-items: center;
@@ -38,7 +39,7 @@ $player-foreground-color: rgb(192 190 190);
             display: none; // make it none
             color: $player-foreground-color;
             cursor: pointer;
-            font-size: 70px;
+            font-size: 60px;
             transform: translateY(-50%);
 
             &:hover {
@@ -115,9 +116,11 @@ $player-foreground-color: rgb(192 190 190);
                 overflow: hidden;
                 width: 30px;
                 height: 100%;
+                background-color: $color-foregroundSecondary;
                 border-radius: 2px;
                 cursor: pointer;
                 transform: scale(0.9);
+                transition: transform 0.3s ease-in-out;
                 user-select: none;
 
                 &.photoViewerstackNodeActive {
@@ -129,21 +132,29 @@ $player-foreground-color: rgb(192 190 190);
                     z-index: 1;
                     top: 0;
                     left: 0;
+                    width: 100%;
                     height: 100%;
                     background-color: $color-primary;
                     opacity: 0.6;
+                    transform: scaleX(0);
+                    transform-origin: left;
 
                     &.photoViewerstackNodeProgressFilled {
-                        width: 100%;
+                        transform: scaleX(1);
                     }
 
                     &.photoViewerstackNodeProgressFilling {
-                        width: 0%; // will be filled via js
+                        transform: scaleX(0);
+                        transition: transform 0.3s ease-in;
                     }
                 }
 
+                &:hover {
+                    transform: scale(1);
+                }
+
                 &:active {
-                    transform: scale(0.9);
+                    transform: scale(0.85);
                 }
 
                 img {
