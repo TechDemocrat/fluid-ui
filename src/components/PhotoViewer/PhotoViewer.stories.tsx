@@ -28,7 +28,7 @@ Default.args = {
             title: 'Shape of You - Ed Sheeran',
         },
         {
-            src: 'https://picsum.photos/200/300?random=1',
+            src: 'https://picsum.photos/1240/720?random=1',
             type: 'image/png',
             title: 'Random Pic 1',
         },

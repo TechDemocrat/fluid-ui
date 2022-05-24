@@ -11,8 +11,9 @@ interface IPhotoViewerControlsProps {
     showPlayerControls: boolean;
     isFullScreen: boolean;
     isPlaying: boolean;
-    currentSource: number;
-    totalSources: number;
+    currentSourceIndex: number;
+    sourceLength: number;
+    progress: number;
     onPlayPauseClick: () => void;
     onFullScreenClick: () => void;
 }
@@ -24,8 +25,9 @@ export const PhotoViewerControls = (props: IPhotoViewerControlsProps) => {
         showPlayerControls,
         isPlaying,
         isFullScreen,
-        currentSource,
-        totalSources,
+        currentSourceIndex,
+        sourceLength,
+        progress,
         onPlayPauseClick,
         onFullScreenClick,
     } = props;
@@ -39,6 +41,9 @@ export const PhotoViewerControls = (props: IPhotoViewerControlsProps) => {
 
     const onFullScreenClickHandler = () => onFullScreenClick();
 
+    // compute
+    const isReachedEnd = currentSourceIndex === sourceLength - 1 && progress === 100;
+
     // paint
     return (
         <div className={styles.photoViewerControls} onClick={wrapperClickHandler}>
@@ -47,8 +52,11 @@ export const PhotoViewerControls = (props: IPhotoViewerControlsProps) => {
                     [styles.photoViewerControlsActionsVisible]: showPlayerControls,
                 })}
             >
-                <PlayerPlayPause playPause={{ isPlaying, onClick: onPlayPauseClickHandler }} />
-                <PlayerTimer current={currentSource} total={totalSources} />
+                <PlayerPlayPause
+                    playPause={{ isPlaying, onClick: onPlayPauseClickHandler }}
+                    isReachedEnd={isReachedEnd}
+                />
+                <PlayerTimer current={currentSourceIndex + 1} total={sourceLength} />
             </div>
             {children}
             <div

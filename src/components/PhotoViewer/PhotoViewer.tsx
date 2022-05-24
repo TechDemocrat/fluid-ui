@@ -176,10 +176,11 @@ export const PhotoViewer = (props: IPhotoViewerProps) => {
             {/* photo player controls area */}
             <PhotoViewerControls
                 showPlayerControls={showPlayerControls}
-                totalSources={source.length}
-                currentSource={currentSourceIndex + 1}
+                sourceLength={source.length}
+                currentSourceIndex={currentSourceIndex}
                 isPlaying={isPlaying}
                 isFullScreen={isFullScreen}
+                progress={progress}
                 onFullScreenClick={onFullScreenClick}
                 onPlayPauseClick={onPlayPauseClick}
             >

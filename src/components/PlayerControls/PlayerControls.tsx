@@ -152,6 +152,8 @@ export const PlayerControls = (props: IPlayerControlsProps) => {
         progressPercentage,
     );
 
+    const isReachedEnd = progressPercentage === 100;
+
     // paint
     return (
         <div className={cn(styles.wrapper, className)} onClick={onPlayerControlsWrapperClick}>
@@ -202,7 +204,7 @@ export const PlayerControls = (props: IPlayerControlsProps) => {
                             onClick={previous.onClick}
                         />
                     </div>
-                    <PlayerPlayPause playPause={playPause} />
+                    <PlayerPlayPause playPause={playPause} isReachedEnd={isReachedEnd} />
                     <div>
                         <Icon
                             icon={baselineSkipNext}
