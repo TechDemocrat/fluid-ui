@@ -2,14 +2,18 @@ import React from 'react';
 import cn from 'classnames';
 import { Icon } from '@iconify/react';
 import styles from '../PlayerControls.module.scss';
-import { baselinePlayArrow, baselinePause } from '../../../utilities/icons/iconify';
+import { baselinePlayArrow, baselinePause, baselineReplay } from '../../../utilities/icons/iconify';
 import { IPlayerControlsProps } from '../PlayerControls.types';
 import { useEventListener } from '../../../utilities/cutomHooks';
 
-export const PlayPause = (props: { playPause: IPlayerControlsProps['playPause'] }) => {
+export const PlayerPlayPause = (props: {
+    playPause: IPlayerControlsProps['playPause'];
+    isReachedEnd?: boolean;
+}) => {
     // props
     const {
         playPause: { isPlaying, isDisabled, onClick },
+        isReachedEnd,
     } = props;
 
     // handlers
@@ -24,7 +28,10 @@ export const PlayPause = (props: { playPause: IPlayerControlsProps['playPause'] 
     useEventListener('keydown', onKeyDown);
 
     // compute
-    const currentIcon = isPlaying ? baselinePause : baselinePlayArrow;
+    let currentIcon = isPlaying ? baselinePause : baselinePlayArrow;
+    if (isReachedEnd) {
+        currentIcon = baselineReplay;
+    }
 
     // paint
     return (

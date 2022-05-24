@@ -37,7 +37,7 @@ export const VideoPlayer = (props: IVideoPlayerProps) => {
     const [duration, setDuration] = useState(0);
     const [bufferedDuration, setBufferedDuration] = useState(0);
     const [isVideoReady, setIsVideoReady] = useState(false);
-    const [isPlaying, setIsPlaying] = useState(autoPlay);
+    const [isPlaying, setIsPlaying] = useState(false);
     const [isFullScreen, setIsFullScreen] = useState(false);
     const [accessiblityActionType, setAccessiblityActionType] = useState<TAccessibilityType>(null);
 
@@ -195,7 +195,7 @@ export const VideoPlayer = (props: IVideoPlayerProps) => {
         setAccessiblityActionType,
     } as IPlayerControlsProps;
 
-    const isUserInteracting = !isMouseIdle || !isKeyboardIdle;
+    const isUserInteracting = !(isMouseIdle && isKeyboardIdle);
     const showTitleWithAction = isFullScreen && isUserInteracting;
     const showPlayerControls = isUserInteracting;
 

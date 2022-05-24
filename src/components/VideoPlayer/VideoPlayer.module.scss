@@ -192,36 +192,36 @@ $z-index-player-core-fullscreen-title-with-action: 4;
             visibility: visible;
         }
     }
+}
 
-    // video player specific
-    .fullScreenVideoTitleWithActionWrapper {
-        position: absolute;
-        z-index: $z-index-player-core-fullscreen-title-with-action;
-        top: 0;
-        left: 0;
-        display: grid;
+// video player specific - also used in Photo viewer
+.fullScreenVideoTitleWithActionWrapper {
+    position: absolute;
+    z-index: $z-index-player-core-fullscreen-title-with-action;
+    top: 0;
+    left: 0;
+    display: grid;
+    width: 100%;
+    height: auto;
+    align-items: center;
+    padding: 25px 20px;
+    gap: 10px;
+    grid-template-columns: 1fr auto;
+    transform: scaleY(0);
+    transform-origin: top;
+    transition: transform 0.1s ease-in-out;
+
+    &.showVideoTitleWithAction {
+        transform: scaleY(1);
+    }
+
+    .fullScreenVideoTitle {
+        overflow: hidden;
         width: 100%;
-        height: auto;
-        align-items: center;
-        padding: 25px 20px;
-        gap: 10px;
-        grid-template-columns: 1fr auto;
-        transform: scaleY(0);
-        transform-origin: top;
-        transition: transform 0.1s ease-in-out;
-
-        &.showVideoTitleWithAction {
-            transform: scaleY(1);
-        }
-
-        .fullScreenVideoTitle {
-            overflow: hidden;
-            width: 100%;
-            color: $player-foreground-color;
-            font-size: $fontsize-h5;
-            text-overflow: ellipsis;
-            user-select: none;
-            white-space: nowrap;
-        }
+        color: $player-foreground-color;
+        font-size: $fontsize-h5;
+        text-overflow: ellipsis;
+        user-select: none;
+        white-space: nowrap;
     }
 }

@@ -7,11 +7,11 @@ import { PlayerControlsService } from '../PlayerControls.service';
 import { useEventListener } from '../../../utilities/cutomHooks';
 import { TAccessibilityType } from '../../VideoPlayer/components/PlayerAccesibilityLayer';
 
-interface IVolumeControlProps {
+interface IPlayerVolumeControlsProps {
     volume: IPlayerControlsProps['volume'];
     setAccessiblityActionType: Dispatch<TAccessibilityType>;
 }
-export const VolumeControls = (props: IVolumeControlProps) => {
+export const PlayerVolumeControls = (props: IPlayerVolumeControlsProps) => {
     // props
     const {
         volume: { isDisabled, isMuted, currentLevel, previousLevel, onChange, onMute, onUnMute },

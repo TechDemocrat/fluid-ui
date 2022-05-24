@@ -10,15 +10,15 @@ import {
     baselineShuffle,
     baselineSkipPrevious,
     baselineSkipNext,
-    baselineSettings,
     baselineClosedCaption,
 } from '../../utilities/icons/iconify';
-import { VolumeControls } from './components/VolumeControls';
-import { PlayPause } from './components/PlayPause';
-import { FullScreenControls } from './components/FullScreenControls';
+import { PlayerVolumeControls } from './components/PlayerVolumeControls';
+import { PlayerPlayPause } from './components/PlayerPlayPause';
+import { PlayerFullScreenControls } from './components/PlayerFullScreenControls';
 import { PlayerTimer } from './components/PlayerTimer';
-import { ProgressBar } from './components/ProgressBar';
+import { PlayerProgressBar } from './components/PlayerProgressBar';
 import { useEventListener } from '../../utilities/cutomHooks';
+import { PlayerSettings } from './components/PlayerSettings';
 
 export const PlayerControls = (props: IPlayerControlsProps) => {
     // props
@@ -152,10 +152,12 @@ export const PlayerControls = (props: IPlayerControlsProps) => {
         progressPercentage,
     );
 
+    const isReachedEnd = progressPercentage === 100;
+
     // paint
     return (
         <div className={cn(styles.wrapper, className)} onClick={onPlayerControlsWrapperClick}>
-            <ProgressBar
+            <PlayerProgressBar
                 ref={progressTrackRef}
                 progress={progress}
                 progressPercentage={progressPercentage}
@@ -202,7 +204,7 @@ export const PlayerControls = (props: IPlayerControlsProps) => {
                             onClick={previous.onClick}
                         />
                     </div>
-                    <PlayPause playPause={playPause} />
+                    <PlayerPlayPause playPause={playPause} isReachedEnd={isReachedEnd} />
                     <div>
                         <Icon
                             icon={baselineSkipNext}
@@ -221,19 +223,14 @@ export const PlayerControls = (props: IPlayerControlsProps) => {
                             onClick={captions.onClick}
                         />
                     </div>
-                    <VolumeControls
+                    <PlayerVolumeControls
                         volume={volume}
                         setAccessiblityActionType={setAccessiblityActionType}
                     />
                 </div>
                 <div className={cn(styles.controlsEndSectionWrapper)}>
-                    <Icon
-                        icon={baselineSettings}
-                        className={cn(styles.actionIcon, {
-                            [styles.iconDisabled]: settings.isDisabled,
-                        })}
-                    />
-                    <FullScreenControls fullScreen={fullScreen} />
+                    <PlayerSettings isDisabled={settings.isDisabled} />
+                    <PlayerFullScreenControls fullScreen={fullScreen} />
                 </div>
             </div>
         </div>

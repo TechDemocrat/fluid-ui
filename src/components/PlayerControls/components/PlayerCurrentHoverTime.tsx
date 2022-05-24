@@ -4,7 +4,7 @@ import styles from '../PlayerControls.module.scss';
 import { PlayerControlsService } from '../PlayerControls.service';
 import { IPlayerControlsProps } from '../PlayerControls.types';
 
-export const CurrentHoverTime = (props: {
+export const PlayerCurrentHoverTime = (props: {
     isDragging: boolean;
     isHovering: boolean;
     progress: IPlayerControlsProps['progress'];

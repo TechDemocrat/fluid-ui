@@ -2,7 +2,7 @@ import React from 'react';
 import cn from 'classnames';
 import styles from '../PlayerControls.module.scss';
 
-export const PlayerTimer = (props: { current: string; total: string }) => {
+export const PlayerTimer = (props: { current: string | number; total: string | number }) => {
     const { current, total } = props;
 
     // paint
