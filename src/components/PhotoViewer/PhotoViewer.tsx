@@ -23,7 +23,7 @@ import { UnderlayGradientContainer } from '../VideoPlayer/components/UnderlayGra
 
 export const PhotoViewer = (props: IPhotoViewerProps) => {
     // props
-    const { title, source = [], actionGroupOptions = {} } = props;
+    const { title, source = [], actionGroupOptions = {}, autoPlay = false } = props;
 
     // refs
     const photoViewerWrapperRef = useRef<HTMLDivElement>(null);
@@ -53,7 +53,10 @@ export const PhotoViewer = (props: IPhotoViewerProps) => {
     // on ready loader hide
     useEffect(() => {
         setIsLoading(false);
-    }, []);
+        if (autoPlay && source.length > 0) {
+            setIsPlaying(true);
+        }
+    }, [autoPlay, source]);
 
     // play pause handler effect
     useEffect(() => {
@@ -122,21 +125,25 @@ export const PhotoViewer = (props: IPhotoViewerProps) => {
     };
 
     const onKeyDown = (e: WindowEventMap['keydown']) => {
-        if (e.key === 'ArrowRight') {
-            onNavigationChangeHandler('next');
-            setAccessiblityActionType('seekForward');
-        } else if (e.key === 'ArrowLeft') {
-            onNavigationChangeHandler('previous');
-            setAccessiblityActionType('seekBackward');
+        if (source.length > 1) {
+            if (e.key === 'ArrowRight') {
+                onNavigationChangeHandler('next');
+                setAccessiblityActionType('seekForward');
+            } else if (e.key === 'ArrowLeft') {
+                onNavigationChangeHandler('previous');
+                setAccessiblityActionType('seekBackward');
+            }
         }
     };
 
     const onPlayPauseClick = () => {
-        if (currentSourceIndex === source.length - 1 && progress === 100) {
-            onNavigationChangeHandler('next');
+        if (source.length > 1) {
+            if (currentSourceIndex === source.length - 1 && progress === 100) {
+                onNavigationChangeHandler('next');
+            }
+            setIsPlaying(!isPlaying);
+            setAccessiblityActionType(isPlaying ? 'pause' : 'play');
         }
-        setIsPlaying(!isPlaying);
-        setAccessiblityActionType(isPlaying ? 'pause' : 'play');
     };
     const onAccessibilityLayerClick = useClickHandler({
         onSingleClick: onPlayPauseClick,
@@ -184,14 +191,19 @@ export const PhotoViewer = (props: IPhotoViewerProps) => {
                 onFullScreenClick={onFullScreenClick}
                 onPlayPauseClick={onPlayPauseClick}
             >
-                <PhotoViewerStack
-                    source={source}
-                    isPlaying={isPlaying}
-                    currentSourceIndex={currentSourceIndex}
-                    progress={progress}
-                    onSourceIndexChange={onSourceIndexChangeHandler}
-                />
+                {source.length > 1 && (
+                    <PhotoViewerStack
+                        source={source}
+                        isPlaying={isPlaying}
+                        currentSourceIndex={currentSourceIndex}
+                        progress={progress}
+                        onSourceIndexChange={onSourceIndexChangeHandler}
+                    />
+                )}
             </PhotoViewerControls>
+            {source.length <= 1 && (
+                <UnderlayGradientContainer position="bottom" show={showPlayerControls} />
+            )}
             <PlayerAccessibilityLayer
                 actionType={accessiblityActionType}
                 isLoading={isLoading}

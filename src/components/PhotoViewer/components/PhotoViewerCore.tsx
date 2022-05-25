@@ -83,28 +83,32 @@ export const PhotoViewerCore = (props: IPhotoViewerCoreProps) => {
                 />
             </div>
 
-            <div
-                className={cn(
-                    styles.photoViewerCoreNavigation,
-                    styles.photoViewerCoreNavigationLeft,
-                    { [styles.photoViewerCoreNavigationVisible]: showControls },
-                )}
-                role="button"
-                onClick={onNavigationChangeHandler('previous')}
-            >
-                <Icon icon={baselineChevronLeft} />
-            </div>
-            <div
-                className={cn(
-                    styles.photoViewerCoreNavigation,
-                    styles.photoViewerCoreNavigationRight,
-                    { [styles.photoViewerCoreNavigationVisible]: showControls },
-                )}
-                role="button"
-                onClick={onNavigationChangeHandler('next')}
-            >
-                <Icon icon={baselineChevronRight} />
-            </div>
+            {source.length > 1 && (
+                <>
+                    <div
+                        className={cn(
+                            styles.photoViewerCoreNavigation,
+                            styles.photoViewerCoreNavigationLeft,
+                            { [styles.photoViewerCoreNavigationVisible]: showControls },
+                        )}
+                        role="button"
+                        onClick={onNavigationChangeHandler('previous')}
+                    >
+                        <Icon icon={baselineChevronLeft} />
+                    </div>
+                    <div
+                        className={cn(
+                            styles.photoViewerCoreNavigation,
+                            styles.photoViewerCoreNavigationRight,
+                            { [styles.photoViewerCoreNavigationVisible]: showControls },
+                        )}
+                        role="button"
+                        onClick={onNavigationChangeHandler('next')}
+                    >
+                        <Icon icon={baselineChevronRight} />
+                    </div>
+                </>
+            )}
         </div>
     );
 };

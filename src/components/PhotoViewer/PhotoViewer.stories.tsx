@@ -68,3 +68,31 @@ Default.args = {
     autoPlay: true,
     // sample Music poster image
 } as IPhotoViewerProps;
+
+export const SinglePhoto = Template.bind({});
+SinglePhoto.args = {} as IPhotoViewerProps;
+
+SinglePhoto.args = {
+    title: 'Edsheeran - Perfect',
+    source: [
+        {
+            src: 'https://picsum.photos/1240/720?random=1',
+            type: 'image/png',
+            title: 'Random Pic 1',
+        },
+    ],
+    actionGroupOptions: {
+        love: {
+            active: false,
+            onClick: () => {},
+        },
+        comment: {
+            onClick: () => {},
+        },
+        share: {
+            onClick: () => {},
+        },
+    },
+    autoPlay: true,
+    // sample Music poster image
+} as IPhotoViewerProps;
