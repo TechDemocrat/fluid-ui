@@ -76,7 +76,7 @@ export class UploadService {
         }
     };
 
-    private getUploadProgressData = (uploadId: string): IUploadProgress => {
+    getUploadProgressData = (uploadId: string): IUploadProgress => {
         const uploadProgressMeta = this.progressMapping.get(uploadId);
         if (uploadProgressMeta) {
             const progress: IUploadProgress = {
