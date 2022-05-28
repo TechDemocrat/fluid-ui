@@ -2,7 +2,7 @@ export type TContentUploadStatus = 'idle' | 'filled';
 export type TAllowedFileTypes = 'image/*' | 'image/jpeg' | 'image/png';
 export type TImageUploadStatus = 'uploading' | 'done';
 
-export interface IUploadProgress {
+export interface IImageUploaderContent {
     /**
      * timestamp will be added as id
      **/
@@ -31,7 +31,16 @@ export interface IImageUploaderProps {
     /**
      * should be passed when the status is 'uploading'
      */
-    uploadProgress: IUploadProgress[];
+    content: IImageUploaderContent[];
+    /**
+     * view mode
+     */
+    viewMode: 'view' | 'edit';
+    /**
+     * show edit icon
+     * @default false
+     */
+    showEditIcon?: boolean;
     /**
      * if enabled multile uploads are allowed
      */
@@ -49,5 +58,10 @@ export interface IImageUploaderProps {
      * on file add catch the file and tweak the status to uploading if it is valid
      * if type is not supported throught error toast from the parent component itself.
      */
-    onDelete?: (index: number) => void;
+    onDelete?: (id: string) => void;
+}
+
+export interface IUploaderErrorMessage {
+    enabled: boolean;
+    message: string;
 }

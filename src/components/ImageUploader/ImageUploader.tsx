@@ -10,34 +10,26 @@ import React, {
 } from 'react';
 import cn from 'classnames';
 
-import { IImageUploaderProps } from './ImageUploader.types';
+import { IImageUploaderProps, IUploaderErrorMessage } from './ImageUploader.types';
 import styles from './ImageUploader.module.scss';
 import { ImageUploaderService } from './ImageUploader.service';
 import { useIsMounted } from '../../utilities/cutomHooks';
-import { ImageUploaderIdleState } from './components/ImageUploaderIdleState';
-import { CircularProgress } from '../CircularProgress/CircularProgress';
+import { ImageUploaderLandingPage } from './components/ImageUploaderLandingPage';
 import { Icon } from '@iconify/react';
-import {
-    baselineAdd,
-    baselineCloudUpload,
-    baselineDeleteOutline,
-    baselineZoomIn,
-    closeCircle,
-} from '../../utilities/icons/iconify';
+import { baselineAdd, baselineEdit } from '../../utilities/icons/iconify';
 import { IconButton } from '../IconButton/IconButton';
-
-export interface IUploaderErrorMessage {
-    enabled: boolean;
-    message: string;
-}
+import { ImageUploaderImageStack } from './components/ImageUploaderImageStack';
+import { DropToUploadOverlay } from './components/DropToUploadOverlay';
 
 export const ImageUploader = (props: IImageUploaderProps) => {
     // props
     const {
         label = 'Photo',
         allowMultiple = false,
-        uploadProgress,
+        content,
+        viewMode,
         allowedFileTypes = [],
+        showEditIcon = false,
         onUpload,
         onDelete,
     } = props;
@@ -55,7 +47,6 @@ export const ImageUploader = (props: IImageUploaderProps) => {
     const [error, seterror] = useState(errorInitialState);
 
     // refs
-    const previousLoadedRef = useRef<number[]>([]);
     const inputFileRef = useRef<HTMLInputElement>(null);
 
     // handlers
@@ -121,24 +112,22 @@ export const ImageUploader = (props: IImageUploaderProps) => {
         setPreviewImageIndex(index);
     };
 
-    const onDeleteImage =
-        (index: number = previewImageIndex) =>
-        (e: MouseEvent<SVGElement>) => {
-            e.preventDefault();
-            e.stopPropagation();
-            onDelete?.(index);
-        };
+    const onDeleteImage = (id: string) => (e: MouseEvent<SVGElement>) => {
+        e.preventDefault();
+        e.stopPropagation();
+        onDelete?.(id);
+    };
 
     // effects
     useEffect(() => {
-        if (previewImageIndex >= uploadProgress.length || previewImageIndex < 0) {
-            setPreviewImageIndex(uploadProgress.length - 1 || 0);
+        if (previewImageIndex >= content.length || previewImageIndex < 0) {
+            setPreviewImageIndex(content.length - 1 || 0);
         }
-    }, [uploadProgress, previewImageIndex]);
+    }, [content, previewImageIndex]);
 
     // compute
-    const isIdle = uploadProgress.length === 0;
-    const currentImage = uploadProgress[previewImageIndex] ?? uploadProgress[0];
+    const isIdle = viewMode === 'edit' && content.length === 0;
+    const currentImage = content[previewImageIndex] ?? content[0];
 
     // paint
     return (
@@ -152,8 +141,8 @@ export const ImageUploader = (props: IImageUploaderProps) => {
             >
                 <div className={styles.label}>{label}</div>
                 <div className={cn(styles.contentWrapper)}>
-                    <ImageUploaderIdleState
-                        showIdlePage={isIdle}
+                    <ImageUploaderLandingPage
+                        showLandingPage={isIdle}
                         ref={inputFileRef}
                         isDragging={isDragging}
                         error={error}
@@ -163,24 +152,16 @@ export const ImageUploader = (props: IImageUploaderProps) => {
                     />
                     {!isIdle && (
                         <div className={cn(styles.previewWithUploaderState)}>
-                            {/* delete action button */}
+                            {/* Place edit icon if needed */}
                             <div className={styles.previewActionsWrapper}>
-                                <IconButton title="Zoom in" padding={3}>
-                                    <Icon
-                                        className={styles.previewActionIcon}
-                                        icon={baselineZoomIn}
-                                    />
-                                </IconButton>
-                                <IconButton
-                                    title="Remove current image"
-                                    padding={3}
-                                    onClick={onDeleteImage() as () => void}
-                                >
-                                    <Icon
-                                        className={styles.previewActionIcon}
-                                        icon={baselineDeleteOutline}
-                                    />
-                                </IconButton>
+                                {showEditIcon === true && viewMode === 'view' && (
+                                    <IconButton title="Edit" padding={3}>
+                                        <Icon
+                                            className={styles.previewActionIcon}
+                                            icon={baselineEdit}
+                                        />
+                                    </IconButton>
+                                )}
                             </div>
                             <div className={styles.previewWrapper}>
                                 {currentImage && (
@@ -194,75 +175,34 @@ export const ImageUploader = (props: IImageUploaderProps) => {
                             </div>
                             <div className={styles.imageStackWrapper}>
                                 <div className={styles.imageStackContainerWrapper}>
-                                    <div className={styles.imageStackContainer}>
-                                        {uploadProgress.map(({ url, id, progress }, index) => {
-                                            const { percentage } =
-                                                ImageUploaderService.getUploadProgressInfo(
-                                                    index,
-                                                    previousLoadedRef,
-                                                    progress,
-                                                );
-                                            return (
-                                                <div
-                                                    className={cn(styles.imageStackNode, {
-                                                        [styles.imageStackNodeActive]:
-                                                            index === previewImageIndex,
-                                                    })}
-                                                    key={id}
-                                                    onClick={onPreviewImageChange(index)}
-                                                >
-                                                    <img
-                                                        className={styles.imageStackImage}
-                                                        src={url}
-                                                        draggable={false}
-                                                    />
-                                                    {progress?.status === 'uploading' && (
-                                                        <div
-                                                            className={
-                                                                styles.imageStackProgressWrapper
-                                                            }
-                                                        >
-                                                            <CircularProgress
-                                                                radius={25}
-                                                                strokeWidth={3}
-                                                                labelSize={10}
-                                                                currentProgress={percentage}
-                                                                totalProgress={100}
-                                                            />
-                                                        </div>
-                                                    )}
-                                                    <Icon
-                                                        className={styles.imageStackNodeDeleteIcon}
-                                                        icon={closeCircle}
-                                                        onClick={onDeleteImage(index)}
-                                                    />
-                                                </div>
-                                            );
-                                        })}
-                                    </div>
-                                </div>
-                                <div
-                                    className={cn(styles.imageStackNode, styles.imageStackNodeAdd)}
-                                    role="button"
-                                    onClick={onAddButtonClick}
-                                >
-                                    <Icon
-                                        className={styles.stackNodeUploadIcon}
-                                        icon={baselineAdd}
+                                    <ImageUploaderImageStack
+                                        viewMode={viewMode}
+                                        content={content}
+                                        previewImageIndex={previewImageIndex}
+                                        onPreviewImageChange={onPreviewImageChange}
+                                        onDeleteImage={onDeleteImage}
                                     />
                                 </div>
+                                {viewMode === 'edit' && (
+                                    <div
+                                        className={cn(
+                                            styles.imageStackNode,
+                                            styles.imageStackNodeAdd,
+                                        )}
+                                        role="button"
+                                        onClick={onAddButtonClick}
+                                    >
+                                        <Icon
+                                            className={styles.stackNodeUploadIcon}
+                                            icon={baselineAdd}
+                                        />
+                                    </div>
+                                )}
                             </div>
                         </div>
                     )}
                 </div>
-                {!isIdle && isDragging && (
-                    <div className={styles.dropToUploadOverlay}>
-                        <div className={styles.dropToUploadText}>
-                            <Icon icon={baselineCloudUpload} className={cn(styles.uploadIcon)} />
-                            <span>Drop to Upload</span>
-                        </div>
-                    </div>
-                )}
+                {!isIdle && isDragging && <DropToUploadOverlay />}
             </div>
         </div>
     );

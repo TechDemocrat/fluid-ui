@@ -1,5 +1,5 @@
 import { MutableRefObject } from 'react';
-import { IUploadProgress, TAllowedFileTypes } from './ImageUploader.types';
+import { IImageUploaderContent, TAllowedFileTypes } from './ImageUploader.types';
 
 interface IUploadProgerssMeta {
     formattedTotal: string;
@@ -15,7 +15,7 @@ export class ImageUploaderService {
     static getUploadProgressInfo = (
         index: number,
         previousLoaded: MutableRefObject<number[]>,
-        progress: IUploadProgress['progress'],
+        progress: IImageUploaderContent['progress'],
     ): IUploadProgerssMeta => {
         const { status, loaded, total } = progress ?? { status: 'done', loaded: 0, total: 0 };
 
