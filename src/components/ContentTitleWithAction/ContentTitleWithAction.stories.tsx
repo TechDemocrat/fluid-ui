@@ -25,9 +25,7 @@ Default.args = {
     contentActionGroupOptions: {
         love: {
             active: true,
-            onClick: (e) => {
-                console.info(e);
-            },
+            onClick: () => {},
         },
         comment: {
             onClick: () => {},

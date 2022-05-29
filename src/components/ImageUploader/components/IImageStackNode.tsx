@@ -29,8 +29,6 @@ export const IImageStackNode = (props: IImageStackNodeProps) => {
         url: remoteUrl,
     };
 
-    console.log(progress);
-
     // paint
     return (
         <div

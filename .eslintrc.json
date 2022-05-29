@@ -35,6 +35,7 @@
             }
         ],
         "import/no-extraneous-dependencies": "off",
-        "import/named": "off"
+        "import/named": "off",
+        "no-console": ["error", { "allow": ["warn", "error"] }]
     }
 }
