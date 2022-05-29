@@ -63,6 +63,7 @@
             color: $color-foregroundSecondary;
             font-size: $fontsize-medium;
             font-weight: $fontweight-bold;
+            user-select: none;
         }
 
         .contentWrapper {
@@ -142,7 +143,6 @@
                     width: 100%;
                     height: 100%;
                     padding: 10px;
-                    cursor: zoom-in;
                     place-items: center;
                     user-select: none;
 
@@ -150,6 +150,7 @@
                         overflow: auto;
                         width: auto;
                         height: 100%;
+                        cursor: zoom-in;
                         user-select: none;
                     }
                 }
@@ -209,7 +210,7 @@
                         }
 
                         &.imageStackNodeActive {
-                            border: 2px dashed $color-primary;
+                            border: 2px solid $color-primary;
                         }
 
                         .stackNodeUploadIcon {
@@ -242,7 +243,7 @@
                             z-index: 2;
                             top: -5px;
                             right: -5px;
-                            color: $color-foregroundTertiary;
+                            color: $color-foregroundSecondary;
                             cursor: pointer;
                             font-size: 15px;
                             transform: scale(0.9);
@@ -251,6 +252,10 @@
                             &:hover {
                                 color: $color-foregroundSecondary;
                                 transform: scale(1);
+                            }
+
+                            &:active {
+                                transform: scale(0.9);
                             }
                         }
 

@@ -6,6 +6,7 @@
 
 // z-index
 $player-foreground-color: rgb(192 190 190);
+$z-index-player-core-controls: 4;
 
 .wrapper {
     position: relative;
@@ -31,6 +32,7 @@ $player-foreground-color: rgb(192 190 190);
             overflow: hidden;
             width: 100%;
             height: 100%;
+            border-radius: 2px;
 
             .photoViewerCoreImage {
                 position: absolute;
@@ -90,6 +92,13 @@ $player-foreground-color: rgb(192 190 190);
         padding: 5px 10px 10px;
         gap: 10px;
         grid-template-columns: auto 1fr auto;
+
+        &.floadingPhotoViewerControls {
+            position: absolute;
+            z-index: $z-index-player-core-controls;
+            bottom: 0;
+            left: 0;
+        }
 
         .photoViewerControlsActions {
             display: flex;

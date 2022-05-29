@@ -46,19 +46,28 @@ export const PhotoViewerControls = (props: IPhotoViewerControlsProps) => {
 
     // paint
     return (
-        <div className={styles.photoViewerControls} onClick={wrapperClickHandler}>
+        <div
+            className={cn(styles.photoViewerControls, {
+                [styles.floadingPhotoViewerControls]: sourceLength <= 1,
+            })}
+            onClick={wrapperClickHandler}
+        >
             <div
                 className={cn(styles.photoViewerControlsActions, {
                     [styles.photoViewerControlsActionsVisible]: showPlayerControls,
                 })}
             >
-                <PlayerPlayPause
-                    playPause={{ isPlaying, onClick: onPlayPauseClickHandler }}
-                    isReachedEnd={isReachedEnd}
-                />
-                <PlayerTimer current={currentSourceIndex + 1} total={sourceLength} />
+                {sourceLength > 1 && (
+                    <>
+                        <PlayerPlayPause
+                            playPause={{ isPlaying, onClick: onPlayPauseClickHandler }}
+                            isReachedEnd={isReachedEnd}
+                        />
+                        <PlayerTimer current={currentSourceIndex + 1} total={sourceLength} />
+                    </>
+                )}
             </div>
-            {children}
+            <div className={cn(styles.photoViewerControlsContent)}>{children}</div>
             <div
                 className={cn(styles.photoViewerControlsActions, {
                     [styles.photoViewerControlsActionsVisible]: showPlayerControls,
