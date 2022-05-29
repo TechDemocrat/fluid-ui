@@ -6,11 +6,11 @@ import { IPlayerControlsProps } from '../PlayerControls.types';
 import { baselineFullScreen, baselineFullScreenExit } from '../../../utilities/icons/iconify';
 import { useEventListener } from '../../../utilities/cutomHooks';
 
-interface IFullScreenControlsProps {
+interface IPlayerFullScreenControlsProps {
     fullScreen: IPlayerControlsProps['fullScreen'];
 }
 
-export const FullScreenControls = (props: IFullScreenControlsProps) => {
+export const PlayerFullScreenControls = (props: IPlayerFullScreenControlsProps) => {
     // props
     const {
         fullScreen: { isFullScreen: isFullScreen, isDisabled, onClick },
@@ -32,12 +32,14 @@ export const FullScreenControls = (props: IFullScreenControlsProps) => {
 
     // paint
     return (
-        <Icon
-            icon={currentIcon}
-            className={cn(styles.actionIcon, {
-                [styles.iconDisabled]: isDisabled,
-            })}
-            onClick={onClick}
-        />
+        <div>
+            <Icon
+                icon={currentIcon}
+                className={cn(styles.actionIcon, styles.fullScreenIcon, {
+                    [styles.iconDisabled]: isDisabled,
+                })}
+                onClick={onClick}
+            />
+        </div>
     );
 };

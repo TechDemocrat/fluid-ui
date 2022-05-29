@@ -13,4 +13,8 @@
         background-color: $color-backgroundTertiary;
         border-radius: 50%;
     }
+
+    &:active {
+        transform: scale(0.9);
+    }
 }

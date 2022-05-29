@@ -26,3 +26,4 @@ export { Comments } from './components/Comments/Comments';
 export { TextArea } from './components/TextArea/TextArea';
 export { ImageUploader } from './components/ImageUploader/ImageUploader';
 export { CircularProgress } from './components/CircularProgress/CircularProgress';
+export { PhotoViewer } from './components/PhotoViewer/PhotoViewer';

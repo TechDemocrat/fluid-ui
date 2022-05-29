@@ -27,15 +27,17 @@ type TSeekPosition = 'center' | 'left' | 'right';
 
 interface IPlayerAccessibilityLayerProps {
     actionType: TAccessibilityType;
-    seekSpeed: number;
     isLoading: boolean;
     isFullScreen: boolean;
     setActionType: Dispatch<TAccessibilityType>;
+    seekSpeed?: number | string;
+    seekSpeedFormatter?: (speed?: string | number) => string;
 }
 
 export const PlayerAccessibilityLayer = (props: IPlayerAccessibilityLayerProps) => {
     // props
-    const { actionType, isFullScreen, seekSpeed, isLoading, setActionType } = props;
+    const { actionType, isFullScreen, seekSpeed, isLoading, setActionType, seekSpeedFormatter } =
+        props;
 
     // locals
     const accessibilityIconTransitionTime = 400; // in milliseconds
@@ -70,14 +72,14 @@ export const PlayerAccessibilityLayer = (props: IPlayerAccessibilityLayerProps) 
                 return (
                     <div className={styles.accessibilitySeekIconWrapper}>
                         <Icon className={styles.accessibilityIcon} icon={baselineFastForward} />
-                        <span>{seekSpeed} sec</span>
+                        <span>{seekSpeedFormatter?.(seekSpeed) ?? `${seekSpeed} sec`}</span>
                     </div>
                 );
             case 'seekBackward':
                 return (
                     <div className={styles.accessibilitySeekIconWrapper}>
                         <Icon className={styles.accessibilityIcon} icon={baselineFastRewind} />
-                        <span>{seekSpeed} sec</span>
+                        <span>{seekSpeedFormatter?.(seekSpeed) ?? `${seekSpeed} sec`}</span>
                     </div>
                 );
             case 'volumeUp':
