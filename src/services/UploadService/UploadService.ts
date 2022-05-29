@@ -1,3 +1,4 @@
+import { uniqueId } from 'lodash';
 import {
     IUploadOptions,
     IUploadProgress,
@@ -79,13 +80,16 @@ export class UploadService {
     getUploadProgressData = (uploadId: string): IUploadProgress => {
         const uploadProgressMeta = this.progressMapping.get(uploadId);
         if (uploadProgressMeta) {
+            // progress percentage in range [0, 100]
+            const progressPercentage = Math.round(
+                (uploadProgressMeta.current / uploadProgressMeta.total) * 100,
+            );
             const progress: IUploadProgress = {
                 current: uploadProgressMeta.current,
-                progress: (uploadProgressMeta.current / uploadProgressMeta.total) * 100,
+                progress: progressPercentage,
                 status: uploadProgressMeta.status,
                 total: uploadProgressMeta.total,
-                localUrl: uploadProgressMeta.localUrl,
-                remoteUrl: uploadProgressMeta.remoteUrl,
+                url: uploadProgressMeta.url,
             };
             return progress;
         }
@@ -93,12 +97,12 @@ export class UploadService {
     };
 
     private addToqueue = (file: File, options: IUploadOptions): string => {
-        const uploadId = new Date().getTime().toString();
+        const uploadId = uniqueId();
         const uploadProgressMeta: IUploadserviceProgressMeta = {
             file,
             current: 0,
             total: file.size,
-            localUrl: URL.createObjectURL(file),
+            url: URL.createObjectURL(file),
             status: 'waiting',
             options,
             subscriptions: new Map(),
@@ -143,7 +147,7 @@ export class UploadService {
         const uploadProgressMeta = this.progressMapping.get(uploadId);
         if (uploadProgressMeta) {
             const uploadSpeed = uploadProgressMeta.options.simulateOptions?.uploadSpeed || 100;
-            const uploadRate = uploadProgressMeta.options.simulateOptions?.uploadRate || 100;
+            const uploadRate = uploadProgressMeta.options.simulateOptions?.uploadRate || 10000;
 
             uploadProgressMeta.simulationId = setInterval(() => {
                 if (uploadProgressMeta.current < uploadProgressMeta.total) {

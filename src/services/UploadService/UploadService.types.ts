@@ -5,10 +5,9 @@ export type TUploadProgressStatus = 'waiting' | 'uploading' | 'uploaded' | 'canc
 export interface IUploadProgress {
     progress: number;
     status: TUploadProgressStatus;
-    localUrl: string;
+    url: string;
     total: number;
     current: number;
-    remoteUrl?: string;
 }
 
 export type TUploadProgressSubscription = (progress: IUploadProgress) => void;
@@ -19,7 +18,7 @@ export interface IUploadserviceProgressMeta {
     total: number;
     status: TUploadProgressStatus;
     options: IUploadOptions;
-    localUrl: string;
+    url: string;
     /**
      * This will be set when an simulation is used,
      * particularly used for simulating the cancel upload to clearOut the interval
@@ -27,7 +26,6 @@ export interface IUploadserviceProgressMeta {
      * string - subscription id
      */
     subscriptions: Map<string, TUploadProgressSubscription>;
-    remoteUrl?: string;
     simulationId?: NodeJS.Timeout;
 }
 

@@ -2,24 +2,31 @@ import { useEffect, useMemo, useState } from 'react';
 import { UploadService } from '../../services/UploadService/UploadService';
 import { IUploadProgress } from '../../services/UploadService/UploadService.types';
 
-export const useUploadProgress = (uploadId: string): IUploadProgress => {
+export const useUploadProgress = (uploadId: string | undefined): IUploadProgress | undefined => {
     // refs
     const uploadService = useMemo(() => UploadService.getInstance(), []);
 
     // state
-    const [progress, setProgress] = useState<IUploadProgress>(
-        uploadService.getUploadProgressData(uploadId),
+    const initialState = useMemo(
+        () => (uploadId ? uploadService.getUploadProgressData(uploadId) : ({} as IUploadProgress)),
+        [uploadId, uploadService],
     );
+    const [progress, setProgress] = useState<IUploadProgress>(initialState);
 
     // effects
     useEffect(() => {
-        const subscriptionId = uploadService.subscribe(uploadId, (currentProgress) => {
-            setProgress(currentProgress);
-        });
+        let subscriptionId: string;
+        if (uploadId !== undefined) {
+            subscriptionId = uploadService.subscribe(uploadId, (currentProgress) => {
+                setProgress(currentProgress);
+            });
+        }
         return () => {
-            uploadService.unsubscribe(uploadId, subscriptionId);
+            if (uploadId !== undefined) {
+                uploadService.unsubscribe(uploadId, subscriptionId);
+            }
         };
     }, [uploadId, uploadService]);
 
-    return progress;
+    return uploadId ? progress : undefined;
 };

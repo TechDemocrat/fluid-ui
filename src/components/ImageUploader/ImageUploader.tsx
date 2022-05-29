@@ -10,7 +10,11 @@ import React, {
 } from 'react';
 import cn from 'classnames';
 
-import { IImageUploaderProps, IUploaderErrorMessage } from './ImageUploader.types';
+import {
+    IImageUploaderContent,
+    IImageUploaderProps,
+    IUploaderErrorMessage,
+} from './ImageUploader.types';
 import styles from './ImageUploader.module.scss';
 import { ImageUploaderService } from './ImageUploader.service';
 import { useIsMounted } from '../../utilities/cutomHooks';
@@ -20,13 +24,15 @@ import { baselineAdd, baselineEdit } from '../../utilities/icons/iconify';
 import { IconButton } from '../IconButton/IconButton';
 import { ImageUploaderImageStack } from './components/ImageUploaderImageStack';
 import { DropToUploadOverlay } from './components/DropToUploadOverlay';
+import { onImageLoadError } from '../../utilities';
+import { UploadService } from '../../services/UploadService/UploadService';
 
 export const ImageUploader = (props: IImageUploaderProps) => {
     // props
     const {
         label = 'Photo',
         allowMultiple = false,
-        content,
+        contents,
         viewMode,
         allowedFileTypes = [],
         showEditIcon = false,
@@ -112,22 +118,33 @@ export const ImageUploader = (props: IImageUploaderProps) => {
         setPreviewImageIndex(index);
     };
 
-    const onDeleteImage = (id: string) => (e: MouseEvent<SVGElement>) => {
+    const onDeleteImage = (content: IImageUploaderContent) => (e: MouseEvent<SVGElement>) => {
         e.preventDefault();
         e.stopPropagation();
-        onDelete?.(id);
+        onDelete?.(content);
     };
 
     // effects
     useEffect(() => {
-        if (previewImageIndex >= content.length || previewImageIndex < 0) {
-            setPreviewImageIndex(content.length - 1 || 0);
+        if (previewImageIndex >= contents.length || previewImageIndex < 0) {
+            setPreviewImageIndex(contents.length - 1 || 0);
         }
-    }, [content, previewImageIndex]);
+    }, [contents, previewImageIndex]);
 
     // compute
-    const isIdle = viewMode === 'edit' && content.length === 0;
-    const currentImage = content[previewImageIndex] ?? content[0];
+    const isIdle = viewMode === 'edit' && contents.length === 0;
+    const currentContent = useMemo(
+        () => contents[previewImageIndex] ?? contents[0],
+        [contents, previewImageIndex],
+    );
+    const currentImageUrl = useMemo(() => {
+        if (currentContent) {
+            return currentContent.type === 'remote'
+                ? currentContent.url
+                : UploadService.getInstance().getUploadProgressData(currentContent.id).url;
+        }
+        return '';
+    }, [currentContent]);
 
     // paint
     return (
@@ -164,20 +181,19 @@ export const ImageUploader = (props: IImageUploaderProps) => {
                                 )}
                             </div>
                             <div className={styles.previewWrapper}>
-                                {currentImage && (
-                                    <img
-                                        className={styles.previewImage}
-                                        src={currentImage.url}
-                                        alt="preview"
-                                        draggable={false}
-                                    />
-                                )}
+                                <img
+                                    className={styles.previewImage}
+                                    src={currentImageUrl}
+                                    alt="preview"
+                                    draggable={false}
+                                    onError={onImageLoadError}
+                                />
                             </div>
                             <div className={styles.imageStackWrapper}>
                                 <div className={styles.imageStackContainerWrapper}>
                                     <ImageUploaderImageStack
                                         viewMode={viewMode}
-                                        content={content}
+                                        contents={contents}
                                         previewImageIndex={previewImageIndex}
                                         onPreviewImageChange={onPreviewImageChange}
                                         onDeleteImage={onDeleteImage}

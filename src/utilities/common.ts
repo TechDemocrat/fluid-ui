@@ -1,3 +1,5 @@
+import { SyntheticEvent } from 'react';
+
 /**
  *
  * Simulate Network call delay while development
@@ -60,4 +62,9 @@ export const parseJSON = <T>(value: string | null): T | undefined => {
         console.error('parsing error on', { value });
         return undefined;
     }
+};
+
+// removes the broken image icon broken url
+export const onImageLoadError = (event: SyntheticEvent<HTMLImageElement, Event>) => {
+    event.currentTarget.style.display = 'none';
 };

@@ -4,23 +4,18 @@ export type TImageUploadStatus = 'uploading' | 'done';
 
 export interface IImageUploaderContent {
     /**
-     * timestamp will be added as id
+     * local is when the image uploader uploads the image to the server
+     * remote is when the image uploader gets the image from the server
+     *
+     * if type is local, progressId should be set to the id of the upload
+     */
+    type: 'remote' | 'local';
+    /**
+     * remote id is the id of the image on the server
+     * used to delete the image from the server
      **/
     id: string;
-    url: string;
-    /**
-     * uploaded at timestamp
-     */
-    uploadedAt?: string;
-    /**
-     * upload progress
-     */
-    progress?: {
-        status: TImageUploadStatus;
-        loaded: number;
-        total: number;
-        file: File;
-    };
+    url?: string;
 }
 
 export interface IImageUploaderProps {
@@ -31,7 +26,7 @@ export interface IImageUploaderProps {
     /**
      * should be passed when the status is 'uploading'
      */
-    content: IImageUploaderContent[];
+    contents: IImageUploaderContent[];
     /**
      * view mode
      */
@@ -58,7 +53,7 @@ export interface IImageUploaderProps {
      * on file add catch the file and tweak the status to uploading if it is valid
      * if type is not supported throught error toast from the parent component itself.
      */
-    onDelete?: (id: string) => void;
+    onDelete?: (content: IImageUploaderContent) => void;
 }
 
 export interface IUploaderErrorMessage {

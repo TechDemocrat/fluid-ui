@@ -1,8 +1,9 @@
-import React, { useRef, useState } from 'react';
+import React, { useState } from 'react';
 import { Story, Meta } from '@storybook/react';
 
 import { ImageUploader } from './ImageUploader';
 import { IImageUploaderProps, IImageUploaderContent } from './ImageUploader.types';
+import { UploadService } from '../../services/UploadService/UploadService';
 
 export default {
     title: 'fluid-ui/ImageUploader',
@@ -13,87 +14,24 @@ export default {
 // main story
 const Template: Story<IImageUploaderProps> = (args) => {
     // state
-    const [conent, setContent] = useState<IImageUploaderContent[]>([]);
+    const [contents, setContents] = useState<IImageUploaderContent[]>(args.contents ?? []);
 
-    // refs
-    const queue = useRef<IImageUploaderContent[]>([]);
-    const uploadServiceTimeoutRef = useRef<Record<string, NodeJS.Timer>>({});
-
-    const onDeleteHandler = (id: string) => {
-        clearInterval(uploadServiceTimeoutRef.current[id]);
-        delete uploadServiceTimeoutRef.current[id];
-        const currentUploadProgress = conent.filter((progress) => progress.id !== id);
-        setContent(currentUploadProgress);
-    };
-
-    const initiateUpload = (id: string, file: File) => {
-        const uploadSpeed = 1000; // in ms
-        const uploadRate = 10000; // bytes
-        const timer = setInterval(() => {
-            setContent((currentUploadProgress) => {
-                const newUploadProgress = [...currentUploadProgress];
-                const currentUploadProgressIndex = newUploadProgress.findIndex(
-                    (progress) => progress.id === id,
-                );
-                let status = newUploadProgress[currentUploadProgressIndex]?.progress?.status;
-                let loaded =
-                    (newUploadProgress[currentUploadProgressIndex]?.progress?.loaded ?? 0) +
-                    uploadRate;
-                loaded = loaded > file.size ? file.size : loaded;
-                if (loaded === file.size) {
-                    status = 'done';
-                    clearInterval(uploadServiceTimeoutRef.current[id]); // simulates the post request rejection
-                    delete uploadServiceTimeoutRef.current[id];
-                }
-                newUploadProgress[currentUploadProgressIndex] = {
-                    ...newUploadProgress[currentUploadProgressIndex],
-                    progress: {
-                        ...newUploadProgress[currentUploadProgressIndex].progress,
-                        status,
-                        loaded,
-                    } as IImageUploaderContent['progress'],
-                };
-                return newUploadProgress;
-            });
-        }, uploadSpeed);
-        uploadServiceTimeoutRef.current[id] = timer;
-    };
-
-    const processQueue = () => {
-        if (queue.current.length > 0) {
-            while (queue.current.length > 0) {
-                const currentUploadProgress = queue.current.shift();
-                if (currentUploadProgress?.id) {
-                    initiateUpload(
-                        currentUploadProgress.id ?? '',
-                        currentUploadProgress.progress?.file as File,
-                    );
-                }
-            }
+    const onDeleteHandler = (currentContent: IImageUploaderContent) => {
+        if (currentContent.type === 'local') {
+            setContents(contents.filter((content) => content.id !== currentContent.id));
+            if (currentContent.id) UploadService.getInstance().cancelUpload(currentContent.id);
+        } else {
+            // TODO: delete from cloud
         }
     };
 
     const onUploadHandler = (files: File[]) => {
-        const currentUploadProgress: IImageUploaderContent[] = [];
-        for (let i = 0; i < files.length; i++) {
-            const file = files[i];
-            const url = URL.createObjectURL(file);
-            const id = Date.now().toString();
-            currentUploadProgress.push({
-                url,
-                id,
-                uploadedAt: new Date().toISOString(),
-                progress: {
-                    status: 'uploading',
-                    loaded: 0,
-                    total: file.size,
-                    file,
-                },
-            });
-        }
-        setContent([...conent, ...currentUploadProgress]);
-        queue.current.push(...currentUploadProgress);
-        processQueue();
+        const uploadIds = UploadService.getInstance().upload(files, { simulate: true });
+        const newContents: IImageUploaderContent[] = uploadIds.map((uploadId) => ({
+            type: 'local',
+            id: uploadId,
+        }));
+        setContents([...contents, ...newContents]);
     };
 
     // paint
@@ -101,17 +39,45 @@ const Template: Story<IImageUploaderProps> = (args) => {
         <div style={{ width: 500, height: 'auto' }}>
             <ImageUploader
                 {...args}
-                content={conent}
+                contents={contents}
                 onUpload={onUploadHandler}
                 onDelete={onDeleteHandler}
                 allowMultiple
-                viewMode="edit"
             />
         </div>
     );
 };
 
-export const Default = Template.bind({});
-Default.args = {
+export const EditMode = Template.bind({});
+EditMode.args = {
     allowedFileTypes: ['image/*'],
+    viewMode: 'edit',
+} as IImageUploaderProps;
+
+export const ViewMode = Template.bind({});
+ViewMode.args = {
+    allowedFileTypes: ['image/*'],
+    contents: [
+        {
+            id: 'https://upload.wikimedia.org/wikipedia/en/thumb/b/b4/Shape_Of_You_%28Official_Single_Cover%29_by_Ed_Sheeran.png/220px-Shape_Of_You_%28Official_Single_Cover%29_by_Ed_Sheeran.png',
+            url: 'https://upload.wikimedia.org/wikipedia/en/thumb/b/b4/Shape_Of_You_%28Official_Single_Cover%29_by_Ed_Sheeran.png/220px-Shape_Of_You_%28Official_Single_Cover%29_by_Ed_Sheeran.png',
+            type: 'remote',
+        },
+        {
+            id: 'https://picsum.photos/1240/720?random=1',
+            url: 'https://picsum.photos/1240/720?random=1',
+            type: 'remote',
+        },
+        {
+            id: 'https://picsum.photos/400/300?random=2',
+            url: 'https://picsum.photos/400/300?random=2',
+            type: 'remote',
+        },
+        {
+            id: 'https://picsum.photos/200/300?random=3',
+            url: 'https://picsum.photos/200/300?random=3',
+            type: 'remote',
+        },
+    ],
+    viewMode: 'view',
 } as IImageUploaderProps;
