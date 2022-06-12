@@ -32,7 +32,7 @@
     border-radius: 4px;
 
     &:hover {
-        outline: 1px solid $color-foregroundTertiary;
+        background: var(--color-backgroundSecondaryDark);
     }
 }
 
@@ -51,7 +51,8 @@
 }
 
 .input:focus {
-    outline: 1px solid $color-foregroundTertiary;
+    background: var(--color-backgroundSecondaryDark);
+    outline: none;
 }
 
 input:focus::placeholder {
