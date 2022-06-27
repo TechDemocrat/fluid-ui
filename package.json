@@ -1,6 +1,6 @@
 {
     "name": "@creators-view/fluid-ui",
-    "version": "0.1.1",
+    "version": "0.1.2",
     "description": "Fluid UI components for all your products.",
     "main": "dist/cjs/index.js",
     "module": "dist/esm/index.js",
@@ -8,6 +8,7 @@
     "author": "ThayalanGR <grthayalan18@gmail.com>",
     "license": "MIT",
     "private": false,
+    "types": "dist/index.d.ts",
     "scripts": {
         "dev": "npm-run-all --parallel lint:watch watch",
         "watch": "rollup -c --watch",
