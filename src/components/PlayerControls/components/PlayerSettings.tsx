@@ -2,7 +2,7 @@ import React from 'react';
 import cn from 'classnames';
 import { Icon } from '@iconify/react';
 import styles from '../PlayerControls.module.scss';
-import { baselineSettings } from '../../../utilities/icons/iconify';
+import { baselineSettings } from '../../../assets/icons/iconify';
 import { IPlayerControlsProps } from '../PlayerControls.types';
 
 export const PlayerSettings = (props: IPlayerControlsProps['settings']) => {

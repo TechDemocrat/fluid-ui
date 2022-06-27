@@ -4,7 +4,7 @@ import typescript from '@rollup/plugin-typescript';
 import dts from 'rollup-plugin-dts';
 import { terser } from 'rollup-plugin-terser';
 import peerDepsExternal from 'rollup-plugin-peer-deps-external';
-import postCss from 'rollup-plugin-postcss';
+import postcss from 'rollup-plugin-postcss';
 
 import packageJSON from './package.json';
 import tsConfigJSON from './tsconfig.json';
@@ -25,10 +25,11 @@ const rollupOptions = [
             },
         ],
         plugins: [
-            postCss({
+            peerDepsExternal(),
+            postcss({
+                minimize: true,
                 modules: true,
             }),
-            peerDepsExternal(),
             resolve(),
             commonjs(),
             typescript({
@@ -48,6 +49,7 @@ const rollupOptions = [
                 format: 'esm',
             },
         ],
+        external: [/\.scss$/], // ignore .scss file
         plugins: [dts()],
     },
 ];

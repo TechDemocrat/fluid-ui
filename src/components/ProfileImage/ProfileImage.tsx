@@ -4,7 +4,7 @@ import cn from 'classnames';
 import { IProfileImageProps } from './ProfileImage.types';
 import styles from './ProfileImage.module.scss';
 import { Icon } from '@iconify/react';
-import { account } from '../../utilities/icons/iconify';
+import { account } from '../../assets/icons/iconify';
 
 export const ProfileImage = (props: IProfileImageProps) => {
     // props

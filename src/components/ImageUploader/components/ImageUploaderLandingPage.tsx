@@ -1,6 +1,6 @@
 import React, { DragEvent, forwardRef, RefObject, useMemo } from 'react';
 import cn from 'classnames';
-import { baselineCloudUpload, error as errorIcon } from '../../../utilities/icons/iconify';
+import { baselineCloudUpload, error as errorIcon } from '../../../assets/icons/iconify';
 import { Icon } from '@iconify/react';
 import styles from '../ImageUploader.module.scss';
 import { Button } from '../../Button/Button';

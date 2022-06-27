@@ -1,5 +1,5 @@
-import React, { createContext, ReactElement, useContext, useEffect, useRef, useState } from 'react';
 import '../../styles/core.scss';
+import React, { createContext, ReactElement, useContext, useEffect, useRef, useState } from 'react';
 import { IThemeColors, IThemeFontSizes, ITheme, IThemeProviderProps } from './ThemeProvider.types';
 import { ThemeProviderService } from './ThemeProvider.service';
 import { isEqual } from 'lodash';

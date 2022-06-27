@@ -3,8 +3,8 @@ import cn from 'classnames';
 import styles from '../PlayerControls.module.scss';
 import { Icon } from '@iconify/react';
 import { IPlayerControlsProps } from '../PlayerControls.types';
-import { baselineFullScreen, baselineFullScreenExit } from '../../../utilities/icons/iconify';
-import { useEventListener } from '../../../utilities/cutomHooks';
+import { baselineFullScreen, baselineFullScreenExit } from '../../../assets/icons/iconify';
+import { useEventListener } from '../../../hooks';
 
 interface IPlayerFullScreenControlsProps {
     fullScreen: IPlayerControlsProps['fullScreen'];

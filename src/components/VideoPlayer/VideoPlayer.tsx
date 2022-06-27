@@ -5,17 +5,12 @@ import styles from './VideoPlayer.module.scss';
 import { IVideoPlayerProps, TVolumeHandlerType } from './VideoPlayer.types';
 import { PlayerControls } from '../PlayerControls/PlayerControls';
 import { IPlayerControlsProps, TvolumeState } from '../PlayerControls/PlayerControls.types';
-import {
-    useClickHandler,
-    useIsKeyboardIdle,
-    useIsMouseIdle,
-    useLocalStorage,
-} from '../../utilities/cutomHooks';
 import { VideoPlayerService } from './VideoPlayer.service';
 import { FullScreenVideoTitleWithAction } from './components/FullScreenVideoTitleWithAction';
 import { UnderlayGradientContainer } from './components/UnderlayGradientContainer';
 import { PlayerAccessibilityLayer, TAccessibilityType } from './components/PlayerAccesibilityLayer';
 import { PlayerControlsService } from '../PlayerControls/PlayerControls.service';
+import { useClickHandler, useIsKeyboardIdle, useIsMouseIdle, useLocalStorage } from '../../hooks';
 
 export const VideoPlayer = (props: IVideoPlayerProps) => {
     // props

@@ -13,7 +13,7 @@
         "emitDeclarationOnly": true,
         "allowSyntheticDefaultImports": true,
         "forceConsistentCasingInFileNames": true,
-        "downlevelIteration": true,
+        "downlevelIteration": true
     },
     "include": ["src/**/*"],
     "exclude": ["dist", "node_modules"]

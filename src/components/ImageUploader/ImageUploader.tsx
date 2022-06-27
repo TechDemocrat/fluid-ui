@@ -17,15 +17,15 @@ import {
 } from './ImageUploader.types';
 import styles from './ImageUploader.module.scss';
 import { ImageUploaderService } from './ImageUploader.service';
-import { useIsMounted } from '../../utilities/cutomHooks';
 import { ImageUploaderLandingPage } from './components/ImageUploaderLandingPage';
 import { Icon } from '@iconify/react';
-import { baselineAdd, baselineEdit } from '../../utilities/icons/iconify';
+import { baselineAdd, baselineEdit } from '../../assets/icons/iconify';
 import { IconButton } from '../IconButton/IconButton';
 import { ImageUploaderImageStack } from './components/ImageUploaderImageStack';
 import { DropToUploadOverlay } from './components/DropToUploadOverlay';
 import { onImageLoadError } from '../../utilities';
 import { UploadService } from '../../services/UploadService/UploadService';
+import { useIsMounted } from '../../hooks';
 
 export const ImageUploader = (props: IImageUploaderProps) => {
     // props

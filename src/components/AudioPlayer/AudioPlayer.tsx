@@ -7,12 +7,7 @@ import { AudioPlayerPoster } from './components/AudioPlayerPoster';
 import { IAudioPlayerProps } from './AudioPlayer.types';
 import { PlayerControls } from '../PlayerControls/PlayerControls';
 import { IPlayerControlsProps, TvolumeState } from '../PlayerControls/PlayerControls.types';
-import {
-    useClickHandler,
-    useIsKeyboardIdle,
-    useIsMouseIdle,
-    useLocalStorage,
-} from '../../utilities/cutomHooks';
+
 import { PlayerControlsService } from '../PlayerControls/PlayerControls.service';
 import {
     PlayerAccessibilityLayer,
@@ -21,6 +16,7 @@ import {
 import { VideoPlayerService } from '../VideoPlayer/VideoPlayer.service';
 import { TVolumeHandlerType } from '../VideoPlayer/VideoPlayer.types';
 import { UnderlayGradientContainer } from '../VideoPlayer/components/UnderlayGradientContainer';
+import { useLocalStorage, useIsMouseIdle, useIsKeyboardIdle, useClickHandler } from '../../hooks';
 
 export const AudioPlayer = (props: IAudioPlayerProps) => {
     // props

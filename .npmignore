@@ -14,4 +14,4 @@ src
 src/**/**/*.module.scss
 
 # only allow .scss files, so the parent project will consume them throught dist
-!src/**/**/*.scss
+!src/styles/**/*.scss

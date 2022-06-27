@@ -1,7 +1,7 @@
 import React from 'react';
 import styles from '../ImageUploader.module.scss';
 import { Icon } from '@iconify/react';
-import { baselineCloudUpload } from '../../../utilities/icons/iconify';
+import { baselineCloudUpload } from '../../../assets/icons/iconify';
 
 export const DropToUploadOverlay = () => {
     return (

@@ -2,10 +2,10 @@ import React from 'react';
 import cn from 'classnames';
 import { IImageUploaderContent, IImageUploaderProps } from '../ImageUploader.types';
 import styles from '../ImageUploader.module.scss';
-import { useUploadProgress } from '../../../utilities/cutomHooks/useUploadProgress';
 import { CircularProgress } from '../../CircularProgress/CircularProgress';
 import { Icon } from '@iconify/react';
-import { closeCircle } from '../../../utilities/icons/iconify';
+import { closeCircle } from '../../../assets/icons/iconify';
+import { useUploadProgress } from '../../../hooks/useUploadProgress';
 
 interface IImageStackNodeProps {
     content: IImageUploaderContent;

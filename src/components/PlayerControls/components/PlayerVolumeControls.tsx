@@ -4,8 +4,8 @@ import { Icon } from '@iconify/react';
 import styles from '../PlayerControls.module.scss';
 import { IPlayerControlsProps } from '../PlayerControls.types';
 import { PlayerControlsService } from '../PlayerControls.service';
-import { useEventListener } from '../../../utilities/cutomHooks';
 import { TAccessibilityType } from '../../VideoPlayer/components/PlayerAccesibilityLayer';
+import { useEventListener } from '../../../hooks';
 
 interface IPlayerVolumeControlsProps {
     volume: IPlayerControlsProps['volume'];

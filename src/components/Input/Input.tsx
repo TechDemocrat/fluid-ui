@@ -5,7 +5,7 @@ import { EInputSize, EInputType, IInputProps } from './Input.types';
 import styles from './Input.module.scss';
 import { InputService } from './Input.service';
 import { Icon } from '@iconify/react';
-import { check, error } from '../../utilities/icons/iconify';
+import { check, error } from '../../assets/icons/iconify';
 import { useTheme } from '../ThemeProvider/ThemeProvider';
 
 export const Input = (props: IInputProps) => {

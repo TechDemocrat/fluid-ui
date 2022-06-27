@@ -5,7 +5,7 @@ import {
     baselineVolumeDown,
     baselineVolumeOff,
     baselineVolumeUp,
-} from '../../utilities/icons/iconify';
+} from '../../assets/icons/iconify';
 import { IPlayerControlsProps, TvolumeState } from './PlayerControls.types';
 
 export class PlayerControlsService {

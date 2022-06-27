@@ -8,18 +8,12 @@ import {
     PlayerAccessibilityLayer,
     TAccessibilityType,
 } from '../VideoPlayer/components/PlayerAccesibilityLayer';
-import {
-    useClickHandler,
-    useEventListener,
-    useIsMouseIdle,
-    useProgressTimer,
-} from '../../utilities/cutomHooks';
 import { PhotoViewerControls } from './components/PhotoViewerControls';
 import { PhotoViewerCore } from './components/PhotoViewerCore';
 import { PhotoViewerStack } from './components/PhotoViewerStack';
 import { FullScreenVideoTitleWithAction } from '../VideoPlayer/components/FullScreenVideoTitleWithAction';
 import { UnderlayGradientContainer } from '../VideoPlayer/components/UnderlayGradientContainer';
-// import { PhotoViewerService } from './PhotoViewer.service';
+import { useClickHandler, useEventListener, useIsMouseIdle, useProgressTimer } from '../../hooks';
 
 export const PhotoViewer = (props: IPhotoViewerProps) => {
     // props

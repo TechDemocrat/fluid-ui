@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useState } from 'react';
-import { UploadService } from '../../services/UploadService/UploadService';
-import { IUploadProgress } from '../../services/UploadService/UploadService.types';
+import { UploadService } from '../services/UploadService/UploadService';
+import { IUploadProgress } from '../services/UploadService/UploadService.types';
 
 export const useUploadProgress = (uploadId: string | undefined): IUploadProgress | undefined => {
     // refs

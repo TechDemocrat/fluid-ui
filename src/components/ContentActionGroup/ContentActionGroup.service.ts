@@ -1,6 +1,6 @@
 import { MouseEventHandler } from 'react';
 import { IconifyIcon } from '@iconify/types';
-import { comment, heart, heartOutline, reply, share } from '../../utilities/icons/iconify';
+import { comment, heart, heartOutline, reply, share } from '../../assets/icons/iconify';
 import { IContentActionGroupOptions } from './ContentActionGroup.types';
 
 interface IContentAction {

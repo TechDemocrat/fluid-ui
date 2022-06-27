@@ -1,6 +1,6 @@
 import styles from './Toast.module.scss';
 import { IToastLists, IToastProps } from './Toast.types';
-import { check, info, warning, error } from '../../utilities/icons/iconify';
+import { check, info, warning, error } from '../../assets/icons/iconify';
 
 export class ToastService {
     // actions goes here

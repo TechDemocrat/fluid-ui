@@ -11,13 +11,13 @@ import cn from 'classnames';
 import { IContentUploaderProps } from './ContentUploader.types';
 import styles from './ContentUploader.module.scss';
 import { Icon } from '@iconify/react';
-import { baselineCloudUpload, close, error as errorIcon } from '../../utilities/icons/iconify';
+import { baselineCloudUpload, close, error as errorIcon } from '../../assets/icons/iconify';
 import { Button } from '../Button/Button';
 import { Spinner } from '../Spinner/Spinner';
 import { IconButton } from '../IconButton/IconButton';
 import { TimeFromNow } from '../TimeFromNow/TimeFromNow';
 import { ContentUploaderService } from './ContentUploader.service';
-import { useIsMounted } from '../../utilities/cutomHooks';
+import { useIsMounted } from '../../hooks';
 
 export const ContentUploader = (props: IContentUploaderProps) => {
     // props

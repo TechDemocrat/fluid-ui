@@ -3,7 +3,7 @@ import cn from 'classnames';
 import styles from '../PhotoViewer.module.scss';
 import { IPhotoViewerProps } from '../PhotoViewer.types';
 import { Icon } from '@iconify/react';
-import { baselineChevronLeft, baselineChevronRight } from '../../../utilities/icons/iconify';
+import { baselineChevronLeft, baselineChevronRight } from '../../../assets/icons/iconify';
 
 interface IPhotoViewerCoreProps {
     source: IPhotoViewerProps['source'];

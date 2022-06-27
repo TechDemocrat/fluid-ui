@@ -10,7 +10,7 @@ import {
     baselineVolumeDown,
     baselineVolumeOff,
     baselineVolumeUp,
-} from '../../../utilities/icons/iconify';
+} from '../../../assets/icons/iconify';
 import { Spinner } from '../../Spinner/Spinner';
 
 export type TAccessibilityType =

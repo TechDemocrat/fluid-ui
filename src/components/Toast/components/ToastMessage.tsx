@@ -4,7 +4,7 @@ import { Card } from '../../Card/Card';
 import { IconButton } from '../../IconButton/IconButton';
 import { Icon } from '@iconify/react';
 import styles from '../Toast.module.scss';
-import { close as closeIcon } from '../../../utilities/icons/iconify';
+import { close as closeIcon } from '../../../assets/icons/iconify';
 import cn from 'classnames';
 import { ToastService } from '../Toast.service';
 import { IToastMessageProps } from '../Toast.types';

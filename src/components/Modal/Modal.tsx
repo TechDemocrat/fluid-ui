@@ -4,7 +4,7 @@ import cn from 'classnames';
 import { IModalProps } from './Modal.types';
 import styles from './Modal.module.scss';
 import { ModalService } from './Modal.service';
-import { close } from '../../utilities/icons/iconify';
+import { close } from '../../assets/icons/iconify';
 import { Icon } from '@iconify/react';
 import { IconButton } from '../IconButton/IconButton';
 

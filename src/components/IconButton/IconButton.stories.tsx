@@ -4,7 +4,7 @@ import { Story, Meta } from '@storybook/react';
 import { IconButton } from './IconButton';
 import { IIconButton } from './IconButton.types';
 import { Icon } from '@iconify/react';
-import { account } from '../../utilities/icons/iconify';
+import { account } from '../../assets/icons/iconify';
 
 export default {
     title: 'fluid-ui/IconButton',

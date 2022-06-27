@@ -2,9 +2,9 @@ import React from 'react';
 import cn from 'classnames';
 import { Icon } from '@iconify/react';
 import styles from '../PlayerControls.module.scss';
-import { baselinePlayArrow, baselinePause, baselineReplay } from '../../../utilities/icons/iconify';
+import { baselinePlayArrow, baselinePause, baselineReplay } from '../../../assets/icons/iconify';
 import { IPlayerControlsProps } from '../PlayerControls.types';
-import { useEventListener } from '../../../utilities/cutomHooks';
+import { useEventListener } from '../../../hooks';
 
 export const PlayerPlayPause = (props: {
     playPause: IPlayerControlsProps['playPause'];

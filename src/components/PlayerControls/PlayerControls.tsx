@@ -11,14 +11,14 @@ import {
     baselineSkipPrevious,
     baselineSkipNext,
     baselineClosedCaption,
-} from '../../utilities/icons/iconify';
+} from '../../assets/icons/iconify';
 import { PlayerVolumeControls } from './components/PlayerVolumeControls';
 import { PlayerPlayPause } from './components/PlayerPlayPause';
 import { PlayerFullScreenControls } from './components/PlayerFullScreenControls';
 import { PlayerTimer } from './components/PlayerTimer';
 import { PlayerProgressBar } from './components/PlayerProgressBar';
-import { useEventListener } from '../../utilities/cutomHooks';
 import { PlayerSettings } from './components/PlayerSettings';
+import { useEventListener } from '../../hooks';
 
 export const PlayerControls = (props: IPlayerControlsProps) => {
     // props
