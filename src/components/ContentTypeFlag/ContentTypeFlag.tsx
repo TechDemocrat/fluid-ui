@@ -3,9 +3,12 @@ import cn from 'classnames';
 import { Icon } from '@iconify/react';
 
 import styles from './ContentTypeFlag.module.scss';
-import { IContentTypeFlagProps } from './ContentTypeFlag.types';
+import { EContentType, IContentTypeFlagProps } from './ContentTypeFlag.types';
 import { ContentTypeFlagService } from './ContentTypeFlag.service';
 import { useTheme } from '../ThemeProvider/ThemeProvider';
+
+// export types
+export { EContentType };
 
 export const ContentTypeFlag = (props: IContentTypeFlagProps) => {
     // props

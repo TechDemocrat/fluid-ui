@@ -1,7 +1,6 @@
 import { Dispatch, SetStateAction, useCallback, useEffect, useState } from 'react';
 import { parseJSON } from '../utilities';
-
-import { useEventListener } from '.';
+import { useEventListener } from './useEventListener';
 
 declare global {
     interface WindowEventMap {

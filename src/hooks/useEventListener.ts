@@ -1,6 +1,5 @@
 import { RefObject, useEffect, useRef } from 'react';
-
-import { useIsomorphicLayoutEffect } from '.';
+import { useIsomorphicLayoutEffect } from './useIsomorphicLayoutEffect';
 
 // types
 // function overloading for different types of event emitter
