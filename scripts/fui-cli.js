@@ -1,5 +1,5 @@
 /**
- * CC - CLI
+ * FUI - CLI
  * @param {string} componentName - name of the component to be created
  * --delete - deletes the component
  * --rename - renames the component with the new name
@@ -11,10 +11,10 @@ const fs = require('fs');
 const exec = require('child_process').exec;
 
 // essentials
-const templateName = 'TemplateComponent';
-const indexEntryTemplate = `export { TemplateComponent } from './components/TemplateComponent/TemplateComponent';`;
+const templateName = 'Template';
+const indexEntryTemplate = `export { Template } from './components/Template/Template';`;
 const componentsDirectory = path.resolve(__dirname, '../src/components');
-const templateDirectory = path.resolve(componentsDirectory, `./_${templateName}`);
+const templateDirectory = path.resolve(componentsDirectory, `./${templateName}`);
 const exportIndexDirectory = path.resolve(__dirname, '../src/index.ts');
 
 // handlers
@@ -47,16 +47,16 @@ const createComponent = (componentName) => {
         process.exit(1);
     }
 
-    // create a folder in the componentsDirctory with the name componentName
+    // create a folder in the componentsDirectory with the name componentName
     const componentToBeCreatedDirectory = path.resolve(componentsDirectory, componentName);
 
-    // create a folder in the componentsDirctory with the name componentName
+    // create a folder in the componentsDirectory with the name componentName
     fs.mkdirSync(componentToBeCreatedDirectory);
 
     // read all files from the templateDirectory
     const templateFiles = fs.readdirSync(templateDirectory);
 
-    // iterate over template files and replace any string named with all the occurence of
+    // iterate over template files and replace any string named with all the occurrence of
     // templateName with the name of the componentName and create the file to the componentToBeCreatedDirectory with the componentName name
     const templateNameRegExp = new RegExp(templateName, 'g');
     templateFiles.forEach((templateFile) => {
@@ -74,7 +74,7 @@ const createComponent = (componentName) => {
     const indexEntry = indexEntryTemplate.replace(templateNameRegExp, componentName);
     const indexFileContent = fs.readFileSync(exportIndexDirectory, 'utf8');
 
-    // insert indexEntry at atlast index of the indexFileContent
+    // insert indexEntry at last index of the indexFileContent
     const newIndexFileContent = indexFileContent.replace(/\n$/, `\n${indexEntry}\n`);
     fs.writeFileSync(exportIndexDirectory, newIndexFileContent);
 
