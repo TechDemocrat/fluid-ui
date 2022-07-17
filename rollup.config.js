@@ -1,16 +1,18 @@
 import resolve from '@rollup/plugin-node-resolve';
 import commonjs from '@rollup/plugin-commonjs';
 import typescript from '@rollup/plugin-typescript';
-import { terser } from 'rollup-plugin-terser';
+// import { terser } from 'rollup-plugin-terser'; // enable on production
 import externals from 'rollup-plugin-node-externals';
 import postcss from 'rollup-plugin-postcss';
 import visualizer from 'rollup-plugin-visualizer';
 import renameNodeModules from 'rollup-plugin-rename-node-modules';
+import cleaner from 'rollup-plugin-cleaner';
 
 import tsConfigJSON from './tsconfig.json';
 import { getFiles } from './scripts/getFiles';
 
 const plugins = [
+    cleaner({ targets: ['dist'] }),
     externals({
         deps: false,
     }),
@@ -27,7 +29,7 @@ const plugins = [
         minimize: true,
         modules: true,
     }),
-    terser(),
+    // terser(),
     renameNodeModules('ext'),
     visualizer({
         filename: 'bundle-analysis.html',
@@ -35,26 +37,20 @@ const plugins = [
     }),
 ];
 
+const inputFiles = ['src/components', 'src/hooks', 'src/utilities'].reduce((result, current) => {
+    result.push(
+        ...getFiles(current, {
+            extensions: ['.tsx', '.ts'],
+            excludeExtensions: ['.stories.tsx', 'TemplateComponent.tsx', '.d.ts'],
+            nestedLookup: 2,
+        }),
+    );
+    return result;
+}, []);
+
 export default [
     {
-        input: [
-            'src/index.ts',
-            ...getFiles('src/components', {
-                extensions: ['.tsx'],
-                excludeExtensions: ['.stories.tsx', 'TemplateComponent.tsx'],
-                nestedLookup: 2,
-            }),
-            ...getFiles('src/hooks', {
-                extensions: ['.tsx', '.ts'],
-                excludeExtensions: ['.stories.tsx', 'TemplateComponent.tsx'],
-                nestedLookup: 2,
-            }),
-            ...getFiles('src/utilities', {
-                extensions: ['.tsx', '.ts'],
-                excludeExtensions: ['.stories.tsx', 'TemplateComponent.tsx'],
-                nestedLookup: 2,
-            }),
-        ],
+        input: inputFiles,
         output: [
             {
                 dir: 'dist',
