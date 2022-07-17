@@ -16,7 +16,9 @@ Fluid UI components for all your products.
 
 ---
 
-## Development
+## Developer Guide
+
+Works seamlessly with the [cv-workspaces](https://github.com/CreatorsView/cv-workspaces).
 
 ### [fui-cli](https://github.com/CreatorsView/fluid-ui/blob/main/scripts/fui-cli.js)
 
