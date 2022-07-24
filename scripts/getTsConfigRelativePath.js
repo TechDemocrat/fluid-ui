@@ -26,7 +26,12 @@ const currentProcessNestedPath = fs.realpathSync(currentProcessPath).replace(rea
 const rootDirMaintainingSymlinks = currentProcessPath.replace(currentProcessNestedPath, '');
 
 // Final constant for use in other files
-export const rootDir = rootDirMaintainingSymlinks;
+const rootDir = rootDirMaintainingSymlinks;
 
 // Now to resolve the tsconfig.json
-export const tsconfigPath = path.resolve(rootDir, 'tsconfig.json');
+const tsconfigPath = path.resolve(rootDir, 'tsconfig.json');
+
+module.exports = {
+    rootDir,
+    tsconfigPath,
+};

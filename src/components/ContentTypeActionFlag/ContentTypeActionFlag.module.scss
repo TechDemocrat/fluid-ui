@@ -1,0 +1,29 @@
+@import "../../styles/fontSizes";
+@import "../../styles/colors";
+@import "../../styles/fontWeights";
+@import "../../styles/mixins";
+@import "../../styles/mediaQueries";
+
+.wrapper {
+    display: flex;
+    width: min-content;
+    width: 160px;
+    height: 110px;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    border-radius: 5px;
+    color: $color-foregroundPrimaryLight;
+    cursor: default;
+    cursor: pointer;
+    font-size: $fontsize-medium;
+    font-weight: $fontweight-semibold;
+    user-select: none;
+
+    @include hover-dim-effect;
+    @include click-effect;
+
+    .icon {
+        font-size: calc($fontsize-medium * 4);
+    }
+}

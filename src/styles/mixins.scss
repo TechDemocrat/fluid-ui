@@ -14,3 +14,17 @@
     pointer-events: none;
     user-select: none;
 }
+
+@mixin hover-dim-effect {
+    &:hover {
+        background-image: linear-gradient(rgb(0 0 0 / 10%) 0 0);
+    }
+}
+
+@mixin click-effect {
+    transform: scale(1);
+
+    &:active {
+        transform: scale(0.95);
+    }
+}
