@@ -7,8 +7,13 @@
     // words - list of words to be always considered correct
     "words": [
         "chromaui",
+        "fontsize",
+        "fontweight",
         "hte",
+        "linebreak",
+        "semibold",
         "uuidv",
+        "Videocam",
         "yxxx"
     ],
     // flagWords - list of words to be always considered incorrect

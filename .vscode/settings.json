@@ -1,8 +1,8 @@
 {
-  "editor.formatOnSave": true,
-  "editor.codeActionsOnSave": {
-    "source.fixAll": true
-  },
-  "stylelint.enable": true,
-  "stylelint.validate": ["css", "scss"]
+    "editor.formatOnSave": true,
+    "editor.codeActionsOnSave": {
+        "source.fixAll": true
+    },
+    "stylelint.enable": true,
+    "stylelint.validate": ["css", "scss"]
 }
