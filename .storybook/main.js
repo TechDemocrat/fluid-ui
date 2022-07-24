@@ -10,40 +10,16 @@ const getStories = () =>
 
 module.exports = {
     stories: async (list) => [...list, ...getStories()],
+    /** Expose public folder to storybook as static */
+    staticDirs: ['../public'],
     addons: [
         '@storybook/addon-links',
         '@storybook/addon-essentials',
         '@storybook/addon-interactions',
+        '@storybook/preset-scss',
     ],
-    features: {
-        postcss: false,
-    },
     framework: '@storybook/react',
-    webpackFinal: async (config, { configType }) => {
-        config.module.rules.push({
-            test: /\.(css|scss)$/,
-            use: [
-                'style-loader',
-                {
-                    loader: 'css-loader',
-                    options: {
-                        importLoaders: 1,
-                        modules: {
-                            localIdentName: '[name]__[local]___[hash:base64:5]',
-                        },
-                    },
-                },
-                'sass-loader',
-            ],
-            include: /\.module\.(css|scss)$/,
-        });
-        config.module.rules.push({
-            test: /\.(css|scss)$/,
-            use: ['style-loader', 'css-loader', 'sass-loader'],
-            exclude: /\.module\.(css|scss)$/,
-        });
-
-        // Return the altered config
-        return config;
+    core: {
+        builder: '@storybook/builder-webpack5',
     },
 };
