@@ -27,3 +27,4 @@ export * from './components/PhotoViewer/PhotoViewer';
 export * from './components/Toast/Toast';
 export * from './components/BlogEditor/BlogEditor';
 export * from './components/BlogViewer/BlogViewer';
+export * from './components/ContentTypeActionFlag/ContentTypeActionFlag';
