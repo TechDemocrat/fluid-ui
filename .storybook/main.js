@@ -10,8 +10,6 @@ const getStories = () =>
 
 module.exports = {
     stories: async (list) => [...list, ...getStories()],
-    /** Expose public folder to storybook as static */
-    staticDirs: ['../public'],
     addons: [
         '@storybook/addon-links',
         '@storybook/addon-essentials',
