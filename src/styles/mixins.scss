@@ -28,3 +28,11 @@
         transform: scale(0.95);
     }
 }
+
+@mixin override-click-effect {
+    transform: scale(1);
+
+    &:active {
+        transform: scale(1);
+    }
+}
