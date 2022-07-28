@@ -6,3 +6,4 @@ export * from './useClickHandler';
 export * from './useIsMouseIdle';
 export * from './useIsKeyboardIdle';
 export * from './useProgressTimer';
+export * from './useElementSize';
