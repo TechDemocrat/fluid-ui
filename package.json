@@ -9,7 +9,7 @@
     "private": false,
     "types": "dist",
     "scripts": {
-        "dev": "npm-run-all --parallel lint:watch watch",
+        "dev": "npm-run-all --parallel storybook:standalone watch lint:watch",
         "watch": "rollup -c --watch --watch.onEnd=\"yarn yalc:push\"",
         "build": "rollup -c && yarn yalc:push",
         "build:alone": "rollup -c",
