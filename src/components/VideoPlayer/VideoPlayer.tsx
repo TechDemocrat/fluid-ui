@@ -4,11 +4,14 @@ import cn from 'classnames';
 import styles from './VideoPlayer.module.scss';
 import { IVideoPlayerProps, TVolumeHandlerType } from './VideoPlayer.types';
 import { PlayerControls } from '../PlayerControls/PlayerControls';
-import { IPlayerControlsProps, TvolumeState } from '../PlayerControls/PlayerControls.types';
+import { IPlayerControlsProps, TVolumeState } from '../PlayerControls/PlayerControls.types';
 import { VideoPlayerService } from './VideoPlayer.service';
 import { FullScreenVideoTitleWithAction } from './components/FullScreenVideoTitleWithAction';
 import { UnderlayGradientContainer } from './components/UnderlayGradientContainer';
-import { PlayerAccessibilityLayer, TAccessibilityType } from './components/PlayerAccesibilityLayer';
+import {
+    PlayerAccessibilityLayer,
+    TAccessibilityType,
+} from './components/PlayerAccessibilityLayer';
 import { PlayerControlsService } from '../PlayerControls/PlayerControls.service';
 import { useClickHandler, useIsKeyboardIdle, useIsMouseIdle, useLocalStorage } from '../../hooks';
 
@@ -34,10 +37,11 @@ export const VideoPlayer = (props: IVideoPlayerProps) => {
     const [isVideoReady, setIsVideoReady] = useState(false);
     const [isPlaying, setIsPlaying] = useState(false);
     const [isFullScreen, setIsFullScreen] = useState(false);
-    const [accessiblityActionType, setAccessiblityActionType] = useState<TAccessibilityType>(null);
+    const [accessibilityActionType, setAccessibilityActionType] =
+        useState<TAccessibilityType>(null);
 
     // custom hooks
-    const [volume, setVolume] = useLocalStorage<TvolumeState>(
+    const [volume, setVolume] = useLocalStorage<TVolumeState>(
         'volume',
         PlayerControlsService.getDefaultVolumeState(),
     );
@@ -114,7 +118,7 @@ export const VideoPlayer = (props: IVideoPlayerProps) => {
 
     const onPlayPauseClick = () => {
         setIsPlaying(!isPlaying);
-        setAccessiblityActionType(isPlaying ? 'pause' : 'play');
+        setAccessibilityActionType(isPlaying ? 'pause' : 'play');
     };
 
     const onTimeUpdate: ReactEventHandler<HTMLVideoElement> = (e) => {
@@ -187,7 +191,7 @@ export const VideoPlayer = (props: IVideoPlayerProps) => {
             isFullScreen,
             onClick: onFullScreenClick,
         },
-        setAccessiblityActionType,
+        setAccessibilityActionType: setAccessibilityActionType,
     } as IPlayerControlsProps;
 
     const isUserInteracting = !(isMouseIdle && isKeyboardIdle);
@@ -238,11 +242,11 @@ export const VideoPlayer = (props: IVideoPlayerProps) => {
             <UnderlayGradientContainer position="bottom" show={showPlayerControls} />
 
             <PlayerAccessibilityLayer
-                actionType={accessiblityActionType}
+                actionType={accessibilityActionType}
                 seekSpeed={playerControlsProps.progress.fastForwardBackwardSpeed}
                 isLoading={isLoading}
                 isFullScreen={isFullScreen}
-                setActionType={setAccessiblityActionType}
+                setActionType={setAccessibilityActionType}
             />
         </div>
     );

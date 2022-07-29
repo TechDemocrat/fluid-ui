@@ -39,7 +39,7 @@ export interface IUploadProgress {
 
 export interface IUploadContentMeta {
     /**
-     * should be passed if staus is 'uploaded'
+     * should be passed if status is 'uploaded'
      */
     previewArea?: ReactNode;
     /**
@@ -47,7 +47,7 @@ export interface IUploadContentMeta {
      */
     uploadedAt?: string;
     /**
-     * on delet handler
+     * on delete handler
      */
     onDelete?: () => void;
 }
@@ -67,7 +67,7 @@ export interface IContentUploaderProps {
     allowedFileTypes?: TAllowedFileTypes[];
     /**
      * on file add catch the file and tweak the status to uploading if it is valid
-     * if type is not supported throught error toast from the parent component itself.
+     * if type is not supported through error toast from the parent component itself.
      */
     onUpload?: (file: File) => void;
     /**

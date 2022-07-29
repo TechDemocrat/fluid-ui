@@ -2,7 +2,7 @@ import { uniqueId } from 'lodash';
 import {
     IUploadOptions,
     IUploadProgress,
-    IUploadserviceProgressMeta,
+    IUploadServiceProgressMeta,
     TUploadProgressSubscription,
     TUploadServiceProgressMetaMapping,
     TUploadServiceQueue,
@@ -34,9 +34,9 @@ export class UploadService {
     upload(file: File[], options: IUploadOptions): string[];
     upload(file: File | File[], options: IUploadOptions): string | string[] {
         if (Array.isArray(file)) {
-            return file.map((currentFile) => this.addToqueue(currentFile, options));
+            return file.map((currentFile) => this.addToQueue(currentFile, options));
         }
-        return this.addToqueue(file, options);
+        return this.addToQueue(file, options);
     }
 
     cancelUpload = (uploadId: string) => {
@@ -96,9 +96,9 @@ export class UploadService {
         return {} as IUploadProgress;
     };
 
-    private addToqueue = (file: File, options: IUploadOptions): string => {
+    private addToQueue = (file: File, options: IUploadOptions): string => {
         const uploadId = uniqueId();
-        const uploadProgressMeta: IUploadserviceProgressMeta = {
+        const uploadProgressMeta: IUploadServiceProgressMeta = {
             file,
             current: 0,
             total: file.size,

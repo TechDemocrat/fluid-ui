@@ -15,7 +15,7 @@ $player-progress-head-color: #fff;
 $player-duration-color: #ddd;
 $player-track-size: 4px;
 $player-progress-head-size: 10px;
-$progress-bar-scafflod-padding: 10px;
+$progress-bar-scaffold-padding: 10px;
 $player-duration-font-size: 12px;
 $player-controls-icon-size: 22px;
 $player-controls-play-icon-size: 26px;
@@ -100,9 +100,9 @@ $player-volume-icon-slider-gap: 8px;
 
         .progressPadding {
             z-index: 0;
-            top: calc(($progress-bar-scafflod-padding - $player-track-size / 2) * -1);
+            top: calc(($progress-bar-scaffold-padding - $player-track-size / 2) * -1);
             width: 100%;
-            padding: $progress-bar-scafflod-padding 0;
+            padding: $progress-bar-scaffold-padding 0;
         }
 
         .progressTrack {
@@ -174,7 +174,7 @@ $player-volume-icon-slider-gap: 8px;
             }
 
             .progressPadding {
-                $currentScaffoldPadding: $progress-bar-scafflod-padding + $scaleBoostSize;
+                $currentScaffoldPadding: $progress-bar-scaffold-padding + $scaleBoostSize;
 
                 top: calc(($currentScaffoldPadding - ($currentPlayerTrackSize / 2)) * -1);
                 padding: $currentScaffoldPadding 0;
@@ -289,7 +289,7 @@ $player-volume-icon-slider-gap: 8px;
                 }
             }
 
-            .volumneControlsPadding {
+            .volumeControlsPadding {
                 position: absolute;
                 z-index: 0;
                 top: calc($player-volume-control-padding-size / 2 * -1);
@@ -309,7 +309,7 @@ $player-volume-icon-slider-gap: 8px;
                     width: $player-volume-slider-width + $player-volume-control-padding-size;
                 }
 
-                .volumneControlsPadding {
+                .volumeControlsPadding {
                     width:
                         $player-controls-icon-size +
                         $player-volume-icon-slider-gap +
@@ -322,7 +322,7 @@ $player-volume-icon-slider-gap: 8px;
                 }
             }
 
-            .volumneControlsPadding:hover + .volumeSliderWrapper {
+            .volumeControlsPadding:hover + .volumeSliderWrapper {
                 width: $player-volume-slider-width;
                 visibility: visible;
             }

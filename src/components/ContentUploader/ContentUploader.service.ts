@@ -1,7 +1,7 @@
 import { MutableRefObject } from 'react';
 import { TAllowedFileTypes, TContentUploadStatus } from './ContentUploader.types';
 
-interface IUploadProgerssMeta {
+interface IUploadProgressMeta {
     formattedTotal: string;
     formattedLoaded: string;
     percentage: number;
@@ -17,7 +17,7 @@ export class ContentUploaderService {
         previousLoaded: MutableRefObject<number>,
         loaded = 0,
         total = 0,
-    ): IUploadProgerssMeta => {
+    ): IUploadProgressMeta => {
         if (status !== 'uploading')
             return {
                 formattedTotal: '',

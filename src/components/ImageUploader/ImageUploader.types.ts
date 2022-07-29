@@ -37,7 +37,7 @@ export interface IImageUploaderProps {
      */
     showEditIcon?: boolean;
     /**
-     * if enabled multile uploads are allowed
+     * if enabled multiple uploads are allowed
      */
     allowMultiple?: boolean;
     /**
@@ -46,12 +46,12 @@ export interface IImageUploaderProps {
     allowedFileTypes?: TAllowedFileTypes[];
     /**
      * on file add catch the file and tweak the status to uploading if it is valid
-     * if type is not supported throught error toast from the parent component itself.
+     * if type is not supported through error toast from the parent component itself.
      */
     onUpload?: (file: File[]) => void;
     /**
      * on file add catch the file and tweak the status to uploading if it is valid
-     * if type is not supported throught error toast from the parent component itself.
+     * if type is not supported through error toast from the parent component itself.
      */
     onDelete?: (content: IImageUploaderContent) => void;
 }

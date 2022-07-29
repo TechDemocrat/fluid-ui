@@ -17,7 +17,7 @@ $z-index-player-core-controls: 4;
 
     // photo viewer player specific
     .photoViewerCore {
-        // intentionally left out for pushing the navigaiton controls
+        // intentionally left out for pushing the navigation controls
         // relative to the core wrapper to make it look like centered
         // position: relative;
         display: flex;
@@ -93,7 +93,7 @@ $z-index-player-core-controls: 4;
         gap: 10px;
         grid-template-columns: auto 1fr auto;
 
-        &.floadingPhotoViewerControls {
+        &.floatingPhotoViewerControls {
             position: absolute;
             z-index: $z-index-player-core-controls;
             bottom: 0;
@@ -137,7 +137,7 @@ $z-index-player-core-controls: 4;
             justify-content: center;
             gap: 5px;
 
-            .photoViewerstackNode {
+            .photoViewerStackNode {
                 position: relative;
                 overflow: hidden;
                 width: 30px;
@@ -149,11 +149,11 @@ $z-index-player-core-controls: 4;
                 transition: transform 0.2s ease-in-out;
                 user-select: none;
 
-                &.photoViewerstackNodeActive {
+                &.photoViewerStackNodeActive {
                     transform: scale(1);
                 }
 
-                .photoViewerstackNodeProgress {
+                .photoViewerStackNodeProgress {
                     position: absolute;
                     z-index: 1;
                     top: 0;
@@ -165,11 +165,11 @@ $z-index-player-core-controls: 4;
                     transform: scaleX(0);
                     transform-origin: left;
 
-                    &.photoViewerstackNodeProgressFilled {
+                    &.photoViewerStackNodeProgressFilled {
                         transform: scaleX(1);
                     }
 
-                    &.photoViewerstackNodeProgressFilling {
+                    &.photoViewerStackNodeProgressFilling {
                         transform: scaleX(0);
                         transition: transform 0.3s ease-in;
                     }

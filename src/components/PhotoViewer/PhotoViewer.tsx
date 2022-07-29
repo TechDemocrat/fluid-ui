@@ -7,7 +7,7 @@ import videoStyles from '../VideoPlayer/VideoPlayer.module.scss';
 import {
     PlayerAccessibilityLayer,
     TAccessibilityType,
-} from '../VideoPlayer/components/PlayerAccesibilityLayer';
+} from '../VideoPlayer/components/PlayerAccessibilityLayer';
 import { PhotoViewerControls } from './components/PhotoViewerControls';
 import { PhotoViewerCore } from './components/PhotoViewerCore';
 import { PhotoViewerStack } from './components/PhotoViewerStack';
@@ -28,7 +28,8 @@ export const PhotoViewer = (props: IPhotoViewerProps) => {
     const [currentSourceIndex, setCurrentSourceIndex] = useState(0);
     const [isPlaying, setIsPlaying] = useState(false);
     const [isFullScreen, setIsFullScreen] = useState(false);
-    const [accessiblityActionType, setAccessiblityActionType] = useState<TAccessibilityType>(null);
+    const [accessibilityActionType, setAccessibilityActionType] =
+        useState<TAccessibilityType>(null);
 
     // custom hooks
     const isMouseIdle = useIsMouseIdle(photoViewerWrapperRef);
@@ -122,10 +123,10 @@ export const PhotoViewer = (props: IPhotoViewerProps) => {
         if (source.length > 1) {
             if (e.key === 'ArrowRight') {
                 onNavigationChangeHandler('next');
-                setAccessiblityActionType('seekForward');
+                setAccessibilityActionType('seekForward');
             } else if (e.key === 'ArrowLeft') {
                 onNavigationChangeHandler('previous');
-                setAccessiblityActionType('seekBackward');
+                setAccessibilityActionType('seekBackward');
             }
         }
     };
@@ -136,7 +137,7 @@ export const PhotoViewer = (props: IPhotoViewerProps) => {
                 onNavigationChangeHandler('next');
             }
             setIsPlaying(!isPlaying);
-            setAccessiblityActionType(isPlaying ? 'pause' : 'play');
+            setAccessibilityActionType(isPlaying ? 'pause' : 'play');
         }
     };
     const onAccessibilityLayerClick = useClickHandler({
@@ -199,10 +200,10 @@ export const PhotoViewer = (props: IPhotoViewerProps) => {
                 <UnderlayGradientContainer position="bottom" show={showPlayerControls} />
             )}
             <PlayerAccessibilityLayer
-                actionType={accessiblityActionType}
+                actionType={accessibilityActionType}
                 isLoading={isLoading}
                 isFullScreen={isFullScreen}
-                setActionType={setAccessiblityActionType}
+                setActionType={setAccessibilityActionType}
                 seekSpeedFormatter={() => `${currentSourceIndex + 1} / ${source.length}`}
             />
         </div>

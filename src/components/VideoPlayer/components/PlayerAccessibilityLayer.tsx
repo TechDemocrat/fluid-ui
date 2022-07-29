@@ -43,21 +43,21 @@ export const PlayerAccessibilityLayer = (props: IPlayerAccessibilityLayerProps) 
     const accessibilityIconTransitionTime = 400; // in milliseconds
 
     // refs
-    const timoutRef = useRef<NodeJS.Timeout>(null) as MutableRefObject<NodeJS.Timeout>;
-    const accessiblityIconWrapperRef = useRef<HTMLDivElement>(null);
+    const timOutRef = useRef<NodeJS.Timeout>(null) as MutableRefObject<NodeJS.Timeout>;
+    const accessibilityIconWrapperRef = useRef<HTMLDivElement>(null);
 
     // effects
     useEffect(() => {
         if (actionType !== null) {
-            clearTimeout(timoutRef.current as NodeJS.Timeout);
-            accessiblityIconWrapperRef.current?.classList.add(styles.showAccessibilityIcon);
-            timoutRef.current = setTimeout(() => {
+            clearTimeout(timOutRef.current as NodeJS.Timeout);
+            accessibilityIconWrapperRef.current?.classList.add(styles.showAccessibilityIcon);
+            timOutRef.current = setTimeout(() => {
                 setActionType(null);
-                accessiblityIconWrapperRef.current?.classList.remove(styles.showAccessibilityIcon);
+                accessibilityIconWrapperRef.current?.classList.remove(styles.showAccessibilityIcon);
             }, accessibilityIconTransitionTime);
         }
         return () => {
-            clearTimeout(timoutRef.current as NodeJS.Timeout);
+            clearTimeout(timOutRef.current as NodeJS.Timeout);
         };
     }, [actionType, setActionType]);
 
@@ -107,11 +107,11 @@ export const PlayerAccessibilityLayer = (props: IPlayerAccessibilityLayerProps) 
                 })}
             >
                 <div
-                    ref={accessiblityIconWrapperRef}
-                    className={cn(styles.accessibilityiconholder)}
+                    ref={accessibilityIconWrapperRef}
+                    className={cn(styles.accessibilityIconHolder)}
                     style={
                         {
-                            '--accesibility-icon-transition-time': `${accessibilityIconTransitionTime}ms`,
+                            '--accessibility-icon-transition-time': `${accessibilityIconTransitionTime}ms`,
                         } as CSSProperties
                     }
                 >

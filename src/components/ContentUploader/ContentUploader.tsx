@@ -38,7 +38,7 @@ export const ContentUploader = (props: IContentUploaderProps) => {
 
     // state
     const [isDragging, setIsDragging] = useState(false);
-    const [error, seterror] = useState(errorInitialState);
+    const [error, setError] = useState(errorInitialState);
 
     // refs
     const inputFileRef = useRef<HTMLInputElement>(null);
@@ -48,9 +48,9 @@ export const ContentUploader = (props: IContentUploaderProps) => {
     // handlers
     const setErrorMessage = useCallback(
         (message: string, timeOut = 2000) => {
-            seterror({ enabled: true, message });
+            setError({ enabled: true, message });
             // with timeout of 1s to allow the error message to be displayed
-            setTimeout(() => isMounted() && seterror(errorInitialState), timeOut);
+            setTimeout(() => isMounted() && setError(errorInitialState), timeOut);
         },
         [isMounted, errorInitialState],
     );
@@ -98,7 +98,7 @@ export const ContentUploader = (props: IContentUploaderProps) => {
 
     // effects
     useEffect(() => {
-        const currentDragAndDropContainer = dragAndDropContainerRef.current; // to avoid race conditions, the referencce has been localized here
+        const currentDragAndDropContainer = dragAndDropContainerRef.current; // to avoid race conditions, the reference has been localized here
         currentDragAndDropContainer?.addEventListener('dragover', onFileDragOver);
         currentDragAndDropContainer?.addEventListener('drop', onFileDrop);
         currentDragAndDropContainer?.addEventListener('dragenter', onFileDragOver);
@@ -181,7 +181,7 @@ export const ContentUploader = (props: IContentUploaderProps) => {
                                 </div>
                                 <div className={styles.uploadProgressAction}>
                                     <IconButton title="Cancel upload" onClick={onCancel}>
-                                        <Icon icon={close} className={styles.uploadCanceIcon} />
+                                        <Icon icon={close} className={styles.uploadCancelIcon} />
                                     </IconButton>
                                 </div>
                             </div>
@@ -197,7 +197,7 @@ export const ContentUploader = (props: IContentUploaderProps) => {
                                 </div>
                                 <div className={styles.uploadProgressAction}>
                                     <IconButton title="Delete content" onClick={onDelete}>
-                                        <Icon icon={close} className={styles.uploadCanceIcon} />
+                                        <Icon icon={close} className={styles.uploadCancelIcon} />
                                     </IconButton>
                                 </div>
                             </div>

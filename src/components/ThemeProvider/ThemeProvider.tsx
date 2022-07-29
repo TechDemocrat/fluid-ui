@@ -35,7 +35,7 @@ export function ThemeProvider(props: IThemeProviderProps): ReactElement {
         }
     }, [theme]);
 
-    // writes theme colors / fontsizes to the css variables on theme change
+    // writes theme colors / fontSizes to the css variables on theme change
     useEffect(() => {
         const { colors = {} as IThemeColors, fontSizes = {} as IThemeFontSizes } = currentTheme;
 

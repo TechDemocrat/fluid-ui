@@ -48,17 +48,17 @@ export const PhotoViewerStack = (props: IPhotoViewerStackProps) => {
                     const isFilling = isCurrentIndexAndPlaying;
                     return (
                         <div
-                            className={cn(styles.photoViewerstackNode, {
-                                [styles.photoViewerstackNodeActive]: index === currentSourceIndex,
+                            className={cn(styles.photoViewerStackNode, {
+                                [styles.photoViewerStackNodeActive]: index === currentSourceIndex,
                             })}
                             onClick={stackNodeOnClick(index)}
                             key={stackNode.src + index}
                         >
-                            {/* stack node progerss block */}
+                            {/* stack node progress block */}
                             <div
-                                className={cn(styles.photoViewerstackNodeProgress, {
-                                    [styles.photoViewerstackNodeProgressFilled]: isFilled,
-                                    [styles.photoViewerstackNodeProgressFilling]: isFilling,
+                                className={cn(styles.photoViewerStackNodeProgress, {
+                                    [styles.photoViewerStackNodeProgressFilled]: isFilled,
+                                    [styles.photoViewerStackNodeProgressFilling]: isFilling,
                                 })}
                                 style={isFilling ? stackNodeProgressStyle : {}}
                             />

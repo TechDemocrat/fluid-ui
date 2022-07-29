@@ -22,7 +22,7 @@ interface IPlayerProgressBarProps {
     // progress bar click callbacks
     onClick: (e: React.MouseEvent<HTMLDivElement>) => void;
 
-    // on progerss head drag callbacks
+    // on progress head drag callbacks
     onDragStart: (e: React.DragEvent<HTMLDivElement>) => void;
     onDrag: (e: React.DragEvent<HTMLDivElement>) => void;
     onDragEnd: (e: React.DragEvent<HTMLDivElement>) => void;

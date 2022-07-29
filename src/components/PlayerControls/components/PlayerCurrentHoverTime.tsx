@@ -20,14 +20,14 @@ export const PlayerCurrentHoverTime = (props: {
         progress,
         currentProgressHoverPercentage,
     );
-    const progerssHoverContentMaxWidth = useMemo(
+    const progressHoverContentMaxWidth = useMemo(
         () => PlayerControlsService.getProgressHoverContentMaxWidth(progress.total),
         [progress.total],
     );
     const progressHoverContentOffset = PlayerControlsService.getProgressHoverContentOffset(
         currentProgressHoverPercentage,
         progressTrackWidth ?? 0,
-        progerssHoverContentMaxWidth,
+        progressHoverContentMaxWidth,
     );
 
     // paint

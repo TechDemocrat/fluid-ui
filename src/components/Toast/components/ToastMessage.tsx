@@ -29,7 +29,7 @@ const ToastMessage = (props: IToastMessageProps) => {
             <div className={styles.toastContentWrapper}>
                 <div className={styles.toastIcon}>
                     <IconButton padding={2} title="Close">
-                        <Icon icon={icon} className={styles.uploadCanceIcon} />
+                        <Icon icon={icon} className={styles.uploadCancelIcon} />
                     </IconButton>
                 </div>
                 <div className={styles.toastContent}>{message}</div>
@@ -41,7 +41,7 @@ const ToastMessage = (props: IToastMessageProps) => {
                             close(id);
                         }}
                     >
-                        <Icon icon={closeIcon} className={styles.uploadCanceIcon} />
+                        <Icon icon={closeIcon} className={styles.uploadCancelIcon} />
                     </IconButton>
                 </div>
             </div>

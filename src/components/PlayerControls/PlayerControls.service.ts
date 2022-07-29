@@ -6,7 +6,7 @@ import {
     baselineVolumeOff,
     baselineVolumeUp,
 } from '../../assets/icons/iconify';
-import { IPlayerControlsProps, TvolumeState } from './PlayerControls.types';
+import { IPlayerControlsProps, TVolumeState } from './PlayerControls.types';
 
 export class PlayerControlsService {
     static getInitialState(): IPlayerControlsProps {
@@ -36,11 +36,11 @@ export class PlayerControlsService {
                 onMute: () => {},
                 onUnMute: () => {},
             },
-            setAccessiblityActionType: () => {},
+            setAccessibilityActionType: () => {},
         };
     }
 
-    static getDefaultVolumeState = (): TvolumeState => {
+    static getDefaultVolumeState = (): TVolumeState => {
         return {
             currentLevel: 50,
             previousLevel: 50,
@@ -132,7 +132,7 @@ export class PlayerControlsService {
         return progressPercentage * 100;
     };
 
-    // get progress conent offset
+    // get progress content offset
     static getProgressHoverContentOffset = (
         currentProgressPercentage: number,
         totalProgressBarWidth: number,
@@ -143,7 +143,7 @@ export class PlayerControlsService {
         const centeredHoverContentWidth = hoverContentWidth / 2;
 
         if (currentProgressPosition < centeredHoverContentWidth) {
-            return -currentProgressPosition; // to have the smoothe transition handovers on end of progress bar
+            return -currentProgressPosition; // to have the smooth transition handovers on end of progress bar
         }
         if (
             currentProgressPosition >= centeredHoverContentWidth &&
@@ -154,10 +154,10 @@ export class PlayerControlsService {
         if (remainingProgressBarWidth > centeredHoverContentWidth) {
             return -centeredHoverContentWidth;
         }
-        return -(hoverContentWidth - remainingProgressBarWidth); // to have the smoothe transition handovers on end of progress bar
+        return -(hoverContentWidth - remainingProgressBarWidth); // to have the smooth transition handovers on end of progress bar
     };
 
-    // get the max width of the hover content, indluding duration tooltip width as well as preview thumbnail width in future
+    // get the max width of the hover content, including duration tooltip width as well as preview thumbnail width in future
     static getProgressHoverContentMaxWidth = (totalDuration: number): number => {
         const hoverContentFontSize = 12;
         const totalDurationString = PlayerControlsService.getTimeString(totalDuration);

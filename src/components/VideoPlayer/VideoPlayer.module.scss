@@ -56,7 +56,7 @@ $z-index-player-core-fullscreen-title-with-action: 4;
         justify-content: center;
     }
 
-    .underlayGradientContaier {
+    .underlayGradientContainer {
         --gradient-position: bottom;
 
         position: absolute;
@@ -108,8 +108,8 @@ $z-index-player-core-fullscreen-title-with-action: 4;
         transform: translate(-50%, -50%);
         user-select: none;
 
-        .accessibilityiconholder {
-            --accesibility-icon-transition-time: 500ms;
+        .accessibilityIconHolder {
+            --accessibility-icon-transition-time: 500ms;
 
             display: flex;
             width: 100%;
@@ -121,8 +121,8 @@ $z-index-player-core-fullscreen-title-with-action: 4;
             color: $player-foreground-color;
             transform: scale(0);
 
-            // transition with css variable --accesibility-icon-transition-time in ms
-            transition: transform calc(var(--accesibility-icon-transition-time) / 2) ease;
+            // transition with css variable --accessibility-icon-transition-time in ms
+            transition: transform calc(var(--accessibility-icon-transition-time) / 2) ease;
 
             &.showAccessibilityIcon {
                 background-color: rgb(36 36 36 / 60%);

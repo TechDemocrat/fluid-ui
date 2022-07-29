@@ -1,11 +1,11 @@
 import { SyntheticEvent } from 'react';
-import { TvolumeState } from '../PlayerControls/PlayerControls.types';
+import { TVolumeState } from '../PlayerControls/PlayerControls.types';
 
 export class VideoPlayerService {
     // gives volume state object for different actions
     static getVolumeState =
-        <T extends 'onChange' | 'onMute' | 'onUnMute'>(volume: TvolumeState, type: T) =>
-        (newLevel?: number): TvolumeState => {
+        <T extends 'onChange' | 'onMute' | 'onUnMute'>(volume: TVolumeState, type: T) =>
+        (newLevel?: number): TVolumeState => {
             const previousLevel = volume.currentLevel > 10 ? volume.currentLevel : 10; // minimum volume threshold
             if (type === 'onMute') {
                 return {
