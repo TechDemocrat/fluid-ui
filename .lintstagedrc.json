@@ -1,7 +1,9 @@
 {
-    "src/**/*.scss": ["stylelint src/**/*.scss --fix"],
+    "src/**/*.scss": ["stylelint src/**/*.scss --fix", "cspell src/**/*.scss"],
     "src/**/*.{ts,tsx}": [
         "eslint src/**/*.ts{,x} --fix --max-warnings 0",
-        "prettier --write src/**/*.ts{,x}"
-    ]
+        "prettier --write src/**/*.ts{,x}",
+        "cspell src/**/*.ts{,x}"
+    ],
+    "**/*.md": ["cspell src/**/*.md"]
 }

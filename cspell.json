@@ -7,15 +7,24 @@
     // words - list of words to be always considered correct
     "words": [
         "chromaui",
+        "editorjs",
+        "Edsheeran",
         "fontsize",
         "fontweight",
         "hte",
         "Iconfiy",
+        "iconify",
+        "JSHTML",
         "linebreak",
+        "quicktime",
         "semibold",
+        "Sheeran",
+        "stylelint",
         "uuidv",
         "Videocam",
-        "yxxx"
+        "Woah",
+        "yxxx",
+        "zustand"
     ],
     // flagWords - list of words to be always considered incorrect
     // This is useful for offensive words and common spelling errors.

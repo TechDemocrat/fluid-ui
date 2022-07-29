@@ -9,7 +9,7 @@
     "private": false,
     "types": "dist",
     "scripts": {
-        "dev": "npm-run-all --parallel lint:watch watch",
+        "dev": "npm-run-all --parallel storybook:standalone watch lint:watch",
         "watch": "rollup -c --watch --watch.onEnd=\"yarn yalc:push\"",
         "build": "rollup -c && yarn yalc:push",
         "build:alone": "rollup -c",
@@ -27,7 +27,8 @@
         "prepare": "yarn husky:install && yarn yalc:push",
         "husky:pre-commit": "yarn lint-staged",
         "chromatic": "chromatic --exit-zero-on-changes",
-        "fui": "node scripts/fui-cli.js"
+        "fui": "node scripts/fui-cli.js",
+        "cspell": "cspell src/**/*.{ts,tsx,scss,md}"
     },
     "devDependencies": {
         "@babel/core": "^7.17.8",
@@ -54,6 +55,7 @@
         "@typescript-eslint/parser": "^5.17.0",
         "babel-loader": "^8.2.4",
         "chromatic": "^6.5.4",
+        "cspell": "^6.4.2",
         "css-loader": "5.2.7",
         "eslint": "^8.2.0",
         "eslint-config-airbnb": "19.0.4",

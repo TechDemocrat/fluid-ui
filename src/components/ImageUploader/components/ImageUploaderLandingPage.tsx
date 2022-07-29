@@ -27,7 +27,7 @@ export const ImageUploaderLandingPage = forwardRef<
     const { isDragging, error, showLandingPage, allowMultiple, allowedFileTypes } = props;
     const { onFileDragLeave, onFileDragOver, onFileDrop, inputFileOnChange } = props;
 
-    // hanldlers
+    // handlers
     const onUploadButtonClick = () => {
         (inputFileRef as RefObject<HTMLDivElement>)?.current?.click();
     };

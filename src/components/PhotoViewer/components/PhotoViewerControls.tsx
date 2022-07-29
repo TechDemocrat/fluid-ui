@@ -48,7 +48,7 @@ export const PhotoViewerControls = (props: IPhotoViewerControlsProps) => {
     return (
         <div
             className={cn(styles.photoViewerControls, {
-                [styles.floadingPhotoViewerControls]: sourceLength <= 1,
+                [styles.floatingPhotoViewerControls]: sourceLength <= 1,
             })}
             onClick={wrapperClickHandler}
         >

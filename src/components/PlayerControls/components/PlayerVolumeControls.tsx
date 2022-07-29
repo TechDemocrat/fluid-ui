@@ -4,18 +4,18 @@ import { Icon } from '@iconify/react';
 import styles from '../PlayerControls.module.scss';
 import { IPlayerControlsProps } from '../PlayerControls.types';
 import { PlayerControlsService } from '../PlayerControls.service';
-import { TAccessibilityType } from '../../VideoPlayer/components/PlayerAccesibilityLayer';
+import { TAccessibilityType } from '../../VideoPlayer/components/PlayerAccessibilityLayer';
 import { useEventListener } from '../../../hooks';
 
 interface IPlayerVolumeControlsProps {
     volume: IPlayerControlsProps['volume'];
-    setAccessiblityActionType: Dispatch<TAccessibilityType>;
+    setAccessibilityActionType: Dispatch<TAccessibilityType>;
 }
 export const PlayerVolumeControls = (props: IPlayerVolumeControlsProps) => {
     // props
     const {
         volume: { isDisabled, isMuted, currentLevel, previousLevel, onChange, onMute, onUnMute },
-        setAccessiblityActionType,
+        setAccessibilityActionType,
     } = props;
 
     // refs
@@ -68,11 +68,11 @@ export const PlayerVolumeControls = (props: IPlayerVolumeControlsProps) => {
 
     const setAccessibility = (currentVolumeLevel: number) => {
         if (currentVolumeLevel === 0) {
-            setAccessiblityActionType('volumeMute');
+            setAccessibilityActionType('volumeMute');
         } else if (currentVolumeLevel > 50) {
-            setAccessiblityActionType('volumeUp');
+            setAccessibilityActionType('volumeUp');
         } else {
-            setAccessiblityActionType('volumeDown');
+            setAccessibilityActionType('volumeDown');
         }
     };
 
@@ -91,7 +91,7 @@ export const PlayerVolumeControls = (props: IPlayerVolumeControlsProps) => {
         } else if (e.key === 'm') {
             onVolumeIconClick();
             if (!isMuted) {
-                setAccessiblityActionType('volumeMute');
+                setAccessibilityActionType('volumeMute');
             } else {
                 setAccessibility(previousLevel);
             }
@@ -143,7 +143,7 @@ export const PlayerVolumeControls = (props: IPlayerVolumeControlsProps) => {
                 />
                 <div className={styles.volumeSliderPadding} />
             </div>
-            <div className={styles.volumneControlsPadding} />
+            <div className={styles.volumeControlsPadding} />
         </div>
     );
 };

@@ -4,9 +4,9 @@ import cn from 'classnames';
 import { IBlogViewerProps } from './BlogViewer.types';
 import styles from './BlogViewer.module.scss';
 import { BlogViewerService } from './BlogViewer.service';
-import edjsHTML from 'editorjs-html';
+import EditorJSHTML from 'editorjs-html';
 import parser from 'html-react-parser';
-const edjsParser = edjsHTML();
+const EditorJSHTMLParser = EditorJSHTML();
 
 export const BlogViewer = (props: IBlogViewerProps) => {
     // props
@@ -14,7 +14,7 @@ export const BlogViewer = (props: IBlogViewerProps) => {
 
     // compute
     const originalTitle = BlogViewerService.getTitle(title);
-    const htmlData: [] = edjsParser.parse(data);
+    const htmlData: [] = EditorJSHTMLParser.parse(data);
 
     // paint
     return (

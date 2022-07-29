@@ -12,7 +12,7 @@ export interface IUploadProgress {
 
 export type TUploadProgressSubscription = (progress: IUploadProgress) => void;
 
-export interface IUploadserviceProgressMeta {
+export interface IUploadServiceProgressMeta {
     file: File;
     current: number;
     total: number;
@@ -29,7 +29,7 @@ export interface IUploadserviceProgressMeta {
     simulationId?: NodeJS.Timeout;
 }
 
-export type TUploadServiceProgressMetaMapping = Map<string, IUploadserviceProgressMeta>;
+export type TUploadServiceProgressMetaMapping = Map<string, IUploadServiceProgressMeta>;
 
 export interface IUploadOptions {
     url?: string;

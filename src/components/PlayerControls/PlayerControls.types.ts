@@ -1,5 +1,5 @@
 import { Dispatch } from 'react';
-import { TAccessibilityType } from '../VideoPlayer/components/PlayerAccesibilityLayer';
+import { TAccessibilityType } from '../VideoPlayer/components/PlayerAccessibilityLayer';
 
 export interface IPlayerControlsProps {
     progress: {
@@ -24,7 +24,7 @@ export interface IPlayerControlsProps {
          */
         onProgressChange: (newTime: number) => void;
         /**
-         * Triggered when user dragges the progress bar
+         * Triggered when user drags the progress bar
          */
         onProgressDragStart: () => void;
         /**
@@ -88,13 +88,13 @@ export interface IPlayerControlsProps {
         isDisabled?: boolean;
     };
     /**
-     * set accessiblity action type corresponding to the action provided in the player controls like play, pause, volume up / down / mute / seek
+     * set accessibility action type corresponding to the action provided in the player controls like play, pause, volume up / down / mute / seek
      */
-    setAccessiblityActionType: Dispatch<TAccessibilityType>;
+    setAccessibilityActionType: Dispatch<TAccessibilityType>;
     className?: string;
 }
 
-export type TvolumeState = Pick<
+export type TVolumeState = Pick<
     IPlayerControlsProps['volume'],
     'currentLevel' | 'previousLevel' | 'isMuted'
 >;

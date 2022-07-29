@@ -24,7 +24,7 @@ export const CircularProgress = (props: ICircularProgressProps) => {
     const { currentProgress = 0, totalProgress = 0 } = props;
 
     // compute
-    const { strokeDashArray, strokeDashOffset } = CircularProgressService.getStorkeDashForProgress(
+    const { strokeDashArray, strokeDashOffset } = CircularProgressService.getStrokeDashForProgress(
         radius,
         totalProgress,
         currentProgress,

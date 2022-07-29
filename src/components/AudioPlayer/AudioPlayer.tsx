@@ -6,13 +6,13 @@ import videoStyles from '../VideoPlayer/VideoPlayer.module.scss';
 import { AudioPlayerPoster } from './components/AudioPlayerPoster';
 import { IAudioPlayerProps } from './AudioPlayer.types';
 import { PlayerControls } from '../PlayerControls/PlayerControls';
-import { IPlayerControlsProps, TvolumeState } from '../PlayerControls/PlayerControls.types';
+import { IPlayerControlsProps, TVolumeState } from '../PlayerControls/PlayerControls.types';
 
 import { PlayerControlsService } from '../PlayerControls/PlayerControls.service';
 import {
     PlayerAccessibilityLayer,
     TAccessibilityType,
-} from '../VideoPlayer/components/PlayerAccesibilityLayer';
+} from '../VideoPlayer/components/PlayerAccessibilityLayer';
 import { VideoPlayerService } from '../VideoPlayer/VideoPlayer.service';
 import { TVolumeHandlerType } from '../VideoPlayer/VideoPlayer.types';
 import { UnderlayGradientContainer } from '../VideoPlayer/components/UnderlayGradientContainer';
@@ -38,10 +38,11 @@ export const AudioPlayer = (props: IAudioPlayerProps) => {
     const [isAudioReady, setIsAudioReady] = useState(false);
     const [isPlaying, setIsPlaying] = useState(false);
     const [isFullScreen, setIsFullScreen] = useState(false);
-    const [accessiblityActionType, setAccessiblityActionType] = useState<TAccessibilityType>(null);
+    const [accessibilityActionType, setAccessibilityActionType] =
+        useState<TAccessibilityType>(null);
 
     // custom hooks
-    const [volume, setVolume] = useLocalStorage<TvolumeState>(
+    const [volume, setVolume] = useLocalStorage<TVolumeState>(
         'volume',
         PlayerControlsService.getDefaultVolumeState(),
     );
@@ -118,7 +119,7 @@ export const AudioPlayer = (props: IAudioPlayerProps) => {
 
     const onPlayPauseClick = () => {
         setIsPlaying(!isPlaying);
-        setAccessiblityActionType(isPlaying ? 'pause' : 'play');
+        setAccessibilityActionType(isPlaying ? 'pause' : 'play');
     };
 
     const onTimeUpdate: ReactEventHandler<HTMLAudioElement> = (e) => {
@@ -191,7 +192,7 @@ export const AudioPlayer = (props: IAudioPlayerProps) => {
             isFullScreen,
             onClick: onFullScreenClick,
         },
-        setAccessiblityActionType,
+        setAccessibilityActionType: setAccessibilityActionType,
     } as IPlayerControlsProps;
 
     const isUserInteracting = !(isMouseIdle && isKeyboardIdle);
@@ -238,11 +239,11 @@ export const AudioPlayer = (props: IAudioPlayerProps) => {
             <UnderlayGradientContainer position="bottom" show={showPlayerControls} />
 
             <PlayerAccessibilityLayer
-                actionType={accessiblityActionType}
+                actionType={accessibilityActionType}
                 seekSpeed={playerControlsProps.progress.fastForwardBackwardSpeed}
                 isLoading={isLoading}
                 isFullScreen={isFullScreen}
-                setActionType={setAccessiblityActionType}
+                setActionType={setAccessibilityActionType}
             />
         </div>
     );

@@ -32,7 +32,7 @@ export const uuidv4 = () => {
 export const getTextDimension = (
     text: string,
     options?: Partial<{
-        fontSize: number;
+        fontSize: string | number;
         fontFamily: string;
         fontWeight: string;
     }>,
@@ -47,9 +47,14 @@ export const getTextDimension = (
     const canvas = document.createElement('canvas');
     const context = canvas.getContext('2d');
     if (context) {
-        context.font = `${fontWeight} ${fontSize}px ${fontFamily}`;
-        width = context.measureText(text).width;
-        height = fontSize;
+        const formattedFontSize = typeof fontSize === 'number' ? `${fontSize}px` : fontSize;
+        context.font = `${fontWeight} ${formattedFontSize} ${fontFamily}`;
+        const metrics = context.measureText(text);
+        width = metrics.width;
+        // let fontHeight = metrics.fontBoundingBoxAscent + metrics.fontBoundingBoxDescent;
+        const actualHeight = metrics.actualBoundingBoxAscent + metrics.actualBoundingBoxDescent;
+
+        height = actualHeight;
     }
     return { width, height };
 };

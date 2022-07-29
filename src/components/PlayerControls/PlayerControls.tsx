@@ -35,7 +35,7 @@ export const PlayerControls = (props: IPlayerControlsProps) => {
         settings,
         shuffle,
         volume,
-        setAccessiblityActionType,
+        setAccessibilityActionType: setAccessibilityActionType,
     } = { ...initialState, ...props };
     const { onProgressChange, onProgressDragStart, onProgressDragEnd } = progress;
 
@@ -59,7 +59,7 @@ export const PlayerControls = (props: IPlayerControlsProps) => {
 
     // handlers
     const onPlayerControlsWrapperClick = (event: MouseEvent<HTMLDivElement>) => {
-        // player controls wrapper click bubbing restriction -
+        // player controls wrapper click bubbling restriction -
         // this helps fullscreen on double click and play pause action on single click by parent overall wrapper
         event.stopPropagation();
     };
@@ -135,11 +135,11 @@ export const PlayerControls = (props: IPlayerControlsProps) => {
         if (e.key === 'ArrowRight') {
             const updatedTime = getUpdatedProgressTime('up');
             onProgressChange(updatedTime); // call callback from props to notify parent
-            setAccessiblityActionType('seekForward');
+            setAccessibilityActionType('seekForward');
         } else if (e.key === 'ArrowLeft') {
             const updatedTime = getUpdatedProgressTime('down');
             onProgressChange(updatedTime); // call callback from props to notify parent
-            setAccessiblityActionType('seekBackward');
+            setAccessibilityActionType('seekBackward');
         }
     };
 
@@ -225,7 +225,7 @@ export const PlayerControls = (props: IPlayerControlsProps) => {
                     </div>
                     <PlayerVolumeControls
                         volume={volume}
-                        setAccessiblityActionType={setAccessiblityActionType}
+                        setAccessibilityActionType={setAccessibilityActionType}
                     />
                 </div>
                 <div className={cn(styles.controlsEndSectionWrapper)}>
