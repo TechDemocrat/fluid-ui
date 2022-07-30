@@ -9,4 +9,5 @@ export interface IPopperProps {
         onHover?: (event: React.MouseEvent<HTMLElement, MouseEvent>) => void;
     }) => ReactNode;
     placement?: Placement;
+    className?: string;
 }

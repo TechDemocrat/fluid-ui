@@ -10,7 +10,16 @@ import { TimeFromNow } from '../TimeFromNow/TimeFromNow';
 
 export const ContentThumbnail = (props: IContentThumbnailProps) => {
     // props
-    const { type, status, publishedTime, duration, title, thumbnailUrl, onClick } = props;
+    const {
+        type,
+        status,
+        publishedTime,
+        duration,
+        title,
+        thumbnailUrl,
+        wrapperClassName,
+        onClick,
+    } = props;
 
     // compute
 
@@ -21,7 +30,7 @@ export const ContentThumbnail = (props: IContentThumbnailProps) => {
 
     // paint
     return (
-        <div className={cn(styles.wrapper)} onClick={onClick}>
+        <div className={cn(styles.wrapper, wrapperClassName)} onClick={onClick}>
             <div className={styles.thumbnailImageWrapper}>
                 <div className={styles.imageHolder} style={imageHolderStyle} />
                 <div className={styles.contentTypeFlagWrapper}>

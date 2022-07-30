@@ -73,3 +73,13 @@ export const parseJSON = <T>(value: string | null): T | undefined => {
 export const onImageLoadError = (event: SyntheticEvent<HTMLImageElement, Event>) => {
     event.currentTarget.style.display = 'none';
 };
+
+// gives key , if
+export const formKey = (key?: string) => {
+    // if key is not provided, generate a random key
+    if (!key) {
+        return uuidv4();
+    }
+    // if key available sanitize and return
+    return key.replace(/[^a-zA-Z0-9]/g, '_');
+};
