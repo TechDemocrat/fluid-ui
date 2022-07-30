@@ -8,5 +8,6 @@ export interface IContentThumbnailProps {
     thumbnailUrl: string;
     duration?: string;
     status?: EContentStatusType;
+    wrapperClassName?: string;
     onClick?: () => void;
 }

@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import { usePopper } from 'react-popper';
+import cn from 'classnames';
 import { IPopperProps } from './Popper.types';
 import styles from './Popper.module.scss';
 
 export const Popper = (props: IPopperProps) => {
     // props
-    const { children, content, placement = 'bottom' } = props;
+    const { children, content, placement = 'bottom', className } = props;
 
     // state
     const [isOpen, setIsOpen] = useState(false);
@@ -73,7 +74,7 @@ export const Popper = (props: IPopperProps) => {
 
     // paint
     return (
-        <div className={styles.popperWrapper}>
+        <div className={cn(styles.popperWrapper, className)}>
             <div ref={setReferenceElement}>{children({ onClick, onHover, isOpen })}</div>
             {isOpen && (
                 <>
