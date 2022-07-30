@@ -16,7 +16,6 @@ const Template: Story<IPopperProps> = (args) => <Popper {...args} />;
 
 export const Default = Template.bind({});
 Default.args = {
-    title: 'Popper',
     children: (props) => (
         <div>
             <Button

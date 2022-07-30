@@ -5,7 +5,7 @@ import styles from './Popper.module.scss';
 
 export const Popper = (props: IPopperProps) => {
     // props
-    const { children, content, title } = props;
+    const { children, content, placement = 'bottom' } = props;
 
     // state
     const [isOpen, setIsOpen] = useState(false);
@@ -35,6 +35,7 @@ export const Popper = (props: IPopperProps) => {
 
     // popper configs
     const { styles: style, attributes } = usePopper(referenceElement, popperElement, {
+        placement,
         modifiers: [
             {
                 name: 'arrow',
@@ -72,8 +73,8 @@ export const Popper = (props: IPopperProps) => {
 
     // paint
     return (
-        <div className={styles.popperWrapper} title={title}>
-            <div ref={setReferenceElement}>{children({ onClick, onHover })}</div>
+        <div className={styles.popperWrapper}>
+            <div ref={setReferenceElement}>{children({ onClick, onHover, isOpen })}</div>
             {isOpen && (
                 <>
                     <div ref={setPopperElement} style={style.popper} {...attributes.popper}>
