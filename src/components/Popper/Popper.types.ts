@@ -1,3 +1,4 @@
+import { Placement } from '@popperjs/core';
 import { ReactNode } from 'react';
 
 export interface IPopperProps {
@@ -7,4 +8,5 @@ export interface IPopperProps {
         onClick?: (event: React.MouseEvent<HTMLElement, MouseEvent>) => void;
         onHover?: (event: React.MouseEvent<HTMLElement, MouseEvent>) => void;
     }) => ReactNode;
+    placement?: Placement;
 }

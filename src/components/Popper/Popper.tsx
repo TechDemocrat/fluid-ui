@@ -5,7 +5,7 @@ import styles from './Popper.module.scss';
 
 export const Popper = (props: IPopperProps) => {
     // props
-    const { children, content } = props;
+    const { children, content, placement = 'bottom' } = props;
 
     // state
     const [isOpen, setIsOpen] = useState(false);
@@ -35,6 +35,7 @@ export const Popper = (props: IPopperProps) => {
 
     // popper configs
     const { styles: style, attributes } = usePopper(referenceElement, popperElement, {
+        placement,
         modifiers: [
             {
                 name: 'arrow',
