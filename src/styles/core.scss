@@ -1,6 +1,7 @@
 @import "./fontWeights";
 @import "./fontSizes";
 @import "./colors";
+@import "./mixins";
 
 :root {
     // variables will be populated by theme provider based on the current theme
@@ -75,6 +76,8 @@
     font-family: Inter, Helvetica, sans-serif;
     scroll-behavior: smooth;
     vertical-align: baseline;
+
+    @include custom-scrollbar;
 }
 
 body {
