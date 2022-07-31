@@ -10,7 +10,7 @@ import { ContentTypeFlagService } from '../ContentTypeFlag/ContentTypeFlag.servi
 
 export const ContentTypeActionFlag = (props: IContentTypeActionFlagProps) => {
     // props
-    const { type } = props;
+    const { type, onClick } = props;
 
     // hooks
     const {
@@ -27,7 +27,7 @@ export const ContentTypeActionFlag = (props: IContentTypeActionFlagProps) => {
 
     // paint
     return (
-        <div className={cn(styles.wrapper)} style={wrapperStyle}>
+        <div className={cn(styles.wrapper)} style={wrapperStyle} role="button" onClick={onClick}>
             <Icon icon={icon} className={cn(styles.icon)} />
             <span className={cn(styles.text)}>{label}</span>
         </div>
