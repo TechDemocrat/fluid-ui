@@ -7,9 +7,13 @@
     display: flex;
     box-sizing: border-box;
     border: none;
-    border-radius: 4px;
+    border-radius: 5px;
     cursor: pointer;
     font-weight: $fontweight-semibold;
+
+    @include click-effect;
+
+    transition: all 0.2s ease-in-out;
 }
 
 .disabled {
@@ -17,17 +21,17 @@
 }
 
 .large {
-    padding: 10px 40px;
+    padding: 12px 24px;
     font-size: $fontsize-bodyIntro;
 }
 
 .medium {
-    padding: 8px 30px;
+    padding: 9px 18px;
     font-size: $fontsize-bodyMain;
 }
 
 .small {
-    padding: 6px 20px;
+    padding: 8px 16px;
     font-size: $fontsize-caption;
 }
 
@@ -42,7 +46,6 @@
 
     &:hover {
         box-shadow: 0 0 7px $color-foregroundSecondary;
-        transition: all 0.2s ease-in-out;
     }
 }
 
@@ -53,7 +56,6 @@
 
     &:hover {
         background-color: $color-primaryLight;
-        transition: all 0.2s ease-in-out;
     }
 }
 
@@ -64,7 +66,6 @@
 
     &:hover {
         background-color: $color-primaryLight;
-        transition: all 0.2s ease-in-out;
     }
 }
 
@@ -75,7 +76,6 @@
 
     &:hover {
         box-shadow: 0 0 7px $color-foregroundSecondary;
-        transition: all 0.2s ease-in-out;
     }
 }
 
@@ -86,7 +86,6 @@
 
     &:hover {
         background-color: $color-secondaryLight;
-        transition: all 0.2s ease-in-out;
     }
 }
 
@@ -97,7 +96,6 @@
 
     &:hover {
         background-color: $color-backgroundTertiary;
-        transition: all 0.2s ease-in-out;
     }
 }
 
@@ -108,7 +106,6 @@
 
     &:hover {
         box-shadow: 0 0 7px $color-foregroundSecondary;
-        transition: all 0.2s ease-in-out;
     }
 }
 
@@ -120,7 +117,6 @@
     &:hover {
         background-color: $color-successLight;
         color: $color-backgroundPrimary;
-        transition: all 0.2s ease-in-out;
     }
 }
 
@@ -131,7 +127,6 @@
     &:hover {
         background-color: $color-successLight;
         color: $color-backgroundPrimary;
-        transition: all 0.2s ease-in-out;
     }
 }
 
@@ -142,7 +137,6 @@
 
     &:hover {
         box-shadow: 0 0 7px $color-foregroundSecondary;
-        transition: all 0.2s ease-in-out;
     }
 }
 
@@ -154,7 +148,6 @@
     &:hover {
         background-color: $color-dangerLight;
         color: $color-backgroundPrimary;
-        transition: all 0.2s ease-in-out;
     }
 }
 
@@ -165,7 +158,6 @@
     &:hover {
         background-color: $color-dangerLight;
         color: $color-backgroundPrimary;
-        transition: all 0.2s ease-in-out;
     }
 }
 
@@ -176,7 +168,6 @@
 
     &:hover {
         box-shadow: 0 0 7px $color-foregroundSecondary;
-        transition: all 0.2s ease-in-out;
     }
 }
 
@@ -188,7 +179,6 @@
     &:hover {
         background-color: $color-infoLight;
         color: $color-backgroundPrimary;
-        transition: all 0.2s ease-in-out;
     }
 }
 
@@ -199,7 +189,6 @@
     &:hover {
         background-color: $color-infoLight;
         color: $color-backgroundPrimary;
-        transition: all 0.2s ease-in-out;
     }
 }
 
@@ -210,7 +199,6 @@
 
     &:hover {
         box-shadow: 0 0 7px $color-foregroundSecondary;
-        transition: all 0.2s ease-in-out;
     }
 }
 
@@ -222,7 +210,6 @@
     &:hover {
         background-color: $color-warningLight;
         color: $color-backgroundPrimary;
-        transition: all 0.2s ease-in-out;
     }
 }
 
@@ -233,6 +220,5 @@
     &:hover {
         background-color: $color-warningLight;
         color: $color-backgroundPrimary;
-        transition: all 0.2s ease-in-out;
     }
 }

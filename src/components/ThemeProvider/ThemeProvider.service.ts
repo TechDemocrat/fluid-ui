@@ -23,8 +23,8 @@ export class ThemeProviderService {
         infoLight: '#41c2f580',
         warning: '#FFB857',
         warningLight: '#ffb95780',
-        danger: '#E97375',
-        dangerLight: '#e973757c',
+        danger: '#CC0000',
+        dangerLight: '#ff4444',
         link: '#3B6FEE',
         linkLight: '#3b6eee7a',
 
