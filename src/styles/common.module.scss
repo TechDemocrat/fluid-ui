@@ -5,3 +5,40 @@
 .whiteSpaceNoWrap {
     white-space: nowrap;
 }
+
+// flex related items goes down here
+.flexBoxColumn {
+    display: flex;
+    width: auto;
+    flex-direction: column;
+}
+
+.flexBoxRow {
+    display: flex;
+    width: auto;
+    flex-direction: row;
+}
+
+.flexBoxRowReverse {
+    display: flex;
+    width: auto;
+    flex-direction: row-reverse;
+}
+
+.flexBoxColumnReverse {
+    display: flex;
+    width: auto;
+    flex-direction: column-reverse;
+}
+
+.flexGap10 {
+    gap: 10px;
+}
+
+.flexGap20 {
+    gap: 20px;
+}
+
+.flexGap30 {
+    gap: 30px;
+}
