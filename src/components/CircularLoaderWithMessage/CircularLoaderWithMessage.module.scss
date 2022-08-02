@@ -1,0 +1,29 @@
+@import "../../styles/variables";
+
+.wrapper {
+    display: flex;
+    width: 100%;
+    height: 100%;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+
+    .icon {
+        font-size: $fontsize-h2;
+
+        &.success {
+            color: $color-success;
+        }
+
+        &.danger {
+            color: $color-danger;
+        }
+    }
+
+    .message {
+        color: $color-foregroundPrimary;
+        font-size: $fontsize-medium;
+        font-weight: $fontweight-normal;
+    }
+}
