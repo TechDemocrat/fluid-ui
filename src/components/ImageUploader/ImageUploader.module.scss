@@ -1,9 +1,5 @@
 @use "sass:color";
-@import "../../styles/fontSizes";
-@import "../../styles/colors";
-@import "../../styles/fontWeights";
-@import "../../styles/mixins";
-@import "../../styles/mediaQueries";
+@import "../../styles/variables";
 @import "../../styles/functions";
 
 .wrapper {
@@ -80,12 +76,12 @@
                 border-radius: 5px;
 
                 &.onDragOver {
-                    background-color: $color-secondaryLight;
+                    background-color: $color-secondaryDark;
                     outline: 1px dashed $color-primary;
                 }
 
                 &.onError {
-                    background-color: $color-dangerLight;
+                    background-color: $color-dangerDark;
                     outline: 1px dashed $color-danger;
                 }
 

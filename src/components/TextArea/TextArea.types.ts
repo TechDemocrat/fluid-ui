@@ -1,4 +1,4 @@
-import { EInputSize } from '../Input/Input.types';
+import { IInputProps } from '../Input/Input.types';
 
 export interface ITextAreaProps {
     /**
@@ -11,14 +11,13 @@ export interface ITextAreaProps {
     placeholder: string;
     /**
      * size of the input
-     * @default EInputSize.MEDIUM
-     * @see EInputSize
+     * @default "medium"
      * @example
-     * <TextArea size={EInputSize.SMALL} />
-     * <TextArea size={EInputSize.MEDIUM} />
-     * <TextArea size={EInputSize.LARGE} />
+     * <TextArea size="small" />
+     * <TextArea size="medium" />
+     * <TextArea size="large" />
      */
-    size?: EInputSize;
+    size?: IInputProps['size'] | 'auto';
     /**
      * disabled input
      * @default false
