@@ -18,23 +18,22 @@ $largeWidth: 300px;
     $marginBottom: $messageHeight;
 
     position: relative;
-    padding-bottom: 0;
     margin-top: $marginTop; // which reserves space for the transformed levitated label
     font-size: $fontsize-medium;
 
     &.small {
         width: $smallWidth;
-        height: calc($smallHeight);
+        height: $smallHeight;
     }
 
     &.medium {
         width: $mediumWidth;
-        height: calc($mediumHeight);
+        height: $mediumHeight;
     }
 
     &.large {
         width: $largeWidth;
-        height: calc($largeHeight);
+        height: $largeHeight;
     }
 
     &.messageHeightBuffer {
