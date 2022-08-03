@@ -20,7 +20,6 @@ export * from './components/Popper/Popper';
 export * from './components/VideoPlayer/VideoPlayer';
 export * from './components/AudioPlayer/AudioPlayer';
 export * from './components/Comments/Comments';
-export * from './components/TextArea/TextArea';
 export * from './components/ImageUploader/ImageUploader';
 export * from './components/CircularProgress/CircularProgress';
 export * from './components/PhotoViewer/PhotoViewer';

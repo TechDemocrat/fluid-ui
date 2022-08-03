@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import styles from '../Comments.module.scss';
 import { Button } from '../../Button/Button';
 import { ProfileImage } from '../../ProfileImage/ProfileImage';
-import { TextArea } from '../../TextArea/TextArea';
+import { Input } from '../../Input/Input';
 
 interface Props {
     comment?: string;
@@ -31,11 +31,14 @@ function Editor(props: Props) {
                     <ProfileImage size="small" title="Mani" src="" />
                 </div>
                 <div className={styles.commentInput}>
-                    <TextArea
-                        size="auto"
+                    <Input
+                        size="small"
+                        type="textarea"
                         value={comment}
                         placeholder="Write a comment..."
                         onChange={onCommentTextChangeHandler}
+                        width="100%"
+                        showIcon={false}
                     />
                 </div>
             </div>
