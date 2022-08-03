@@ -1,4 +1,6 @@
-export type TInputType = 'text' | 'number' | 'email' | 'password';
+import { CSSProperties } from 'react';
+
+export type TInputType = 'text' | 'number' | 'email' | 'password' | 'textarea';
 export type TInputSize = 'small' | 'medium' | 'large';
 
 export type TInputValue = string | number;
@@ -44,10 +46,15 @@ export interface IInputProps {
     size?: TInputSize;
 
     /**
-     * @default false
+     * @default 'width will be based on the size prop'
      * note; if true passed the width will be taken from parent container
      */
-    inheritWidth?: boolean;
+    width?: CSSProperties['width'];
+    /**
+     * @default 'width will be based on the size prop'
+     * note; if true passed the width will be taken from parent container
+     */
+    height?: CSSProperties['height'];
     /**
      * disabled input
      * @default false
@@ -73,6 +80,11 @@ export interface IInputProps {
      * note: bottom margin will be added if true passed (to avoid layout shift)
      */
     showMessage?: boolean;
+
+    /**
+     * resize applicable only if type is 'textarea'
+     */
+    resize?: CSSProperties['resize'];
     /**
      * value will be in number format if type is number
      * otherwise it will be in string format

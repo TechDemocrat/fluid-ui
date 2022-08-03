@@ -1,6 +1,6 @@
 @import "../../styles/variables";
 
-$inputPaddingTopBottom: 10px;
+$inputPaddingTopBottom: 15px;
 $inputPaddingLeftRight: 15px;
 $levitatedLabelFontSize: $fontsize-caption;
 $messageFontSize: $fontsize-small;
@@ -18,26 +18,61 @@ $largeWidth: 300px;
     $marginBottom: $messageHeight;
 
     position: relative;
-    margin-top: $marginTop; // which reserves space for the transformed levitated label
     font-size: $fontsize-medium;
 
     &.small {
         width: $smallWidth;
         height: $smallHeight;
+
+        &.textareaSize {
+            height: calc($smallHeight * 2);
+        }
     }
 
     &.medium {
         width: $mediumWidth;
         height: $mediumHeight;
+
+        &.textareaSize {
+            height: calc($mediumHeight * 2);
+        }
     }
 
     &.large {
         width: $largeWidth;
         height: $largeHeight;
+
+        &.textareaSize {
+            height: calc($largeHeight * 2);
+        }
+    }
+
+    &.labelHeightBuffer {
+        margin-top: $marginTop; // which reserves space for the transformed levitated label
     }
 
     &.messageHeightBuffer {
         margin-bottom: $marginBottom;
+    }
+
+    &::before {
+        position: absolute;
+        z-index: 1;
+        top: 0;
+        left: 0;
+        width: calc(100% - $inputPaddingLeftRight);
+        height: calc($levitatedLabelFontSize / 2);
+        background: $color-backgroundSecondary;
+        border-radius: 5px 5px 0 0;
+        content: "";
+    }
+
+    &:hover,
+    &:focus-within,
+    &:focus {
+        &::before {
+            background: $color-backgroundSecondaryDark;
+        }
     }
 
     .input {
@@ -45,10 +80,17 @@ $largeWidth: 300px;
         width: 100%;
         height: 100%;
         padding: $inputPaddingTopBottom $inputPaddingLeftRight;
+
+        // 20px for icon width - make it dynamic later if specifically needed
+        padding-right: $inputPaddingLeftRight + 20px;
         border: 0 solid $color-foregroundTertiary;
         background: $color-backgroundSecondary;
         border-radius: 5px;
         font-size: $fontsize-medium;
+
+        &.textarea {
+            resize: none;
+        }
 
         &:hover {
             background: $color-backgroundSecondaryDark;
@@ -61,16 +103,16 @@ $largeWidth: 300px;
     }
 
     .label {
+        $labelTopPosition: calc($inputPaddingTopBottom);
+
         position: absolute;
-        top: 50%;
+        z-index: 2;
+        top: $labelTopPosition;
         left: $inputPaddingLeftRight;
         width: auto;
         color: $color-foregroundSecondary;
-        font-weight: $fontweight-bold;
+        font-weight: $fontweight-semibold;
         pointer-events: none;
-
-        // font-weight: $fontweight-medium;
-        transform: translateY(-50%);
         transform-origin: top left;
         transition: top 0.1s ease-out;
         white-space: nowrap;
@@ -78,16 +120,20 @@ $largeWidth: 300px;
         &.levitateLabel {
             top: 0;
             font-size: $levitatedLabelFontSize;
+            transform: translateY(-50%);
         }
     }
 
     .icon {
+        $iconTopPosition: calc($inputPaddingTopBottom);
+
         position: absolute;
-        top: 50%;
+        top: $iconTopPosition;
         right: calc($inputPaddingLeftRight - 10px);
         color: $color-foregroundTertiary;
         font-size: $fontsize-bodyMain;
-        transform: translateY(-50%);
+        transform: translateY(-100%);
+        transform-origin: top left;
     }
 
     .message {

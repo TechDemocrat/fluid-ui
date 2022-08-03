@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { CSSProperties, useState } from 'react';
 import cn from 'classnames';
 
 import { IInputProps, IValidationResult } from './Input.types';
@@ -13,7 +13,8 @@ export const Input = (props: IInputProps) => {
     const {
         type = 'text',
         size = 'medium',
-        inheritWidth = false,
+        width,
+        height,
         label = '',
         placeholder = '',
         value = '',
@@ -21,6 +22,7 @@ export const Input = (props: IInputProps) => {
         autoFocus = false,
         showIcon = true,
         showMessage = false,
+        resize = 'none',
         onChange,
         validate,
     } = props;
@@ -40,7 +42,7 @@ export const Input = (props: IInputProps) => {
     } = useTheme();
 
     // handler
-    const handleTextChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const handleTextChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
         const inputValue = e.target.value;
         setLocalValue(inputValue);
 
@@ -65,35 +67,58 @@ export const Input = (props: IInputProps) => {
     // compute
     const hasValue = localValue.toString().length > 0;
     const hasPlaceholder = placeholder && placeholder.length > 0;
+    const hasLabel = label && label.length > 0;
     const hasIcon = showIcon && validationType !== 'idle';
     const hasMessage = showMessage && validationType !== 'idle' && validationMessage;
     const validationColor = validationType === 'success' ? colors.success : colors.danger;
     const levitateLabel = hasValue || hasPlaceholder || inputFieldFocus;
 
+    const wrapperStyle: CSSProperties = {
+        width,
+        height,
+    };
+
+    const textareaStyle: CSSProperties = {
+        resize,
+    };
+
     // paint
     return (
         <div
-            className={cn(styles.wrapper, styles[`${size}`], {
+            className={cn(styles.wrapper, styles[size], {
+                [styles.labelHeightBuffer]: hasLabel,
                 [styles.messageHeightBuffer]: showMessage,
-                [styles.small]: size === 'small',
-                [styles.medium]: size === 'medium',
-                [styles.large]: size === 'large',
+                [styles.textareaSize]: type === 'textarea',
             })}
-            style={{
-                width: inheritWidth ? '100%' : undefined,
-            }}
+            style={wrapperStyle}
         >
-            <input
-                className={cn(styles.input, { [styles.disabled]: disabled })}
-                disabled={disabled}
-                type={type}
-                placeholder={placeholder}
-                value={localValue}
-                autoFocus={autoFocus}
-                onChange={handleTextChange}
-                onFocus={handleOnFocus}
-                onBlur={handleOnBlur}
-            />
+            {type !== 'textarea' ? (
+                <input
+                    className={cn(styles.input, { [styles.disabled]: disabled })}
+                    disabled={disabled}
+                    type={type}
+                    placeholder={placeholder}
+                    value={localValue}
+                    autoFocus={autoFocus}
+                    onChange={handleTextChange}
+                    onFocus={handleOnFocus}
+                    onBlur={handleOnBlur}
+                />
+            ) : (
+                <textarea
+                    className={cn(styles.input, styles.textarea, styles[size], {
+                        [styles.disabled]: disabled,
+                    })}
+                    style={textareaStyle}
+                    disabled={disabled}
+                    placeholder={placeholder}
+                    value={localValue}
+                    autoFocus={autoFocus}
+                    onChange={handleTextChange}
+                    onFocus={handleOnFocus}
+                    onBlur={handleOnBlur}
+                />
+            )}
             <div
                 className={cn(styles.label, {
                     [styles.levitateLabel]: levitateLabel,
