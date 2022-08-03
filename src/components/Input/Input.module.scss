@@ -1,90 +1,107 @@
 @import "../../styles/variables";
 
+$inputPaddingTopBottom: 10px;
+$inputPaddingLeftRight: 15px;
+$levitatedLabelFontSize: $fontsize-caption;
+$messageFontSize: $fontsize-small;
+$messageTopMargin: 3px;
+$messageHeight: calc($messageFontSize + $messageTopMargin);
+$smallHeight: 35px;
+$mediumHeight: 40px;
+$largeHeight: 45px;
+$smallWidth: 150px;
+$mediumWidth: 200px;
+$largeWidth: 300px;
+
 .wrapper {
+    $marginTop: calc($levitatedLabelFontSize / 2);
+    $marginBottom: $messageHeight;
+
     position: relative;
-}
+    margin-top: $marginTop; // which reserves space for the transformed levitated label
+    font-size: $fontsize-medium;
 
-.small {
-    width: 150px;
-    height: 30px;
-}
-
-.medium {
-    width: 200px;
-    height: 35px;
-}
-
-.large {
-    width: 300px;
-    height: 45px;
-}
-
-.input {
-    width: 100%;
-    height: 100%;
-    padding: 10px;
-    border: 0 solid $color-foregroundTertiary;
-    background: $color-backgroundSecondary;
-    border-radius: 4px;
-
-    &:hover {
-        background: var(--color-backgroundSecondaryDark);
+    &.small {
+        width: $smallWidth;
+        height: $smallHeight;
     }
-}
 
-.placeholder {
-    position: absolute;
-    left: 0;
-    width: 0;
-    padding: 0 2px;
-    margin-top: -7px;
-    margin-left: 5px;
-    background-image: linear-gradient(to bottom, $color-backgroundPrimary 50%, $color-backgroundSecondaryDark 50%);
-    font-size: 12px;
-    opacity: 0;
-    transition: opacity 0.3s ease-in-out;
-    visibility: hidden;
-}
+    &.medium {
+        width: $mediumWidth;
+        height: $mediumHeight;
+    }
 
-.input:focus {
-    background: var(--color-backgroundSecondaryDark);
-    outline: none;
-}
+    &.large {
+        width: $largeWidth;
+        height: $largeHeight;
+    }
 
-input:focus::placeholder {
-    opacity: 0;
-}
+    &.messageHeightBuffer {
+        margin-bottom: $marginBottom;
+    }
 
-input:focus + .placeholder {
-    width: unset;
-    opacity: 1;
-    visibility: visible;
-}
+    .input {
+        position: relative;
+        width: 100%;
+        height: 100%;
+        padding: $inputPaddingTopBottom $inputPaddingLeftRight;
+        border: 0 solid $color-foregroundTertiary;
+        background: $color-backgroundSecondary;
+        border-radius: 5px;
+        font-size: $fontsize-medium;
 
-input:not(:placeholder-shown) + .placeholder {
-    width: unset;
-    opacity: 1;
-    visibility: visible;
-}
+        &:hover {
+            background: $color-backgroundSecondaryDark;
+        }
 
-.icon {
-    position: absolute;
-    top: 50%;
-    right: 3px;
-    color: var(--color-foregroundTertiary);
-    transform: translateY(-50%);
-}
+        &:focus {
+            background: $color-backgroundSecondaryDark;
+            outline: none;
+        }
+    }
 
-.error {
-    margin-top: 5px;
-    color: $color-danger;
-    font-size: 12px;
-}
+    .label {
+        position: absolute;
+        top: 50%;
+        left: $inputPaddingLeftRight;
+        width: auto;
+        color: $color-foregroundSecondary;
+        font-weight: $fontweight-bold;
+        pointer-events: none;
 
-.disabled {
-    border: 1px solid $color-foregroundTertiary;
-    background: $color-backgroundTertiary;
-    color: $color-foregroundTertiary;
-    cursor: not-allowed;
-    pointer-events: none;
+        // font-weight: $fontweight-medium;
+        transform: translateY(-50%);
+        transform-origin: top left;
+        transition: top 0.1s ease-out;
+        white-space: nowrap;
+
+        &.levitateLabel {
+            top: 0;
+            font-size: $levitatedLabelFontSize;
+        }
+    }
+
+    .icon {
+        position: absolute;
+        top: 50%;
+        right: calc($inputPaddingLeftRight - 10px);
+        color: $color-foregroundTertiary;
+        font-size: $fontsize-bodyMain;
+        transform: translateY(-50%);
+    }
+
+    .message {
+        position: absolute;
+        top: calc(100% + $messageTopMargin);
+        left: $inputPaddingLeftRight;
+        font-size: $fontsize-small;
+        user-select: none;
+    }
+
+    .disabled {
+        background: $color-backgroundTertiary;
+        color: $color-foregroundTertiary;
+        cursor: not-allowed;
+        pointer-events: none;
+    }
 }

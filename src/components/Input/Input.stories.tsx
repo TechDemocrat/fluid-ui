@@ -13,4 +13,10 @@ export default {
 const Template: Story<IInputProps> = (args) => <Input {...args} />;
 
 export const Default = Template.bind({});
-Default.args = {} as IInputProps;
+Default.args = {
+    value: '',
+    label: 'Content Title',
+    autoFocus: true,
+    showIcon: true,
+    showMessage: true,
+} as IInputProps;

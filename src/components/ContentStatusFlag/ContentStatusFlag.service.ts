@@ -22,7 +22,7 @@ export class ContentStatusFlagService {
                 break;
             case EContentStatusType.UPLOADING:
                 meta.label = 'Uploading';
-                meta.color = themeColors.infoLight;
+                meta.color = themeColors.infoDark;
                 break;
             case EContentStatusType.SCHEDULED:
                 meta.label = 'Scheduled';

@@ -9,7 +9,7 @@ export const CircularProgress = (props: ICircularProgressProps) => {
     // hooks
     const {
         theme: {
-            colors: { primary, primaryLight },
+            colors: { primary, primaryDark: primaryDark },
         },
     } = useTheme();
 
@@ -19,7 +19,7 @@ export const CircularProgress = (props: ICircularProgressProps) => {
         labelSize = 14,
         radius = 50,
         strokeWidth = 5,
-        trackColor = primaryLight,
+        trackColor = primaryDark,
     } = props;
     const { currentProgress = 0, totalProgress = 0 } = props;
 

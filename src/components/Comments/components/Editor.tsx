@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import styles from '../Comments.module.scss';
 import { Button } from '../../Button/Button';
-import { EInputSize } from '../../Input/Input.types';
 import { ProfileImage } from '../../ProfileImage/ProfileImage';
 import { TextArea } from '../../TextArea/TextArea';
 
@@ -33,7 +32,7 @@ function Editor(props: Props) {
                 </div>
                 <div className={styles.commentInput}>
                     <TextArea
-                        size={EInputSize.AUTO}
+                        size="auto"
                         value={comment}
                         placeholder="Write a comment..."
                         onChange={onCommentTextChangeHandler}

@@ -3,9 +3,9 @@ import { ITheme, IThemeColors, IThemeFontSizes } from './ThemeProvider.types';
 export class ThemeProviderService {
     private static defaultColors: IThemeColors = {
         primary: '#0F307F',
-        primaryLight: '#0f307f1a',
+        primaryDark: '#0f307f1a',
         secondary: '#9DADD0',
-        secondaryLight: '#9dadd07c',
+        secondaryDark: '#9dadd07c',
 
         foregroundPrimary: '#212121',
         foregroundSecondary: '#666666',
@@ -17,16 +17,16 @@ export class ThemeProviderService {
         backgroundTertiary: '#E0E0E0',
         backgroundPrimaryDark: '#212121',
 
-        success: '#7CC887',
-        successLight: '#7cc8877e',
-        info: '#41C2F5',
-        infoLight: '#41c2f580',
-        warning: '#FFB857',
-        warningLight: '#ffb95780',
+        success: '#00C851',
+        successDark: '#007E33',
+        info: '#33b5e5',
+        infoDark: '#0099CC',
+        warning: '#ffbb33',
+        warningDark: '#FF8800',
         danger: '#CC0000',
-        dangerLight: '#ff4444',
+        dangerDark: '#ff4444',
         link: '#3B6FEE',
-        linkLight: '#3b6eee7a',
+        linkDark: '#3b6eee7a',
 
         contentVideo: '#0086CE',
         contentBlog: '#FFB857',

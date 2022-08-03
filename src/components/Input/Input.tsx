@@ -1,7 +1,7 @@
-import React from 'react';
+import React, { useState } from 'react';
 import cn from 'classnames';
 
-import { EInputSize, EInputType, IInputProps } from './Input.types';
+import { IInputProps, IValidationResult } from './Input.types';
 import styles from './Input.module.scss';
 import { InputService } from './Input.service';
 import { Icon } from '@iconify/react';
@@ -11,19 +11,28 @@ import { useTheme } from '../ThemeProvider/ThemeProvider';
 export const Input = (props: IInputProps) => {
     // props
     const {
-        placeholder = 'Text',
-        value,
-        type = EInputType.TEXT,
-        size = EInputSize.MEDIUM,
-        disabled,
+        type = 'text',
+        size = 'medium',
+        inheritWidth = false,
+        label = '',
+        placeholder = '',
+        value = '',
+        disabled = false,
+        autoFocus = false,
+        showIcon = true,
+        showMessage = false,
         onChange,
+        validate,
     } = props;
 
     //state
-    const [localValue, setLocalValue] = React.useState<string | number>(value);
-    const [showIcon, setShowIcon] = React.useState(false);
-    const [iconType, setIconType] = React.useState('check');
-    const [errorMessage, setErrorMessage] = React.useState('');
+    const [localValue, setLocalValue] = useState<string | number>(value);
+    const [inputFieldFocus, setInputFieldFocus] = useState<boolean>(autoFocus);
+    const [{ message: validationMessage, type: validationType }, setValidationResult] =
+        useState<IValidationResult>({
+            type: 'idle',
+            message: '',
+        });
 
     // theme
     const {
@@ -32,49 +41,85 @@ export const Input = (props: IInputProps) => {
 
     // handler
     const handleTextChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        const text = e.target.value;
-        const { isValid, errorMessage: message } = InputService.validate(text, type);
-        setLocalValue(text);
-        if (isValid) {
-            if (type === EInputType.EMAIL && text.length > 0) {
-                setShowIcon(true);
-                setIconType('check');
-                setErrorMessage('');
-            }
-        } else {
-            if (type === EInputType.EMAIL) {
-                setShowIcon(true);
-                setIconType('error');
-            }
-            setErrorMessage(message);
-        }
-        onChange(text);
+        const inputValue = e.target.value;
+        setLocalValue(inputValue);
+
+        const { type: resultType, message: resultMessage } =
+            validate?.(inputValue, type) ?? InputService.validate(inputValue, type);
+        setValidationResult({
+            type: resultType,
+            message: resultMessage,
+        });
+
+        onChange?.(inputValue);
     };
+
+    const handleOnFocus = () => {
+        setInputFieldFocus(true);
+    };
+
+    const handleOnBlur = () => {
+        setInputFieldFocus(false);
+    };
+
+    // compute
+    const hasValue = localValue.toString().length > 0;
+    const hasPlaceholder = placeholder && placeholder.length > 0;
+    const hasIcon = showIcon && validationType !== 'idle';
+    const hasMessage = showMessage && validationType !== 'idle' && validationMessage;
+    const validationColor = validationType === 'success' ? colors.success : colors.danger;
+    const levitateLabel = hasValue || hasPlaceholder || inputFieldFocus;
 
     // paint
     return (
-        <>
-            <div className={cn(styles.wrapper, styles[`${size}`])} title={placeholder}>
-                <input
-                    className={cn(styles.input, { [styles.disabled]: disabled })}
-                    // disabled={disabled}
-                    type={type}
-                    placeholder={placeholder}
-                    value={localValue}
-                    onChange={handleTextChange}
-                />
-                <span className={styles.placeholder}>{placeholder}</span>
-                {showIcon && (
-                    <span className={styles.icon}>
-                        <Icon
-                            icon={iconType === 'error' ? error : check}
-                            color={iconType === 'error' ? colors.danger : colors.success}
-                            className={cn(styles.icon)}
-                        />
-                    </span>
-                )}
+        <div
+            className={cn(styles.wrapper, styles[`${size}`], {
+                [styles.messageHeightBuffer]: showMessage,
+                [styles.small]: size === 'small',
+                [styles.medium]: size === 'medium',
+                [styles.large]: size === 'large',
+            })}
+            style={{
+                width: inheritWidth ? '100%' : undefined,
+            }}
+        >
+            <input
+                className={cn(styles.input, { [styles.disabled]: disabled })}
+                disabled={disabled}
+                type={type}
+                placeholder={placeholder}
+                value={localValue}
+                autoFocus={autoFocus}
+                onChange={handleTextChange}
+                onFocus={handleOnFocus}
+                onBlur={handleOnBlur}
+            />
+            <div
+                className={cn(styles.label, {
+                    [styles.levitateLabel]: levitateLabel,
+                })}
+            >
+                {label}
             </div>
-            {errorMessage && <span className={styles.error}>{errorMessage}</span>}
-        </>
+            {hasIcon && (
+                <div className={styles.icon}>
+                    <Icon
+                        icon={validationType === 'error' ? error : check}
+                        color={validationColor}
+                        className={cn(styles.icon)}
+                    />
+                </div>
+            )}
+            {hasMessage && (
+                <div
+                    className={cn(styles.message)}
+                    style={{
+                        color: validationColor,
+                    }}
+                >
+                    {validationMessage}
+                </div>
+            )}
+        </div>
     );
 };
