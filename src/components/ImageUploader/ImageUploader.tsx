@@ -1,5 +1,6 @@
 import React, {
     ChangeEventHandler,
+    CSSProperties,
     DragEvent,
     MouseEvent,
     useCallback,
@@ -36,6 +37,8 @@ export const ImageUploader = (props: IImageUploaderProps) => {
         viewMode,
         allowedFileTypes = [],
         showEditIcon = false,
+        width,
+        height,
         onUpload,
         onDelete,
     } = props;
@@ -146,9 +149,14 @@ export const ImageUploader = (props: IImageUploaderProps) => {
         return '';
     }, [currentContent]);
 
+    const wrapperStyle: CSSProperties = {
+        width,
+        height,
+    };
+
     // paint
     return (
-        <div className={cn(styles.wrapper)}>
+        <div className={cn(styles.wrapper)} style={wrapperStyle}>
             <div
                 className={styles.core}
                 onDragOver={onFileDragOver}
@@ -159,6 +167,7 @@ export const ImageUploader = (props: IImageUploaderProps) => {
                 <div className={styles.label}>{label}</div>
                 <div className={cn(styles.contentWrapper)}>
                     <ImageUploaderLandingPage
+                        label={label}
                         showLandingPage={isIdle}
                         ref={inputFileRef}
                         isDragging={isDragging}

@@ -8,6 +8,7 @@ import { ImageUploaderService } from '../ImageUploader.service';
 import { IUploaderErrorMessage, TAllowedFileTypes } from '../ImageUploader.types';
 
 interface IImageUploaderLandingPageProps {
+    label: string;
     showLandingPage?: boolean;
     isDragging: boolean;
     error: IUploaderErrorMessage;
@@ -24,7 +25,7 @@ export const ImageUploaderLandingPage = forwardRef<
     IImageUploaderLandingPageProps
 >((props, inputFileRef) => {
     // props
-    const { isDragging, error, showLandingPage, allowMultiple, allowedFileTypes } = props;
+    const { isDragging, error, showLandingPage, allowMultiple, allowedFileTypes, label } = props;
     const { onFileDragLeave, onFileDragOver, onFileDrop, inputFileOnChange } = props;
 
     // handlers
@@ -59,7 +60,12 @@ export const ImageUploaderLandingPage = forwardRef<
                         })}
                     />
                     <div className={styles.uploadText}>
-                        {error.enabled ? error.message : <>Drag and drop to upload</>} <br />
+                        {error.enabled ? (
+                            error.message
+                        ) : (
+                            <>Drag and drop to upload {label.toLowerCase()}</>
+                        )}{' '}
+                        <br />
                         <span className={styles.supportedFilesText}>
                             supported formats <br />( {formattedAllowedFileTypes} )
                         </span>
