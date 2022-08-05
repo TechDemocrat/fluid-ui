@@ -7,10 +7,10 @@
     border-radius: 5px;
     cursor: pointer;
     font-weight: $fontweight-semibold;
+    transition: all 0.2s ease-in-out;
+    user-select: none;
 
     @include click-effect;
-
-    transition: all 0.2s ease-in-out;
 }
 
 .disabled {
