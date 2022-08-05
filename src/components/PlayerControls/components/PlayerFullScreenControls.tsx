@@ -25,7 +25,7 @@ export const PlayerFullScreenControls = (props: IPlayerFullScreenControlsProps) 
     };
 
     // hooks
-    useEventListener('keydown', onKeyDown);
+    useEventListener('keydown', onKeyDown, true);
 
     // compute
     const currentIcon = isFullScreen ? baselineFullScreenExit : baselineFullScreen;

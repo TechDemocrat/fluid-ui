@@ -22,7 +22,7 @@ export const useIsKeyboardIdle = (idleTime = 2500) => {
     }, [isIdle, idleTime]);
 
     // hooks
-    useEventListener('keydown', handleKeyDown);
+    useEventListener('keydown', handleKeyDown, true);
 
     return isIdle;
 };

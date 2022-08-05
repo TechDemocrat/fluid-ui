@@ -1,4 +1,4 @@
-import { ReactNode } from 'react';
+import { CSSProperties, ReactNode } from 'react';
 
 export type TContentUploadStatus = 'idle' | 'uploading' | 'uploaded';
 export type TAllowedFileTypes =
@@ -61,6 +61,14 @@ export interface IContentUploaderProps {
      * status of the uploader - initially at 'idle'
      */
     status: TContentUploadStatus;
+    /**
+     * width of the container
+     */
+    width?: CSSProperties['width'];
+    /**
+     * height of the container
+     */
+    height?: CSSProperties['height'];
     /**
      * pass allowed file types as an array of strings (to allow from input field)
      */

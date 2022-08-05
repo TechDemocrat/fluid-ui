@@ -9,12 +9,14 @@ export interface IThemeColors {
     foregroundPrimary: string;
     foregroundPrimaryLight: string;
     foregroundSecondary: string;
+    foregroundSecondaryLight: string;
     foregroundTertiary: string;
+    foregroundTertiaryLight: string;
 
     backgroundPrimary: string;
+    backgroundPrimaryDark: string;
     backgroundSecondary: string;
     backgroundTertiary: string;
-    backgroundPrimaryDark: string;
 
     success: string;
     successDark: string;

@@ -1,5 +1,6 @@
 import React, {
     ChangeEventHandler,
+    CSSProperties,
     useCallback,
     useEffect,
     useMemo,
@@ -27,6 +28,8 @@ export const ContentUploader = (props: IContentUploaderProps) => {
         uploadedContentMeta,
         uploadProgress,
         allowedFileTypes = [],
+        width,
+        height,
         onUpload,
     } = props;
     const { previewArea, uploadedAt = '', onDelete } = uploadedContentMeta ?? {};
@@ -122,9 +125,14 @@ export const ContentUploader = (props: IContentUploaderProps) => {
         [allowedFileTypes],
     );
 
+    const wrapperStyle: CSSProperties = {
+        width,
+        height,
+    };
+
     // paint
     return (
-        <div className={cn(styles.wrapper)}>
+        <div className={cn(styles.wrapper)} style={wrapperStyle}>
             <div className={styles.core}>
                 <div className={styles.label}>{label}</div>
                 <div className={styles.contentWrapper}>

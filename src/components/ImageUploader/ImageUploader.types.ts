@@ -1,3 +1,5 @@
+import { CSSProperties } from 'react';
+
 export type TContentUploadStatus = 'idle' | 'filled';
 export type TAllowedFileTypes = 'image/*' | 'image/jpeg' | 'image/png';
 export type TImageUploadStatus = 'uploading' | 'done';
@@ -36,6 +38,14 @@ export interface IImageUploaderProps {
      * @default false
      */
     showEditIcon?: boolean;
+    /**
+     * width of the container
+     */
+    width?: CSSProperties['width'];
+    /**
+     * height of the container
+     */
+    height?: CSSProperties['height'];
     /**
      * if enabled multiple uploads are allowed
      */

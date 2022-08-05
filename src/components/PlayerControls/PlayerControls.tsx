@@ -144,7 +144,7 @@ export const PlayerControls = (props: IPlayerControlsProps) => {
     };
 
     // hooks
-    useEventListener('keydown', onKeyDown);
+    useEventListener('keydown', onKeyDown, true);
 
     // compute
     const { current, total } = PlayerControlsService.getFormattedDuration(

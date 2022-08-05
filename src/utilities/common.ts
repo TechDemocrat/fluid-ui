@@ -75,11 +75,11 @@ export const onImageLoadError = (event: SyntheticEvent<HTMLImageElement, Event>)
 };
 
 // gives key , if
-export const formKey = (key?: string) => {
+export const formKey = (...keys: (string | number)[]) => {
     // if key is not provided, generate a random key
-    if (!key) {
+    if (!keys.length) {
         return uuidv4();
     }
     // if key available sanitize and return
-    return key.replace(/[^a-zA-Z0-9]/g, '_');
+    return keys.join('_');
 };
