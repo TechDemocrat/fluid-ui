@@ -20,3 +20,15 @@ Default.args = {
     showIcon: true,
     showMessage: true,
 } as IInputProps;
+
+export const Tags = Template.bind({});
+Tags.args = {
+    label: 'Tags',
+    type: 'tags',
+    size: 'large',
+    placeholder: 'Add tags',
+    autoFocus: true,
+    showIcon: true,
+    showMessage: true,
+    tags: ['tag1', 'tag2', 'tag3'],
+} as IInputProps;
