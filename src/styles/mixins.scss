@@ -6,6 +6,7 @@
     $color-secondary: null
 ) {
     &::-webkit-scrollbar {
+        display: none;
         width: $scroll-width;
     }
 
@@ -26,6 +27,12 @@
             } @else {
                 background-color: $color-foregroundTertiary;
             }
+        }
+    }
+
+    &:hover {
+        &::-webkit-scrollbar {
+            display: block;
         }
     }
 }
