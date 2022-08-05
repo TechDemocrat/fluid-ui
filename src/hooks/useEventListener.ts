@@ -20,9 +20,9 @@ import { useIsomorphicLayoutEffect } from './useIsomorphicLayoutEffect';
  *      cons*le.log('button clicked!', event)
  *    }
  *    // example with window based event
- *    useEventListener('scroll', onScroll)
+ *    useEventListener('scroll', onScroll, true)
  *    // example with element based event
- *    useEventListener('click', onClick, buttonRef)
+ *    useEventListener('click', onClick, true, buttonRef)
  *    return (
  *      <div style={{ minHeight: '200vh' }}>
  *        <button ref={buttonRef}>Click me</button>
@@ -35,12 +35,18 @@ import { useIsomorphicLayoutEffect } from './useIsomorphicLayoutEffect';
 export function useEventListener<K extends keyof WindowEventMap>(
     eventName: K,
     handler: (event: WindowEventMap[K]) => void,
+    listen: boolean,
 ): void;
 
 export function useEventListener<
     K extends keyof HTMLElementEventMap,
     T extends HTMLElement = HTMLDivElement,
->(eventName: K, handler: (event: HTMLElementEventMap[K]) => void, element: RefObject<T>): void;
+>(
+    eventName: K,
+    handler: (event: HTMLElementEventMap[K]) => void,
+    listen: boolean,
+    element: RefObject<T>,
+): void;
 
 export function useEventListener<
     KW extends keyof WindowEventMap,
@@ -49,6 +55,7 @@ export function useEventListener<
 >(
     eventName: KW | KH,
     handler: (event: WindowEventMap[KW] | HTMLElementEventMap[KH] | Event) => void,
+    listen: boolean,
     element?: RefObject<T>,
 ) {
     // Create a ref that stores handler
@@ -61,6 +68,7 @@ export function useEventListener<
     useEffect(() => {
         // Define the listening target
         const targetElement: T | Window = element?.current || window;
+
         if (!(targetElement && targetElement.addEventListener)) {
             return;
         }
@@ -68,11 +76,15 @@ export function useEventListener<
         // Create event listener that calls handler function stored in ref
         const eventListener: typeof handler = (event) => savedHandler.current(event);
 
-        targetElement.addEventListener(eventName, eventListener);
+        if (listen) {
+            targetElement.addEventListener(eventName, eventListener);
+        } else {
+            targetElement.removeEventListener(eventName, eventListener);
+        }
 
         // Remove event listener on cleanup
         return () => {
             targetElement.removeEventListener(eventName, eventListener);
         };
-    }, [eventName, element]);
+    }, [eventName, element, listen]);
 }

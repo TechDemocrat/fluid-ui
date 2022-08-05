@@ -21,8 +21,8 @@ export const useIsMouseIdle = <T extends HTMLElement>(ref: RefObject<T>, idleTim
     }, [isIdle, idleTime]);
 
     // hooks
-    useEventListener('mousemove', handleMouseMove, ref);
-    useEventListener('mousedown', handleMouseMove, ref);
+    useEventListener('mousemove', handleMouseMove, true, ref);
+    useEventListener('mousedown', handleMouseMove, true, ref);
 
     return isIdle;
 };

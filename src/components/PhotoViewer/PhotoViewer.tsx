@@ -146,7 +146,7 @@ export const PhotoViewer = (props: IPhotoViewerProps) => {
     });
 
     // hooks
-    useEventListener('keydown', onKeyDown);
+    useEventListener('keydown', onKeyDown, true);
 
     // compute
     const showTitleWithAction = isFullScreen && !isMouseIdle;
