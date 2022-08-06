@@ -151,7 +151,11 @@ export const ContentUploader = (props: IContentUploaderProps) => {
                                 })}
                             />
                             <div className={styles.uploadText}>
-                                {error.enabled ? error.message : <>Drag and drop to upload</>}{' '}
+                                {error.enabled ? (
+                                    error.message
+                                ) : (
+                                    <>Drag and drop to upload {label?.toLowerCase()}</>
+                                )}{' '}
                                 <br />
                                 <span className={styles.supportedFilesText}>
                                     supported formats <br />( {formattedAllowedFileTypes} )
