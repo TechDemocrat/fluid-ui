@@ -10,7 +10,11 @@ import ToastMessage from './components/ToastMessage';
 
 export const Toast = (props: IToastProps) => {
     // props
-    const { position = 'top-right' } = props;
+    const {
+        position = 'top-right',
+        type: defaultType = 'info',
+        duration: defaultDuration = 3000,
+    } = props;
 
     // compute
     const positionClass = ToastService.getPositionClass(position);
@@ -28,7 +32,11 @@ export const Toast = (props: IToastProps) => {
     return (
         <div className={cn(styles.wrapper, positionClass)}>
             {[...toastList.keys()].map((id) => {
-                const toast = toastList.get(id);
+                const {
+                    message = '',
+                    duration = defaultDuration,
+                    type = defaultType,
+                } = toastList.get(id) ?? {};
                 return (
                     <div
                         key={id}
@@ -45,9 +53,9 @@ export const Toast = (props: IToastProps) => {
                         <ToastMessage
                             key={id}
                             id={id}
-                            message={toast?.message}
-                            duration={toast?.duration || 5000}
-                            type={toast?.type || 'info'}
+                            message={message}
+                            duration={duration}
+                            type={type}
                             close={close}
                         />
                     </div>
