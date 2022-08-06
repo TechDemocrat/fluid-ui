@@ -4,7 +4,6 @@ import { Story, Meta } from '@storybook/react';
 import { Toast } from './Toast';
 import { IToastProps } from './Toast.types';
 import { useToastStore } from './Toast.store';
-import shallow from 'zustand/shallow';
 import { Button } from '../Button/Button';
 
 export default {
@@ -14,12 +13,9 @@ export default {
 } as Meta<typeof Toast>;
 
 const Template: Story<IToastProps> = (args) => {
-    const { show } = useToastStore(
-        (store) => ({
-            show: store.show,
-        }),
-        shallow,
-    );
+    const { show } = useToastStore((store) => ({
+        show: store.show,
+    }));
 
     return (
         <>
@@ -31,7 +27,6 @@ const Template: Story<IToastProps> = (args) => {
                 onClick={() =>
                     show({
                         message: 'This is a toast message',
-                        type: 'warning',
                     })
                 }
             >

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { CSSProperties } from 'react';
 import { Icon } from '@iconify/react';
 import cn from 'classnames';
 import { check, error } from '../../assets/icons/iconify';
@@ -9,22 +9,43 @@ import { ICircularLoaderWithMessageProps } from './CircularLoaderWithMessage.typ
 
 export const CircularLoaderWithMessage: React.FC<ICircularLoaderWithMessageProps> = (props) => {
     // props
-    const { message, style, loadingState = 'loading', size = 'medium' } = props;
+    const {
+        message,
+        style,
+        messageStyle,
+        spinnerColor = 'primary',
+        loadingState = 'loading',
+        size = 'medium',
+        loaderTitleGap = 20,
+        direction = 'vertical',
+    } = props;
 
     // compute
     // const formattedTitle = CircularLoaderWithMessageService.getTitle(title);
+    const wrapperStyle: CSSProperties = {
+        gap: loaderTitleGap,
+        flexDirection: direction === 'vertical' ? 'column' : 'row',
+        ...(style ?? {}),
+    };
 
     // paint
     return (
-        <div className={cn(styles.wrapper)} style={style}>
-            {loadingState === 'loading' && <Spinner size={size} color="primary" />}
+        <div className={cn(styles.wrapper)} style={wrapperStyle}>
+            {loadingState === 'loading' && <Spinner size={size} color={spinnerColor} />}
             {loadingState === 'loaded' && (
                 <Icon icon={check} className={cn(styles.icon, styles.success)} inline />
             )}
             {loadingState === 'error' && (
                 <Icon icon={error} className={cn(styles.icon, styles.danger)} inline />
             )}
-            {message && <div className={styles.message}>{message}</div>}
+            {message && (
+                <div
+                    className={cn(styles.message, { [styles.messageSmall]: size === 'small' })}
+                    style={messageStyle}
+                >
+                    {message}
+                </div>
+            )}
         </div>
     );
 };

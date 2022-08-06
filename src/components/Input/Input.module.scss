@@ -18,8 +18,8 @@ $largeWidth: 300px;
     $marginBottom: $messageHeight;
 
     position: relative;
-    padding: $inputPaddingTopBottom $inputPaddingLeftRight;
-    padding-right: $inputPaddingLeftRight + 20px;
+    padding: $inputPaddingTopBottom 0;
+    padding-left: $inputPaddingLeftRight;
     background-color: $color-backgroundSecondary;
     border-radius: 5px;
 
@@ -66,13 +66,14 @@ $largeWidth: 300px;
         display: flex;
         width: 100%;
         height: 100%;
-        flex-flow: column wrap;
+        flex-direction: column;
 
         .tagsContainer {
             display: flex;
             height: 100%;
             flex-flow: row wrap;
             align-items: center;
+            padding-right: $inputPaddingLeftRight + 20px;
             padding-bottom: 15px;
             gap: 10px;
 
@@ -131,6 +132,7 @@ $largeWidth: 300px;
         position: relative;
         width: 100%;
         height: 100%;
+        padding-right: $inputPaddingLeftRight + 20px;
 
         // 20px for icon width - make it dynamic later if specifically needed
         border: none;
@@ -192,6 +194,11 @@ $largeWidth: 300px;
         .input {
             font-size: inherit;
         }
+
+        &.tags {
+            height: auto !important;
+            min-height: $smallHeight !important;
+        }
     }
 
     &.medium {
@@ -211,6 +218,11 @@ $largeWidth: 300px;
 
         .input {
             font-size: inherit;
+        }
+
+        &.tags {
+            height: auto !important;
+            min-height: $mediumHeight !important;
         }
     }
 
@@ -240,7 +252,7 @@ $largeWidth: 300px;
     .icon {
         position: absolute;
         top: 0;
-        right: calc($inputPaddingLeftRight - 10px);
+        right: calc($inputPaddingLeftRight - 8px);
         color: $color-foregroundTertiary;
         font-size: $fontsize-bodyMain;
         transform-origin: top left;

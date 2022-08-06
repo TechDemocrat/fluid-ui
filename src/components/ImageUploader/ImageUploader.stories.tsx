@@ -17,7 +17,7 @@ const Template: Story<IImageUploaderProps> = (args) => {
     const [contents, setContents] = useState<IImageUploaderContent[]>(args.contents ?? []);
 
     const onDeleteHandler = (currentContent: IImageUploaderContent) => {
-        if (currentContent.type === 'local') {
+        if (currentContent.location === 'local') {
             setContents(contents.filter((content) => content.id !== currentContent.id));
             if (currentContent.id) UploadService.getInstance().cancelUpload(currentContent.id);
         } else {
@@ -28,7 +28,7 @@ const Template: Story<IImageUploaderProps> = (args) => {
     const onUploadHandler = (files: File[]) => {
         const uploadIds = UploadService.getInstance().upload(files, { simulate: true });
         const newContents: IImageUploaderContent[] = uploadIds.map((uploadId) => ({
-            type: 'local',
+            location: 'local',
             id: uploadId,
         }));
         setContents([...contents, ...newContents]);
@@ -61,22 +61,22 @@ ViewMode.args = {
         {
             id: 'https://upload.wikimedia.org/wikipedia/en/thumb/b/b4/Shape_Of_You_%28Official_Single_Cover%29_by_Ed_Sheeran.png/220px-Shape_Of_You_%28Official_Single_Cover%29_by_Ed_Sheeran.png',
             url: 'https://upload.wikimedia.org/wikipedia/en/thumb/b/b4/Shape_Of_You_%28Official_Single_Cover%29_by_Ed_Sheeran.png/220px-Shape_Of_You_%28Official_Single_Cover%29_by_Ed_Sheeran.png',
-            type: 'remote',
+            location: 'remote',
         },
         {
             id: 'https://picsum.photos/1240/720?random=1',
             url: 'https://picsum.photos/1240/720?random=1',
-            type: 'remote',
+            location: 'remote',
         },
         {
             id: 'https://picsum.photos/400/300?random=2',
             url: 'https://picsum.photos/400/300?random=2',
-            type: 'remote',
+            location: 'remote',
         },
         {
             id: 'https://picsum.photos/200/300?random=3',
             url: 'https://picsum.photos/200/300?random=3',
-            type: 'remote',
+            location: 'remote',
         },
     ],
     viewMode: 'view',

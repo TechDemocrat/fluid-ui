@@ -20,10 +20,10 @@ export const IImageStackNode = (props: IImageStackNodeProps) => {
     // props
     const { content, previewImageIndex, index, viewMode } = props;
     const { onDeleteImage, onPreviewImageChange } = props;
-    const { type, url: remoteUrl, id } = content;
+    const { location, url: remoteUrl, id } = content;
 
     // hooks
-    const { progress, status, url } = useUploadProgress(type === 'local' ? id : undefined) ?? {
+    const { progress, status, url } = useUploadProgress(location === 'local' ? id : undefined) ?? {
         progress: 0,
         status: 'uploaded',
         url: remoteUrl,
