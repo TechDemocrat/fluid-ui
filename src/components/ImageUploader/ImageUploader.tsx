@@ -142,7 +142,7 @@ export const ImageUploader = (props: IImageUploaderProps) => {
     );
     const currentImageUrl = useMemo(() => {
         if (currentContent) {
-            return currentContent.type === 'remote'
+            return currentContent.location === 'remote'
                 ? currentContent.url
                 : UploadService.getInstance().getUploadProgressData(currentContent.id).url;
         }

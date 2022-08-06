@@ -9,9 +9,9 @@ export interface IImageUploaderContent {
      * local is when the image uploader uploads the image to the server
      * remote is when the image uploader gets the image from the server
      *
-     * if type is local, progressId should be set to the id of the upload
+     * if location is local, progressId should be set to the id of the upload
      */
-    type: 'remote' | 'local';
+    location: 'remote' | 'local';
     /**
      * remote id is the id of the image on the server
      * used to delete the image from the server
