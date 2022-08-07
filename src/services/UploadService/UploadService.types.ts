@@ -35,6 +35,10 @@ export type TUploadServiceProgressMetaMapping = Map<string, IUploadServiceProgre
 
 export interface IUploadOptions {
     url?: string;
+    /**
+     * if passed customId will be used instead of generating one
+     */
+    customId?: string;
     simulate?: boolean;
     simulateOptions?: {
         uploadRate?: number;

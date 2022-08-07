@@ -99,7 +99,7 @@ export class UploadService {
     };
 
     private addToQueue = (file: File, options: IUploadOptions): string => {
-        const uploadId = formKey();
+        const uploadId = options?.customId ?? formKey();
         const uploadProgressMeta: IUploadServiceProgressMeta = {
             file,
             current: 0,

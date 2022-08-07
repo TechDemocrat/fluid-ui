@@ -5,7 +5,7 @@ import { ContentUploader } from './ContentUploader';
 import {
     IContentUploaderProps,
     IUploadContentMeta,
-    IUploadProgress,
+    IContentUploadProgress,
 } from './ContentUploader.types';
 import { UploadService } from '../../services/UploadService/UploadService';
 import { useUploadProgress } from '../../hooks/useUploadProgress';
@@ -59,7 +59,7 @@ const Template: Story<IContentUploaderProps> = (args) => {
     }, [progress, uploadId]);
 
     // compute
-    const uploadProgress: IUploadProgress | undefined =
+    const uploadProgress: IContentUploadProgress | undefined =
         currentStatus === 'uploading'
             ? {
                   loaded: progress.current,
