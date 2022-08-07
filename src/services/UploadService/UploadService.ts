@@ -1,4 +1,4 @@
-import { uniqueId } from 'lodash';
+import { formKey } from '../../utilities';
 import {
     IUploadOptions,
     IUploadProgress,
@@ -90,6 +90,8 @@ export class UploadService {
                 status: uploadProgressMeta.status,
                 total: uploadProgressMeta.total,
                 url: uploadProgressMeta.url,
+                fileName: uploadProgressMeta.file.name,
+                fileType: uploadProgressMeta.file.type,
             };
             return progress;
         }
@@ -97,7 +99,7 @@ export class UploadService {
     };
 
     private addToQueue = (file: File, options: IUploadOptions): string => {
-        const uploadId = uniqueId();
+        const uploadId = formKey();
         const uploadProgressMeta: IUploadServiceProgressMeta = {
             file,
             current: 0,

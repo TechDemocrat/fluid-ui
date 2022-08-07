@@ -8,6 +8,8 @@ export interface IUploadProgress {
     url: string;
     total: number;
     current: number;
+    fileName: string;
+    fileType: string;
 }
 
 export type TUploadProgressSubscription = (progress: IUploadProgress) => void;

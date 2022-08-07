@@ -2,7 +2,7 @@ import { useEffect, useMemo, useState } from 'react';
 import { UploadService } from '../services/UploadService/UploadService';
 import { IUploadProgress } from '../services/UploadService/UploadService.types';
 
-export const useUploadProgress = (uploadId: string | undefined): IUploadProgress | undefined => {
+export const useUploadProgress = (uploadId: string | undefined): IUploadProgress => {
     // refs
     const uploadService = useMemo(() => UploadService.getInstance(), []);
 
@@ -28,5 +28,15 @@ export const useUploadProgress = (uploadId: string | undefined): IUploadProgress
         };
     }, [uploadId, uploadService]);
 
-    return uploadId ? progress : undefined;
+    return uploadId
+        ? progress
+        : {
+              current: 0,
+              progress: 0,
+              status: 'uploaded',
+              total: 0,
+              url: '',
+              fileName: '',
+              fileType: '',
+          };
 };

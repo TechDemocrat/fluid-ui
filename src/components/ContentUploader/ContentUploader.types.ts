@@ -41,7 +41,7 @@ export interface IUploadContentMeta {
     /**
      * should be passed if status is 'uploaded'
      */
-    previewArea?: ReactNode;
+    previewArea?: () => ReactNode;
     /**
      * uploaded at timestamp
      */
