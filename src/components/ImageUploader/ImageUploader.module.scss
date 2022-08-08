@@ -17,6 +17,10 @@ $labelFontSize: $fontsize-medium;
         background-color: $color-backgroundSecondary;
         border-radius: 5px;
 
+        &:hover {
+            background-color: $color-backgroundSecondaryDark;
+        }
+
         .dropToUploadOverlay {
             position: absolute;
             z-index: 1;

@@ -17,6 +17,10 @@ $labelFontSize: $fontsize-medium;
         background-color: $color-backgroundSecondary;
         border-radius: 5px;
 
+        &:hover {
+            background-color: $color-backgroundSecondaryDark;
+        }
+
         .label {
             position: absolute;
             top: calc((($labelFontSize / 2)) * -1);
