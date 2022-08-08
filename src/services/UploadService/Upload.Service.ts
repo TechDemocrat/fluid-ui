@@ -139,8 +139,8 @@ export class UploadService {
             if (uploadProgressMeta.options.simulate) {
                 this.simulateUpload(uploadId);
             } else {
-                // actual upload flow - hold for now
-                // wire it up with axios
+                // TODO: actual upload flow
+                // wire it up with upload handler from client
             }
         }
     };
@@ -157,6 +157,7 @@ export class UploadService {
                 } else {
                     clearInterval(uploadProgressMeta.simulationId);
                     uploadProgressMeta.status = 'uploaded';
+                    uploadProgressMeta.options.onUploadDone?.();
                 }
                 uploadProgressMeta.subscriptions.forEach((callback) =>
                     callback(this.getUploadProgressData(uploadId)),

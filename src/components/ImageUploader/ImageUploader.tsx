@@ -25,7 +25,7 @@ import { IconButton } from '../IconButton/IconButton';
 import { ImageUploaderImageStack } from './components/ImageUploaderImageStack';
 import { DropToUploadOverlay } from './components/DropToUploadOverlay';
 import { onImageLoadError } from '../../utilities';
-import { UploadService } from '../../services/UploadService/UploadService';
+import { UploadService } from '../../services/UploadService/Upload.Service';
 import { useIsMounted } from '../../hooks';
 
 export const ImageUploader = (props: IImageUploaderProps) => {

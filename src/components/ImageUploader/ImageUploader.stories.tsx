@@ -3,7 +3,7 @@ import { Story, Meta } from '@storybook/react';
 
 import { ImageUploader } from './ImageUploader';
 import { IImageUploaderProps, IImageUploaderContent } from './ImageUploader.types';
-import { UploadService } from '../../services/UploadService/UploadService';
+import { UploadService } from '../../services/UploadService/Upload.Service';
 
 export default {
     title: 'fluid-ui/ImageUploader',

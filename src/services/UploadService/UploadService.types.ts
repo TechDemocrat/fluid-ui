@@ -39,6 +39,16 @@ export interface IUploadOptions {
      * if passed customId will be used instead of generating one
      */
     customId?: string;
+    /**
+     * will be triggered when the upload is complete, useful when upload runs in the background
+     * and you want to let the server know when it is done
+     */
+    onUploadDone?: () => void;
+    /**
+     * will be triggered when the upload is cancelled, useful when upload runs in the background
+     * and you want to clear out the footprint of the upload
+     */
+    onUploadError?: () => void;
     simulate?: boolean;
     simulateOptions?: {
         uploadRate?: number;

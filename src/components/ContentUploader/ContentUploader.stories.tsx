@@ -7,7 +7,7 @@ import {
     IUploadContentMeta,
     IContentUploadProgress,
 } from './ContentUploader.types';
-import { UploadService } from '../../services/UploadService/UploadService';
+import { UploadService } from '../../services/UploadService/Upload.Service';
 import { useUploadProgress } from '../../hooks/useUploadProgress';
 
 export default {
