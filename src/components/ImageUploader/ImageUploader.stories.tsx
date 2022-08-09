@@ -2,8 +2,8 @@ import React, { useState } from 'react';
 import { Story, Meta } from '@storybook/react';
 
 import { ImageUploader } from './ImageUploader';
-import { IImageUploaderProps, IImageUploaderContent } from './ImageUploader.types';
-import { UploadService } from '../../services/UploadService/UploadService';
+import { IImageUploaderProps, IContentSource } from './ImageUploader.types';
+import { UploadService } from '../../services/UploadService/Upload.Service';
 
 export default {
     title: 'fluid-ui/ImageUploader',
@@ -14,9 +14,9 @@ export default {
 // main story
 const Template: Story<IImageUploaderProps> = (args) => {
     // state
-    const [contents, setContents] = useState<IImageUploaderContent[]>(args.contents ?? []);
+    const [contents, setContents] = useState<IContentSource[]>(args.contents ?? []);
 
-    const onDeleteHandler = (currentContent: IImageUploaderContent) => {
+    const onDeleteHandler = (currentContent: IContentSource) => {
         if (currentContent.location === 'local') {
             setContents(contents.filter((content) => content.id !== currentContent.id));
             if (currentContent.id) UploadService.getInstance().cancelUpload(currentContent.id);
@@ -26,10 +26,15 @@ const Template: Story<IImageUploaderProps> = (args) => {
     };
 
     const onUploadHandler = (files: File[]) => {
-        const uploadIds = UploadService.getInstance().upload(files, { simulate: true });
-        const newContents: IImageUploaderContent[] = uploadIds.map((uploadId) => ({
+        const fileInputs = files.map((file) => ({ file }));
+        const { uploadId } = UploadService.getInstance().upload(fileInputs, {
+            simulate: true,
+        });
+        const newContents: IContentSource[] = uploadId.map((currentUploadId, index) => ({
             location: 'local',
-            id: uploadId,
+            id: currentUploadId,
+            status: 'uploading',
+            type: files[index].type,
         }));
         setContents([...contents, ...newContents]);
     };
@@ -60,23 +65,31 @@ ViewMode.args = {
     contents: [
         {
             id: 'https://upload.wikimedia.org/wikipedia/en/thumb/b/b4/Shape_Of_You_%28Official_Single_Cover%29_by_Ed_Sheeran.png/220px-Shape_Of_You_%28Official_Single_Cover%29_by_Ed_Sheeran.png',
-            url: 'https://upload.wikimedia.org/wikipedia/en/thumb/b/b4/Shape_Of_You_%28Official_Single_Cover%29_by_Ed_Sheeran.png/220px-Shape_Of_You_%28Official_Single_Cover%29_by_Ed_Sheeran.png',
+            src: 'https://upload.wikimedia.org/wikipedia/en/thumb/b/b4/Shape_Of_You_%28Official_Single_Cover%29_by_Ed_Sheeran.png/220px-Shape_Of_You_%28Official_Single_Cover%29_by_Ed_Sheeran.png',
             location: 'remote',
+            status: 'uploaded',
+            type: 'image/png',
         },
         {
             id: 'https://picsum.photos/1240/720?random=1',
-            url: 'https://picsum.photos/1240/720?random=1',
+            src: 'https://picsum.photos/1240/720?random=1',
             location: 'remote',
+            status: 'uploaded',
+            type: 'image/png',
         },
         {
             id: 'https://picsum.photos/400/300?random=2',
-            url: 'https://picsum.photos/400/300?random=2',
+            src: 'https://picsum.photos/400/300?random=2',
             location: 'remote',
+            status: 'uploaded',
+            type: 'image/png',
         },
         {
             id: 'https://picsum.photos/200/300?random=3',
-            url: 'https://picsum.photos/200/300?random=3',
+            src: 'https://picsum.photos/200/300?random=3',
             location: 'remote',
+            status: 'uploaded',
+            type: 'image/png',
         },
     ],
     viewMode: 'view',

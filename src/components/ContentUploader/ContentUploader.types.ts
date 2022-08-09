@@ -18,7 +18,7 @@ export type TAllowedFileTypes =
     | 'audio/x-aac'
     | 'audio/aac';
 
-export interface IUploadProgress {
+export interface IContentUploadProgress {
     /**
      * on file selection send back the upload file name from parent component
      */
@@ -41,7 +41,7 @@ export interface IUploadContentMeta {
     /**
      * should be passed if status is 'uploaded'
      */
-    previewArea?: ReactNode;
+    previewArea?: () => ReactNode;
     /**
      * uploaded at timestamp
      */
@@ -81,7 +81,7 @@ export interface IContentUploaderProps {
     /**
      * should be passed when the status is 'uploading'
      */
-    uploadProgress?: IUploadProgress;
+    uploadProgress?: IContentUploadProgress;
     /**
      * should be passed when the status is 'uploaded'
      */

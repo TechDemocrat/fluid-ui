@@ -1,8 +1,14 @@
-import React, { Reducer, useEffect, useReducer, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Story, Meta } from '@storybook/react';
 
 import { ContentUploader } from './ContentUploader';
-import { IContentUploaderProps, IUploadProgress } from './ContentUploader.types';
+import {
+    IContentUploaderProps,
+    IUploadContentMeta,
+    IContentUploadProgress,
+} from './ContentUploader.types';
+import { UploadService } from '../../services/UploadService/Upload.Service';
+import { useUploadProgress } from '../../hooks/useUploadProgress';
 
 export default {
     title: 'fluid-ui/ContentUploader',
@@ -10,69 +16,70 @@ export default {
     argTypes: {},
 } as Meta<typeof ContentUploader>;
 
-// upload progress helpers
-const uploadProgressInitialState: Omit<IUploadProgress, 'onCancel'> = {
-    loaded: 0,
-    total: 5000000,
-    fileName: 'The Content file.mp4',
-};
-
-const uploadProgressReducer: Reducer<Omit<IUploadProgress, 'onCancel'>, { type: string }> = (
-    state,
-    action,
-) => {
-    switch (action.type) {
-        case 'increment':
-            return { ...state, loaded: state.loaded + 40000 };
-        case 'reset':
-            return { ...uploadProgressInitialState };
-        default:
-            return state;
-    }
-};
-
 // main story
 const Template: Story<IContentUploaderProps> = (args) => {
     // props
     const { status } = args;
 
     // state
+    const [uploadId, setUploadId] = useState<string>('');
     const [currentStatus, setCurrentStatus] = useState(status);
-    const [uploadProgress, dispatch] = useReducer(
-        uploadProgressReducer,
-        uploadProgressInitialState,
-    );
+    const progress = useUploadProgress(uploadId);
 
     // handlers
     const onUploadHandler = (file: File) => {
-        if (file) {
-            dispatch({ type: 'reset' });
-            setCurrentStatus('uploading');
-        }
+        const { uploadId: currentUploadId } = UploadService.getInstance().upload(
+            { file },
+            {
+                simulate: true,
+                simulateOptions: { uploadSpeed: 100, uploadRate: 70000 },
+            },
+        );
+        setUploadId(currentUploadId);
+        setCurrentStatus('uploading');
+    };
+
+    const onCancelHandler = () => {
+        UploadService.getInstance().cancelUpload(uploadId);
+        setUploadId('');
+        setCurrentStatus('idle');
+    };
+
+    const onDeleteHandler = () => {
+        setCurrentStatus('idle');
     };
 
     // effects
     useEffect(() => {
-        const interval = setInterval(() => {
-            if (currentStatus === 'uploading') {
-                if (uploadProgress.loaded < uploadProgress.total) {
-                    dispatch({ type: 'increment' });
-                } else {
-                    dispatch({ type: 'reset' });
-                    setCurrentStatus('uploaded');
-                    clearInterval(interval);
-                }
-            } else {
-                clearInterval(interval);
-                dispatch({ type: 'reset' });
-            }
-        }, 200);
-        return () => clearInterval(interval);
-    }, [currentStatus, uploadProgress]);
-
-    useEffect(() => {
         setCurrentStatus(status);
     }, [status]);
+
+    useEffect(() => {
+        if (uploadId && progress.status === 'uploaded') {
+            setCurrentStatus('uploaded');
+            setUploadId('');
+        }
+    }, [progress, uploadId]);
+
+    // compute
+    const uploadProgress: IContentUploadProgress | undefined =
+        currentStatus === 'uploading'
+            ? {
+                  loaded: progress.current,
+                  total: progress.total,
+                  fileName: progress.fileName,
+                  onCancel: onCancelHandler,
+              }
+            : undefined;
+
+    const uploadedContentMeta: IUploadContentMeta | undefined =
+        currentStatus === 'uploaded'
+            ? {
+                  previewArea: () => <div>Preview area</div>,
+                  uploadedAt: Date.now().toString(),
+                  onDelete: onDeleteHandler,
+              }
+            : undefined;
 
     // paint
     return (
@@ -82,6 +89,7 @@ const Template: Story<IContentUploaderProps> = (args) => {
                 status={currentStatus}
                 uploadProgress={uploadProgress}
                 onUpload={onUploadHandler}
+                uploadedContentMeta={uploadedContentMeta}
             />
         </div>
     );

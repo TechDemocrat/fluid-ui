@@ -201,7 +201,7 @@ export const ContentUploader = (props: IContentUploaderProps) => {
                     )}
                     {status === 'uploaded' && (
                         <div className={styles.uploadingState}>
-                            <div className={styles.coreUploadProgress}>{previewArea}</div>
+                            <div className={styles.coreUploadProgress}>{previewArea?.()}</div>
                             <div className={styles.uploadProgressDetailedView}>
                                 <div className={styles.uploadProgressMeta}>
                                     Last Uploaded at{' '}

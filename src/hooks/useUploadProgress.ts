@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useState } from 'react';
-import { UploadService } from '../services/UploadService/UploadService';
+import { UploadService } from '../services/UploadService/Upload.Service';
 import { IUploadProgress } from '../services/UploadService/UploadService.types';
 
 export const useUploadProgress = (uploadId: string | undefined): IUploadProgress | undefined => {

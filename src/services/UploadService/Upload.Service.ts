@@ -1,9 +1,14 @@
-import { uniqueId } from 'lodash';
+import { formKey } from '../../utilities';
 import {
+    IUploadFileBothResponse,
+    IUploadFileInput,
+    IUploadFileMonoResponse,
+    IUploadFileMultiResponse,
     IUploadOptions,
     IUploadProgress,
     IUploadServiceProgressMeta,
     TUploadProgressSubscription,
+    TUploadScopeMapping,
     TUploadServiceProgressMetaMapping,
     TUploadServiceQueue,
 } from './UploadService.types';
@@ -15,10 +20,13 @@ export class UploadService {
 
     private progressMapping: TUploadServiceProgressMetaMapping;
 
+    private scopeMapping: TUploadScopeMapping;
+
     private isQueueProcessing: boolean;
 
     constructor() {
         this.queue = [];
+        this.scopeMapping = new Map();
         this.progressMapping = new Map();
         this.isQueueProcessing = false;
     }
@@ -30,13 +38,29 @@ export class UploadService {
         return UploadService.instance;
     }
 
-    upload(file: File, options: IUploadOptions): string;
-    upload(file: File[], options: IUploadOptions): string[];
-    upload(file: File | File[], options: IUploadOptions): string | string[] {
-        if (Array.isArray(file)) {
-            return file.map((currentFile) => this.addToQueue(currentFile, options));
+    upload(files: IUploadFileInput, options: IUploadOptions): IUploadFileMonoResponse;
+    upload(files: IUploadFileInput[], options: IUploadOptions): IUploadFileMultiResponse;
+    upload(
+        files: IUploadFileInput | IUploadFileInput[],
+        options: IUploadOptions,
+    ): IUploadFileBothResponse {
+        const currentScopeId = options?.scopeId ?? formKey();
+
+        const isFilesArray = Array.isArray(files);
+
+        if (isFilesArray) {
+            const uploadId = files.map((currentFile) =>
+                this.addToQueue(currentFile, options, currentScopeId),
+            );
+            return {
+                scopeId: currentScopeId,
+                uploadId,
+            };
         }
-        return this.addToQueue(file, options);
+
+        // single file upload
+        const uploadId = this.addToQueue(files, options, currentScopeId);
+        return { scopeId: currentScopeId, uploadId };
     }
 
     cancelUpload = (uploadId: string) => {
@@ -90,36 +114,47 @@ export class UploadService {
                 status: uploadProgressMeta.status,
                 total: uploadProgressMeta.total,
                 url: uploadProgressMeta.url,
+                fileName: uploadProgressMeta.fileInput.file.name,
+                fileType: uploadProgressMeta.fileInput.file.type,
             };
             return progress;
         }
         return {} as IUploadProgress;
     };
 
-    private addToQueue = (file: File, options: IUploadOptions): string => {
-        const uploadId = uniqueId();
+    private addToQueue = (
+        fileInput: IUploadFileInput,
+        options: IUploadOptions,
+        scopeId: string,
+    ): string => {
+        const uploadId = fileInput?.customId ?? formKey();
         const uploadProgressMeta: IUploadServiceProgressMeta = {
-            file,
+            scopeId,
+            uploadId,
+            fileInput,
+            fileType: fileInput.file.type,
             current: 0,
-            total: file.size,
-            url: URL.createObjectURL(file),
+            total: fileInput.file.size,
+            url: URL.createObjectURL(fileInput.file),
             status: 'waiting',
             options,
             subscriptions: new Map(),
         };
         this.progressMapping.set(uploadId, uploadProgressMeta);
         this.queue.push(uploadId);
+        if (!this.scopeMapping.has(scopeId)) {
+            this.scopeMapping.set(scopeId, { options, uploadId: [] });
+        }
+        this.scopeMapping.get(scopeId)?.uploadId.push(uploadId);
         this.processQueue();
         return uploadId;
     };
 
     private processQueue = async () => {
-        if (this.isQueueProcessing) {
+        if (this.isQueueProcessing || this.queue.length === 0) {
             return;
         }
-        if (this.queue.length === 0) {
-            return;
-        }
+
         this.isQueueProcessing = true;
         while (this.queue.length > 0) {
             const uploadId = this.queue.shift();
@@ -137,8 +172,24 @@ export class UploadService {
             if (uploadProgressMeta.options.simulate) {
                 this.simulateUpload(uploadId);
             } else {
-                // actual upload flow - hold for now
-                // wire it up with axios
+                // TODO: actual upload flow
+                // wire it up with upload handler from client
+            }
+        }
+    };
+
+    private checkAndNotifyIfAllUPloadInScopeCompleted = (scopeId: string) => {
+        const uploadScope = this.scopeMapping.get(scopeId);
+        if (uploadScope) {
+            const { options, uploadId } = uploadScope;
+            const allUploadProgressMeta: IUploadServiceProgressMeta[] = [];
+            const allCompleted = uploadId.every((currentUploadId) => {
+                const uploadProgressMeta = this.progressMapping.get(currentUploadId);
+                allUploadProgressMeta.push(uploadProgressMeta as IUploadServiceProgressMeta);
+                return uploadProgressMeta?.status === 'uploaded';
+            });
+            if (allCompleted) {
+                options?.onAllUploadDone?.(allUploadProgressMeta);
             }
         }
     };
@@ -155,6 +206,8 @@ export class UploadService {
                 } else {
                     clearInterval(uploadProgressMeta.simulationId);
                     uploadProgressMeta.status = 'uploaded';
+                    uploadProgressMeta.fileInput.onUploadDone?.(uploadProgressMeta);
+                    this.checkAndNotifyIfAllUPloadInScopeCompleted(uploadProgressMeta.scopeId);
                 }
                 uploadProgressMeta.subscriptions.forEach((callback) =>
                     callback(this.getUploadProgressData(uploadId)),

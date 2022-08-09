@@ -4,20 +4,17 @@ export type TContentUploadStatus = 'idle' | 'filled';
 export type TAllowedFileTypes = 'image/*' | 'image/jpeg' | 'image/png';
 export type TImageUploadStatus = 'uploading' | 'done';
 
-export interface IImageUploaderContent {
-    /**
-     * local is when the image uploader uploads the image to the server
-     * remote is when the image uploader gets the image from the server
-     *
-     * if location is local, progressId should be set to the id of the upload
-     */
-    location: 'remote' | 'local';
-    /**
-     * remote id is the id of the image on the server
-     * used to delete the image from the server
-     **/
+export interface IContentSource {
     id: string;
-    url?: string;
+    location: 'local' | 'remote';
+    status: 'uploading' | 'uploaded';
+    type: string;
+    /**
+     * will be formed dynamically by the server using the id and persistence volume token
+     *
+     * for local storage, the blob url will be formed using the id and file object
+     */
+    src?: string;
 }
 
 export interface IImageUploaderProps {
@@ -28,7 +25,7 @@ export interface IImageUploaderProps {
     /**
      * should be passed when the status is 'uploading'
      */
-    contents: IImageUploaderContent[];
+    contents: IContentSource[];
     /**
      * view mode
      */
@@ -63,7 +60,7 @@ export interface IImageUploaderProps {
      * on file add catch the file and tweak the status to uploading if it is valid
      * if type is not supported through error toast from the parent component itself.
      */
-    onDelete?: (content: IImageUploaderContent) => void;
+    onDelete?: (content: IContentSource) => void;
 }
 
 export interface IUploaderErrorMessage {
