@@ -151,8 +151,10 @@ $labelFontSize: $fontsize-medium;
                     .previewImage {
                         overflow: auto;
                         width: auto;
+                        max-width: 100%;
                         height: 100%;
                         cursor: zoom-in;
+                        object-fit: contain;
                         user-select: none;
                     }
                 }
