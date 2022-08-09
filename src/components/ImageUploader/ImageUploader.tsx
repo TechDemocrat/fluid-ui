@@ -11,11 +11,7 @@ import React, {
 } from 'react';
 import cn from 'classnames';
 
-import {
-    IImageUploaderContent,
-    IImageUploaderProps,
-    IUploaderErrorMessage,
-} from './ImageUploader.types';
+import { IContentSource, IImageUploaderProps, IUploaderErrorMessage } from './ImageUploader.types';
 import styles from './ImageUploader.module.scss';
 import { ImageUploaderService } from './ImageUploader.service';
 import { ImageUploaderLandingPage } from './components/ImageUploaderLandingPage';
@@ -121,7 +117,7 @@ export const ImageUploader = (props: IImageUploaderProps) => {
         setPreviewImageIndex(index);
     };
 
-    const onDeleteImage = (content: IImageUploaderContent) => (e: MouseEvent<SVGElement>) => {
+    const onDeleteImage = (content: IContentSource) => (e: MouseEvent<SVGElement>) => {
         e.preventDefault();
         e.stopPropagation();
         onDelete?.(content);
@@ -143,7 +139,7 @@ export const ImageUploader = (props: IImageUploaderProps) => {
     const currentImageUrl = useMemo(() => {
         if (currentContent) {
             return currentContent.location === 'remote'
-                ? currentContent.url
+                ? currentContent.src
                 : UploadService.getInstance().getUploadProgressData(currentContent.id).url;
         }
         return '';

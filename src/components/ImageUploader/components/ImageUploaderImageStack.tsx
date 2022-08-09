@@ -1,14 +1,14 @@
 import React, { MouseEvent } from 'react';
 import styles from '../ImageUploader.module.scss';
-import { IImageUploaderContent, IImageUploaderProps } from '../ImageUploader.types';
+import { IContentSource, IImageUploaderProps } from '../ImageUploader.types';
 import { IImageStackNode } from './IImageStackNode';
 
 interface IImageUploaderImageStackProps {
     viewMode: IImageUploaderProps['viewMode'];
-    contents: IImageUploaderContent[];
+    contents: IContentSource[];
     previewImageIndex: number;
     onPreviewImageChange: (index: number) => () => void;
-    onDeleteImage: (content: IImageUploaderContent) => (e: MouseEvent<SVGElement>) => void;
+    onDeleteImage: (content: IContentSource) => (e: MouseEvent<SVGElement>) => void;
 }
 
 export const ImageUploaderImageStack = (props: IImageUploaderImageStackProps) => {

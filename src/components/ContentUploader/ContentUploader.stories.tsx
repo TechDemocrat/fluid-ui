@@ -28,10 +28,13 @@ const Template: Story<IContentUploaderProps> = (args) => {
 
     // handlers
     const onUploadHandler = (file: File) => {
-        const currentUploadId = UploadService.getInstance().upload(file, {
-            simulate: true,
-            simulateOptions: { uploadSpeed: 100, uploadRate: 70000 },
-        });
+        const { uploadId: currentUploadId } = UploadService.getInstance().upload(
+            { file },
+            {
+                simulate: true,
+                simulateOptions: { uploadSpeed: 100, uploadRate: 70000 },
+            },
+        );
         setUploadId(currentUploadId);
         setCurrentStatus('uploading');
     };

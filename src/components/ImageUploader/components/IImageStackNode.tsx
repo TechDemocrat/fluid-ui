@@ -1,6 +1,6 @@
 import React from 'react';
 import cn from 'classnames';
-import { IImageUploaderContent, IImageUploaderProps } from '../ImageUploader.types';
+import { IContentSource, IImageUploaderProps } from '../ImageUploader.types';
 import styles from '../ImageUploader.module.scss';
 import { CircularProgress } from '../../CircularProgress/CircularProgress';
 import { Icon } from '@iconify/react';
@@ -8,11 +8,11 @@ import { closeCircle } from '../../../assets/icons/iconify';
 import { useUploadProgress } from '../../../hooks/useUploadProgress';
 
 interface IImageStackNodeProps {
-    content: IImageUploaderContent;
+    content: IContentSource;
     index: number;
     viewMode: IImageUploaderProps['viewMode'];
     previewImageIndex: number;
-    onDeleteImage: (content: IImageUploaderContent) => (e: React.MouseEvent<SVGElement>) => void;
+    onDeleteImage: (content: IContentSource) => (e: React.MouseEvent<SVGElement>) => void;
     onPreviewImageChange: (index: number) => () => void;
 }
 
@@ -20,7 +20,7 @@ export const IImageStackNode = (props: IImageStackNodeProps) => {
     // props
     const { content, previewImageIndex, index, viewMode } = props;
     const { onDeleteImage, onPreviewImageChange } = props;
-    const { location, url: remoteUrl, id } = content;
+    const { location, src: remoteUrl, id } = content;
 
     // hooks
     const { progress, status, url } = useUploadProgress(location === 'local' ? id : undefined) ?? {
