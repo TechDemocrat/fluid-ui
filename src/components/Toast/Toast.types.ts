@@ -17,12 +17,17 @@ export interface IToastLists {
     message: string | React.ReactNode;
     type?: 'success' | 'error' | 'warning' | 'info';
     duration?: number;
+    /**
+     * @protected
+     */
+    show?: boolean;
 }
 
 export interface IToastState {
     toastList: Map<string, IToastLists>;
     show: (config: IToastLists) => void;
     close: (id: string) => void;
+    closeSudden: (id: string) => void;
     closeAllToasts: () => void;
 }
 
