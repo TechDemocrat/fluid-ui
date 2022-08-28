@@ -61,6 +61,14 @@ export interface IImageUploaderProps {
      * if type is not supported through error toast from the parent component itself.
      */
     onDelete?: (content: IContentSource) => void;
+    /**
+     * Triggers when edit icon is clicked - useful when used along with view mode 'view'
+     */
+    onEdit?: () => void;
+    /**
+     * Triggers when delete icon is clicked - handle delete all flow in the parent
+     */
+    onDeleteAll?: () => void;
 }
 
 export interface IUploaderErrorMessage {
