@@ -110,7 +110,10 @@ export const ImageUploader = (props: IImageUploaderProps) => {
     }, []);
 
     const onAddButtonClick = () => {
-        inputFileRef.current?.click();
+        if (inputFileRef.current) {
+            inputFileRef.current.value = '';
+            inputFileRef.current.click();
+        }
     };
 
     const onPreviewImageChange = (index: number) => () => {
@@ -127,6 +130,10 @@ export const ImageUploader = (props: IImageUploaderProps) => {
     useEffect(() => {
         if (previewImageIndex >= contents.length || previewImageIndex < 0) {
             setPreviewImageIndex(contents.length - 1 || 0);
+        } else {
+            if (inputFileRef.current?.files) {
+                inputFileRef.current.value = ''; // freeing up the input file, so that it can accept the same input again
+            }
         }
     }, [contents, previewImageIndex]);
 
