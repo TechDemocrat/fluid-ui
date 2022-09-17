@@ -16,7 +16,7 @@ import styles from './ImageUploader.module.scss';
 import { ImageUploaderService } from './ImageUploader.service';
 import { ImageUploaderLandingPage } from './components/ImageUploaderLandingPage';
 import { Icon } from '@iconify/react';
-import { baselineAdd, baselineEdit } from '../../assets/icons/iconify';
+import { baselineAdd, baselineDeleteOutline, baselineEdit } from '../../assets/icons/iconify';
 import { IconButton } from '../IconButton/IconButton';
 import { ImageUploaderImageStack } from './components/ImageUploaderImageStack';
 import { DropToUploadOverlay } from './components/DropToUploadOverlay';
@@ -37,6 +37,8 @@ export const ImageUploader = (props: IImageUploaderProps) => {
         height,
         onUpload,
         onDelete,
+        onDeleteAll,
+        onEdit,
     } = props;
     const errorInitialState = useMemo<IUploaderErrorMessage>(
         () => ({ enabled: false, message: '' }),
@@ -110,7 +112,10 @@ export const ImageUploader = (props: IImageUploaderProps) => {
     }, []);
 
     const onAddButtonClick = () => {
-        inputFileRef.current?.click();
+        if (inputFileRef.current) {
+            inputFileRef.current.value = '';
+            inputFileRef.current.click();
+        }
     };
 
     const onPreviewImageChange = (index: number) => () => {
@@ -127,6 +132,10 @@ export const ImageUploader = (props: IImageUploaderProps) => {
     useEffect(() => {
         if (previewImageIndex >= contents.length || previewImageIndex < 0) {
             setPreviewImageIndex(contents.length - 1 || 0);
+        } else {
+            if (inputFileRef.current?.files) {
+                inputFileRef.current.value = ''; // freeing up the input file, so that it can accept the same input again
+            }
         }
     }, [contents, previewImageIndex]);
 
@@ -176,8 +185,20 @@ export const ImageUploader = (props: IImageUploaderProps) => {
                         <div className={cn(styles.previewWithUploaderState)}>
                             {/* Place edit icon if needed */}
                             <div className={styles.previewActionsWrapper}>
+                                {viewMode === 'edit' && (
+                                    <IconButton
+                                        title="Delete all"
+                                        padding={3}
+                                        onClick={onDeleteAll}
+                                    >
+                                        <Icon
+                                            className={styles.previewActionIcon}
+                                            icon={baselineDeleteOutline}
+                                        />
+                                    </IconButton>
+                                )}
                                 {showEditIcon === true && viewMode === 'view' && (
-                                    <IconButton title="Edit" padding={3}>
+                                    <IconButton title="Edit" padding={3} onClick={onEdit}>
                                         <Icon
                                             className={styles.previewActionIcon}
                                             icon={baselineEdit}
