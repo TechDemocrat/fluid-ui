@@ -49,7 +49,7 @@ const Template: Story<IContentUploaderProps> = (args) => {
         const { uploadId: currentUploadId } = UploadService.getInstance().upload(
             { file },
             {
-                onAllUploadDone: onUploadDone,
+                onAllUploadsDoneInCurrentScope: onUploadDone,
                 simulate: true,
                 simulateOptions: { uploadSpeed: 100, uploadRate: 70000 },
             },
