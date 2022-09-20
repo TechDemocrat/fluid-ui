@@ -82,7 +82,17 @@ export type TUploadServiceProgressMetaMapping = Map<string, IUploadServiceProgre
  * key - scopeId
  * value - uploadId
  */
-export type TUploadScopeMapping = Map<string, { options: IUploadOptions; uploadId: string[] }>;
+export type TUploadScopeMapping = Map<
+    string,
+    {
+        uploadId: string[];
+        options: IUploadOptions;
+        /**
+         * Flag is used to call the scope upload completion callback only once
+         */
+        isCallbackTriggered?: boolean;
+    }
+>;
 
 /**
  * key - rootScopeId
@@ -91,11 +101,15 @@ export type TUploadScopeMapping = Map<string, { options: IUploadOptions; uploadI
 export type TUploadRootScopeMapping = Map<
     string,
     {
+        scopeIds: string[];
         /**
-         * only finally set options will be considered
+         * only first set option will be considered
          */
         options: IUploadOptions;
-        scopeIds: string[];
+        /**
+         * Flag is used to call the scope upload completion callback only once
+         */
+        isCallbackTriggered?: boolean;
     }
 >;
 
