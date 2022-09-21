@@ -6,8 +6,10 @@ import {
     IUploadFileMultiResponse,
     IUploadOptions,
     IUploadProgress,
+    IUploadScopeCompletionResponse,
     IUploadServiceProgressMeta,
     TUploadProgressSubscription,
+    TUploadRootScopeMapping,
     TUploadScopeMapping,
     TUploadServiceProgressMetaMapping,
     TUploadServiceQueue,
@@ -22,11 +24,14 @@ export class UploadService {
 
     private scopeMapping: TUploadScopeMapping;
 
+    private rootScopeMapping: TUploadRootScopeMapping;
+
     private isQueueProcessing: boolean;
 
     constructor() {
         this.queue = [];
         this.scopeMapping = new Map();
+        this.rootScopeMapping = new Map();
         this.progressMapping = new Map();
         this.isQueueProcessing = false;
     }
@@ -45,22 +50,24 @@ export class UploadService {
         options: IUploadOptions,
     ): IUploadFileBothResponse {
         const currentScopeId = options?.scopeId ?? formKey();
+        const currentRootScopeId = options?.rootScopeId ?? currentScopeId;
 
         const isFilesArray = Array.isArray(files);
 
         if (isFilesArray) {
             const uploadId = files.map((currentFile) =>
-                this.addToQueue(currentFile, options, currentScopeId),
+                this.addToQueue(currentFile, options, currentScopeId, currentRootScopeId),
             );
             return {
                 scopeId: currentScopeId,
+                rootScopeId: currentRootScopeId,
                 uploadId,
             };
         }
 
         // single file upload
-        const uploadId = this.addToQueue(files, options, currentScopeId);
-        return { scopeId: currentScopeId, uploadId };
+        const uploadId = this.addToQueue(files, options, currentScopeId, currentRootScopeId);
+        return { scopeId: currentScopeId, rootScopeId: currentRootScopeId, uploadId };
     }
 
     cancelUpload = (uploadId: string) => {
@@ -122,13 +129,62 @@ export class UploadService {
         return {} as IUploadProgress;
     };
 
+    checkIsAllUploadsInScopeCompleted = (
+        scopeId: string,
+        shouldTriggerCallback = true,
+    ): IUploadScopeCompletionResponse => {
+        const uploadScope = this.scopeMapping.get(scopeId);
+        let completed = false;
+        const allUploadProgressMeta: IUploadServiceProgressMeta[] = [];
+        if (uploadScope) {
+            const { options, uploadId } = uploadScope;
+            completed = uploadId.every((currentUploadId) => {
+                const uploadProgressMeta = this.progressMapping.get(currentUploadId);
+                allUploadProgressMeta.push(uploadProgressMeta as IUploadServiceProgressMeta);
+                return uploadProgressMeta?.status === 'uploaded';
+            });
+            if (completed && shouldTriggerCallback && !uploadScope.isCallbackTriggered) {
+                uploadScope.isCallbackTriggered = true; // this ensures triggering callback only once
+                options?.onAllUploadsDoneInCurrentScope?.(allUploadProgressMeta);
+            }
+        }
+        return { completed, uploadProgressMeta: allUploadProgressMeta };
+    };
+
+    checkIsAllUploadsInRootScopeCompleted = (
+        rootScopeId: string,
+    ): IUploadScopeCompletionResponse => {
+        const uploadRootScope = this.rootScopeMapping.get(rootScopeId);
+        let allScopeCompleted = false;
+        const allUploadProgressMeta: IUploadServiceProgressMeta[] = [];
+        if (uploadRootScope) {
+            const { scopeIds, options } = uploadRootScope;
+            allScopeCompleted = scopeIds.every((currentScopeId) => {
+                const { completed: allCompleted, uploadProgressMeta } =
+                    this.checkIsAllUploadsInScopeCompleted(currentScopeId, false);
+                allUploadProgressMeta.push(...uploadProgressMeta);
+                return allCompleted;
+            });
+            if (allScopeCompleted && !uploadRootScope.isCallbackTriggered) {
+                uploadRootScope.isCallbackTriggered = true; // this ensures triggering callback only once
+                options?.onAllUploadsDoneInRootScope?.(allUploadProgressMeta);
+            }
+        }
+        return {
+            completed: allScopeCompleted,
+            uploadProgressMeta: allUploadProgressMeta,
+        };
+    };
+
     private addToQueue = (
         fileInput: IUploadFileInput,
         options: IUploadOptions,
         scopeId: string,
+        rootScopeId: string,
     ): string => {
         const uploadId = fileInput?.customId ?? formKey();
         const uploadProgressMeta: IUploadServiceProgressMeta = {
+            rootScopeId,
             scopeId,
             uploadId,
             fileInput,
@@ -142,11 +198,21 @@ export class UploadService {
         };
         this.progressMapping.set(uploadId, uploadProgressMeta);
         this.queue.push(uploadId);
+
+        // scope setting block
         if (!this.scopeMapping.has(scopeId)) {
             this.scopeMapping.set(scopeId, { options, uploadId: [] });
         }
         this.scopeMapping.get(scopeId)?.uploadId.push(uploadId);
+
+        // root scop setting block
+        if (!this.rootScopeMapping.has(rootScopeId)) {
+            this.rootScopeMapping.set(rootScopeId, { options, scopeIds: [] });
+        }
+        this.rootScopeMapping.get(rootScopeId)?.scopeIds.push(scopeId);
+
         this.processQueue();
+
         return uploadId;
     };
 
@@ -178,22 +244,6 @@ export class UploadService {
         }
     };
 
-    private checkAndNotifyIfAllUPloadInScopeCompleted = (scopeId: string) => {
-        const uploadScope = this.scopeMapping.get(scopeId);
-        if (uploadScope) {
-            const { options, uploadId } = uploadScope;
-            const allUploadProgressMeta: IUploadServiceProgressMeta[] = [];
-            const allCompleted = uploadId.every((currentUploadId) => {
-                const uploadProgressMeta = this.progressMapping.get(currentUploadId);
-                allUploadProgressMeta.push(uploadProgressMeta as IUploadServiceProgressMeta);
-                return uploadProgressMeta?.status === 'uploaded';
-            });
-            if (allCompleted) {
-                options?.onAllUploadDone?.(allUploadProgressMeta);
-            }
-        }
-    };
-
     private simulateUpload = async (uploadId: string) => {
         const uploadProgressMeta = this.progressMapping.get(uploadId);
         if (uploadProgressMeta) {
@@ -207,7 +257,8 @@ export class UploadService {
                     clearInterval(uploadProgressMeta.simulationId);
                     uploadProgressMeta.status = 'uploaded';
                     uploadProgressMeta.fileInput.onUploadDone?.(uploadProgressMeta);
-                    this.checkAndNotifyIfAllUPloadInScopeCompleted(uploadProgressMeta.scopeId);
+                    this.checkIsAllUploadsInScopeCompleted(uploadProgressMeta.scopeId);
+                    this.checkIsAllUploadsInRootScopeCompleted(uploadProgressMeta.rootScopeId);
                 }
                 uploadProgressMeta.subscriptions.forEach((callback) =>
                     callback(this.getUploadProgressData(uploadId)),

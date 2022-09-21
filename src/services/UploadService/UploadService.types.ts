@@ -19,18 +19,29 @@ export type IUploadFileMonoResponse = {
      * for single file the uploadId is same as the scopeId
      */
     scopeId: string;
+    /**
+     * if rootScopeId is not passed by the consumer, scopeId will be rootScopeId
+     * rootScopeId is used to batch **set of batched uploads** together
+     */
+    rootScopeId: string;
     uploadId: string;
 };
 
 export type IUploadFileMultiResponse = {
     /**
      * for single file the uploadId is same as the scopeId
+     * scopeId is used to batch **set of uploads** together
      */
     scopeId: string;
+    /**
+     * if rootScopeId is not passed by the consumer, scopeId will be rootScopeId
+     * rootScopeId is used to batch **set of batched uploads** together
+     */
+    rootScopeId: string;
     uploadId: string[];
 };
 
-export type IUploadFileBothResponse = { scopeId: string; uploadId: string | string[] };
+export type IUploadFileBothResponse = IUploadFileMonoResponse | IUploadFileMultiResponse;
 
 export interface IUploadFileInput {
     file: File;
@@ -44,9 +55,7 @@ export interface IUploadFileInput {
     onUploadDone?: (uploadProgressMeta: IUploadServiceProgressMeta) => void;
 }
 
-export interface IUploadServiceProgressMeta {
-    scopeId: string;
-    uploadId: string;
+export interface IUploadServiceProgressMeta extends IUploadFileMonoResponse {
     fileType: string;
     fileInput: IUploadFileInput;
     current: number;
@@ -73,7 +82,36 @@ export type TUploadServiceProgressMetaMapping = Map<string, IUploadServiceProgre
  * key - scopeId
  * value - uploadId
  */
-export type TUploadScopeMapping = Map<string, { options: IUploadOptions; uploadId: string[] }>;
+export type TUploadScopeMapping = Map<
+    string,
+    {
+        uploadId: string[];
+        options: IUploadOptions;
+        /**
+         * Flag is used to call the scope upload completion callback only once
+         */
+        isCallbackTriggered?: boolean;
+    }
+>;
+
+/**
+ * key - rootScopeId
+ * value - scopeId
+ */
+export type TUploadRootScopeMapping = Map<
+    string,
+    {
+        scopeIds: string[];
+        /**
+         * only first set option will be considered
+         */
+        options: IUploadOptions;
+        /**
+         * Flag is used to call the scope upload completion callback only once
+         */
+        isCallbackTriggered?: boolean;
+    }
+>;
 
 export interface IUploadOptions {
     url?: string;
@@ -84,10 +122,20 @@ export interface IUploadOptions {
      */
     scopeId?: string;
     /**
+     * if rootScopeId is not passed by the consumer, scopeId will be rootScopeId
+     * rootScopeId is used to batch **set of batched uploads** together
+     */
+    rootScopeId?: string;
+    /**
      * will be triggered when the upload is complete, useful when upload runs in the background
      * and you want to let the server know when it is done
      */
-    onAllUploadDone?: (uploadProgressMeta: IUploadServiceProgressMeta[]) => void;
+    onAllUploadsDoneInCurrentScope?: (uploadProgressMeta: IUploadServiceProgressMeta[]) => void;
+    /**
+     * will be triggered when the upload is complete, useful when upload runs in the background
+     * and you want to let the server know when it is done
+     */
+    onAllUploadsDoneInRootScope?: (uploadProgressMeta: IUploadServiceProgressMeta[]) => void;
     /**
      * if passed upload simulation will happen instead of actual upload
      */
@@ -96,4 +144,9 @@ export interface IUploadOptions {
         uploadRate?: number;
         uploadSpeed?: number;
     };
+}
+
+export interface IUploadScopeCompletionResponse {
+    completed: boolean;
+    uploadProgressMeta: IUploadServiceProgressMeta[];
 }
