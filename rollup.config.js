@@ -37,16 +37,19 @@ const plugins = [
     }),
 ];
 
-const inputFiles = ['src/components', 'src/hooks', 'src/utilities'].reduce((result, current) => {
-    result.push(
-        ...getFiles(current, {
-            extensions: ['.tsx', '.ts'],
-            excludeExtensions: ['.stories.tsx', 'TemplateComponent.tsx', '.d.ts'],
-            nestedLookup: 2,
-        }),
-    );
-    return result;
-}, []);
+const inputFiles = ['src/components', 'src/hooks', 'src/utilities', 'src/services'].reduce(
+    (result, current) => {
+        result.push(
+            ...getFiles(current, {
+                extensions: ['.tsx', '.ts'],
+                excludeExtensions: ['.stories.tsx', 'TemplateComponent.tsx', '.d.ts'],
+                nestedLookup: 2,
+            }),
+        );
+        return result;
+    },
+    [],
+);
 
 export default [
     {
