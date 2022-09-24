@@ -14,6 +14,7 @@ interface IImageUploaderLandingPageProps {
     error: IUploaderErrorMessage;
     allowMultiple: boolean;
     allowedFileTypes: TAllowedFileTypes[];
+    isPreparingToUpload: boolean;
     inputFileOnChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
     onFileDragOver?: (e: DragEvent<HTMLDivElement>) => void;
     onFileDragLeave?: (e: DragEvent<HTMLDivElement>) => void;
@@ -25,7 +26,15 @@ export const ImageUploaderLandingPage = forwardRef<
     IImageUploaderLandingPageProps
 >((props, inputFileRef) => {
     // props
-    const { isDragging, error, showLandingPage, allowMultiple, allowedFileTypes, label } = props;
+    const {
+        isDragging,
+        error,
+        showLandingPage,
+        allowMultiple,
+        allowedFileTypes,
+        label,
+        isPreparingToUpload,
+    } = props;
     const { onFileDragLeave, onFileDragOver, onFileDrop, inputFileOnChange } = props;
 
     // handlers
@@ -75,7 +84,8 @@ export const ImageUploaderLandingPage = forwardRef<
                         color="secondary"
                         size="medium"
                         variant="contained"
-                        label="Upload"
+                        label={isPreparingToUpload ? 'Preparing to Upload...' : 'Upload'}
+                        disabled={isPreparingToUpload}
                         onClick={onUploadButtonClick}
                     />
                 </div>

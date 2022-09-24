@@ -23,6 +23,7 @@ import { DropToUploadOverlay } from './components/DropToUploadOverlay';
 import { onImageLoadError } from '../../utilities';
 import { UploadService } from '../../services/UploadService/Upload.Service';
 import { useIsMounted } from '../../hooks';
+import { CircularLoaderWithMessage } from '../CircularLoaderWithMessage/CircularLoaderWithMessage';
 
 export const ImageUploader = (props: IImageUploaderProps) => {
     // props
@@ -35,6 +36,7 @@ export const ImageUploader = (props: IImageUploaderProps) => {
         showEditIcon = false,
         width,
         height,
+        isPreparingToUpload = false,
         onUpload,
         onDelete,
         onDeleteAll,
@@ -112,7 +114,7 @@ export const ImageUploader = (props: IImageUploaderProps) => {
     }, []);
 
     const onAddButtonClick = () => {
-        if (inputFileRef.current) {
+        if (inputFileRef.current && !isPreparingToUpload) {
             inputFileRef.current.value = '';
             inputFileRef.current.click();
         }
@@ -179,6 +181,7 @@ export const ImageUploader = (props: IImageUploaderProps) => {
                         error={error}
                         allowedFileTypes={allowedFileTypes}
                         allowMultiple={allowMultiple}
+                        isPreparingToUpload={isPreparingToUpload}
                         inputFileOnChange={inputFileOnChange}
                     />
                     {!isIdle && (
@@ -234,10 +237,28 @@ export const ImageUploader = (props: IImageUploaderProps) => {
                                         role="button"
                                         onClick={onAddButtonClick}
                                     >
-                                        <Icon
-                                            className={styles.stackNodeUploadIcon}
-                                            icon={baselineAdd}
-                                        />
+                                        {!isPreparingToUpload ? (
+                                            <CircularLoaderWithMessage
+                                                size="small"
+                                                direction="vertical"
+                                                spinnerColor="secondary"
+                                                loaderTitleGap={8}
+                                                message={
+                                                    <p style={{ fontSize: 12 }}>
+                                                        Preparing <br /> to upload
+                                                    </p>
+                                                }
+                                                messageStyle={{
+                                                    textAlign: 'center',
+                                                    lineHeight: '14px',
+                                                }}
+                                            />
+                                        ) : (
+                                            <Icon
+                                                className={styles.stackNodeUploadIcon}
+                                                icon={baselineAdd}
+                                            />
+                                        )}
                                     </div>
                                 )}
                             </div>
