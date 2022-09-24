@@ -237,7 +237,7 @@ export const ImageUploader = (props: IImageUploaderProps) => {
                                         role="button"
                                         onClick={onAddButtonClick}
                                     >
-                                        {!isPreparingToUpload ? (
+                                        {isPreparingToUpload ? (
                                             <CircularLoaderWithMessage
                                                 size="small"
                                                 direction="vertical"
