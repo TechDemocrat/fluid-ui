@@ -275,20 +275,23 @@ export class TempDB {
 
     findMany<R extends IBaseRecord[]>(
         collectionName: string,
-        query: Partial<IBaseRecord>,
+        query?: Partial<IBaseRecord>,
         unTransformedResult = false,
     ): R {
-        const keys = Object.keys(query);
-        const records = <R>this.getCollection(collectionName).reduce(
-            (resultRecords, currentRecord) => {
+        const currentCollection = this.getCollection(collectionName);
+        let records: R;
+        if (query) {
+            const keys = Object.keys(query);
+            records = <R>currentCollection.reduce((resultRecords, currentRecord) => {
                 const found = keys.find((key) => currentRecord[key] === query[key]);
                 if (found) {
                     resultRecords.push(currentRecord);
                 }
                 return resultRecords;
-            },
-            <IBaseRecord[]>[],
-        );
+            }, <IBaseRecord[]>[]);
+        } else {
+            records = <R>currentCollection;
+        }
 
         const result = unTransformedResult ? records : this.transformRecord(records);
 
