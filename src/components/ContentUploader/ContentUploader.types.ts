@@ -1,7 +1,7 @@
 import { CSSProperties, ReactNode } from 'react';
 import { IContentSource } from '../ImageUploader/ImageUploader.types';
 
-export type TContentUploadStatus = 'idle' | 'uploading' | 'uploaded';
+export type TContentUploadStatus = 'idle' | 'uploading' | 'uploaded' | 'preparing';
 export type TAllowedFileTypes =
     | 'video/*'
     | 'audio/*'

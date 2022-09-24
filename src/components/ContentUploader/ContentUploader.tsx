@@ -225,6 +225,23 @@ export const ContentUploader = (props: IContentUploaderProps) => {
                             </div>
                         </div>
                     )}
+                    {status === 'preparing' && (
+                        <div className={styles.uploadingState}>
+                            <div className={styles.coreUploadProgress}>
+                                <span className={styles.uploadContentFileTitle}>{fileName}</span>
+                                <Spinner size="large" color="primary" />
+                                <span>Preparing to Upload...</span>
+                            </div>
+                            <div className={styles.uploadProgressDetailedView}>
+                                <div className={styles.uploadProgressMeta}>Verifying files...</div>
+                                <div className={styles.uploadProgressAction}>
+                                    <IconButton title="Cancel upload" onClick={onUploadCancel}>
+                                        <Icon icon={close} className={styles.uploadCancelIcon} />
+                                    </IconButton>
+                                </div>
+                            </div>
+                        </div>
+                    )}
                 </div>
             </div>
         </div>
