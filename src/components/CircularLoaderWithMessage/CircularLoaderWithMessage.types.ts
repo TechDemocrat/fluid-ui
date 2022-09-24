@@ -1,9 +1,10 @@
+import { ReactNode } from 'react';
 import { TSpinnerColor, TSpinnerSize } from '../Spinner/Spinner.types';
 
 export interface ICircularLoaderWithMessageProps {
     loadingState?: 'loading' | 'loaded' | 'error';
     spinnerColor?: TSpinnerColor;
-    message?: string;
+    message?: ReactNode;
     size?: TSpinnerSize;
     style?: React.CSSProperties;
     messageStyle?: React.CSSProperties;
