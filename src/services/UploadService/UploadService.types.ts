@@ -78,40 +78,38 @@ export interface IUploadServiceProgressMeta extends IUploadFileMonoResponse {
 
 export type TUploadServiceProgressMetaMapping = Map<string, IUploadServiceProgressMeta>;
 
+export interface IUploadScope {
+    uploadId: string[];
+    options: IUploadOptions;
+    /**
+     * Flag is used to call the scope upload completion callback only once
+     */
+    isCallbackTriggered?: boolean;
+}
+
 /**
  * key - scopeId
  * value - uploadId
  */
-export type TUploadScopeMapping = Map<
-    string,
-    {
-        uploadId: string[];
-        options: IUploadOptions;
-        /**
-         * Flag is used to call the scope upload completion callback only once
-         */
-        isCallbackTriggered?: boolean;
-    }
->;
+export type TUploadScopeMapping = Map<string, IUploadScope>;
+
+export interface IRootScope {
+    scopeIds: string[];
+    /**
+     * only first set option will be considered
+     */
+    options: IUploadOptions;
+    /**
+     * Flag is used to call the scope upload completion callback only once
+     */
+    isCallbackTriggered?: boolean;
+}
 
 /**
  * key - rootScopeId
  * value - scopeId
  */
-export type TUploadRootScopeMapping = Map<
-    string,
-    {
-        scopeIds: string[];
-        /**
-         * only first set option will be considered
-         */
-        options: IUploadOptions;
-        /**
-         * Flag is used to call the scope upload completion callback only once
-         */
-        isCallbackTriggered?: boolean;
-    }
->;
+export type TUploadRootScopeMapping = Map<string, IRootScope>;
 
 export interface IUploadOptions {
     url?: string;

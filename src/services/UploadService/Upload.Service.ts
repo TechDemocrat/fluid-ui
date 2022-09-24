@@ -8,6 +8,7 @@ import {
     IUploadProgress,
     IUploadScopeCompletionResponse,
     IUploadServiceProgressMeta,
+    TUploadProgressStatus,
     TUploadProgressSubscription,
     TUploadRootScopeMapping,
     TUploadScopeMapping,
@@ -141,7 +142,10 @@ export class UploadService {
             completed = uploadId.every((currentUploadId) => {
                 const uploadProgressMeta = this.progressMapping.get(currentUploadId);
                 allUploadProgressMeta.push(uploadProgressMeta as IUploadServiceProgressMeta);
-                return uploadProgressMeta?.status === 'uploaded';
+                // error from check array if fails in any edge cases
+                return (['uploaded', 'cancelled', 'error'] as TUploadProgressStatus[]).includes(
+                    uploadProgressMeta?.status ?? 'uploaded',
+                );
             });
             if (completed && shouldTriggerCallback && !uploadScope.isCallbackTriggered) {
                 uploadScope.isCallbackTriggered = true; // this ensures triggering callback only once
@@ -200,16 +204,26 @@ export class UploadService {
         this.queue.push(uploadId);
 
         // scope setting block
-        if (!this.scopeMapping.has(scopeId)) {
-            this.scopeMapping.set(scopeId, { options, uploadId: [] });
+        let scope = this.scopeMapping.get(scopeId);
+        if (!scope) {
+            scope = { options, uploadId: [], isCallbackTriggered: false };
+            this.scopeMapping.set(scopeId, scope);
         }
-        this.scopeMapping.get(scopeId)?.uploadId.push(uploadId);
+        scope.uploadId.push(uploadId);
+        scope.isCallbackTriggered = false;
 
         // root scop setting block
-        if (!this.rootScopeMapping.has(rootScopeId)) {
-            this.rootScopeMapping.set(rootScopeId, { options, scopeIds: [] });
+        let rootScope = this.rootScopeMapping.get(rootScopeId);
+        if (!rootScope) {
+            rootScope = {
+                options,
+                scopeIds: [],
+                isCallbackTriggered: false,
+            };
+            this.rootScopeMapping.set(rootScopeId, rootScope);
         }
-        this.rootScopeMapping.get(rootScopeId)?.scopeIds.push(scopeId);
+        rootScope.scopeIds.push(scopeId);
+        rootScope.isCallbackTriggered = false;
 
         this.processQueue();
 

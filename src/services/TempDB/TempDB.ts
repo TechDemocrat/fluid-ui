@@ -34,13 +34,20 @@ export class TempDB {
     };
 
     private telemetry = (props: Partial<ITempDBTelemetry> = {}) => {
+        const cloneResult = props?.cloneResult ?? true;
+
         if (this.isTelemetryActive) {
             // eslint-disable-next-line no-console
             console.groupCollapsed(`TempDB Telemetry - ${props.action}`);
+
+            const getVal = cloneResult ? cloneDeep : (val: unknown) => val;
+
+            Object.keys(props).forEach((key) =>
+                // eslint-disable-next-line no-console
+                console.log(key, getVal(props[key as keyof typeof props])),
+            );
             // eslint-disable-next-line no-console
-            Object.keys(props).forEach((key) => console.log(key, props[key as keyof typeof props]));
-            // eslint-disable-next-line no-console
-            console.log('memory', this.memory);
+            console.log('memory', getVal(this.memory));
             // eslint-disable-next-line no-console
             console.groupEnd();
         }
@@ -140,7 +147,7 @@ export class TempDB {
         this.getCollection(collectionName).push(formattedRecord);
         const result = this.transformRecord([formattedRecord])[0];
 
-        this.telemetry({ action: 'insertOne', collectionName, result });
+        this.telemetry({ action: 'insertOne', collectionName, result, input: { record } });
         return result;
     }
 
@@ -149,7 +156,7 @@ export class TempDB {
         this.getCollection(collectionName).push(...formattedRecords);
         const result = this.transformRecord(formattedRecords);
 
-        this.telemetry({ action: 'insertMany', collectionName, result });
+        this.telemetry({ action: 'insertMany', collectionName, result, input: { records } });
         return result;
     }
 
