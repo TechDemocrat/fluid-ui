@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/naming-convention */
-import { cloneDeep } from 'lodash';
+import { cloneDeep, merge } from 'lodash';
 import { formKey } from '../../utilities';
 import { IBaseRecord, ITempDBTelemetry } from './TempDB.types';
 
@@ -161,13 +161,29 @@ export class TempDB {
     }
 
     // update
+    updateById<R extends IBaseRecord>(
+        collectionName: string,
+        id: string,
+        updateFunction: (record: R) => R,
+    ): R {
+        const record = this.findById<R>(collectionName, id, true);
+        if (!record) throw new Error(`Record for ${id} not found`);
+        const updatedRecord = updateFunction(record) ?? record;
+        merge(record, updatedRecord);
+        const result = this.transformRecord([record])[0];
+
+        this.telemetry({ action: 'updateOne', collectionName, result, input: { id } });
+        return result;
+    }
+
     updateOne<R extends IBaseRecord>(
         collectionName: string,
         query: Partial<IBaseRecord>,
-        updateFunction: (record: R) => void,
+        updateFunction: (record: R) => R,
     ): R {
         const record = this.findOne<R>(collectionName, query, true);
-        updateFunction(record);
+        const updatedRecord = updateFunction(record) ?? record;
+        merge(record, updatedRecord);
         const result = this.transformRecord([record])[0];
 
         this.telemetry({ action: 'updateOne', collectionName, query, result });
@@ -177,10 +193,13 @@ export class TempDB {
     updateMany<R extends IBaseRecord[]>(
         collectionName: string,
         query: Partial<IBaseRecord>,
-        updateFunction: (record: R[0]) => void,
+        updateFunction: (record: R[0]) => R[0],
     ): R {
         const records = this.findMany<R>(collectionName, query, true);
-        records.forEach((record) => updateFunction(record));
+        records.forEach((record) => {
+            const updatedRecord = updateFunction(record) ?? record;
+            merge(record, updatedRecord);
+        });
         const result = this.transformRecord(records);
 
         this.telemetry({ action: 'updateMany', collectionName, query, result });
@@ -189,10 +208,13 @@ export class TempDB {
 
     updateAll<R extends IBaseRecord[]>(
         collectionName: string,
-        updateFunction: (record: R[0]) => void,
+        updateFunction: (record: R[0]) => R[0],
     ): R {
         const records = this.getCollection<R>(collectionName);
-        records.forEach((record) => updateFunction(record));
+        records.forEach((record) => {
+            const updatedRecord = updateFunction(record) ?? record;
+            merge(record, updatedRecord);
+        });
         const result = this.transformRecord(records);
 
         this.telemetry({ action: 'updateAll', collectionName, result });
@@ -200,9 +222,13 @@ export class TempDB {
     }
 
     // find
-    findById<R extends IBaseRecord>(collectionName: string, id: string): R | undefined {
+    findById<R extends IBaseRecord>(
+        collectionName: string,
+        id: string,
+        unTransformedResult = false,
+    ): R | undefined {
         const record = <R>this.getCollection(collectionName).find((item) => item._id === id);
-        const result = this.transformRecord([record])[0];
+        const result = unTransformedResult ? record : this.transformRecord([record])[0];
 
         this.telemetry({ action: 'findById', collectionName, result, input: { id } });
         return result;
