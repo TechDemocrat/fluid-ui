@@ -186,7 +186,7 @@ export class UploadService {
         scopeId: string,
         rootScopeId: string,
     ): string => {
-        const uploadId = fileInput?.customId ?? formKey();
+        const uploadId = fileInput?.uploadId ?? formKey();
         const uploadProgressMeta: IUploadServiceProgressMeta = {
             rootScopeId,
             scopeId,

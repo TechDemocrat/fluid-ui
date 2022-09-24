@@ -46,9 +46,9 @@ export type IUploadFileBothResponse = IUploadFileMonoResponse | IUploadFileMulti
 export interface IUploadFileInput {
     file: File;
     /**
-     * if passed customId will be used instead of generating one
+     * if passed uploadId will be used instead of generating one
      */
-    customId?: string;
+    uploadId?: string;
     /**
      * triggers on upload done
      */
