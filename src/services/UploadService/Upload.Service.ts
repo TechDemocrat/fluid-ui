@@ -71,17 +71,19 @@ export class UploadService {
         return { scopeId: currentScopeId, rootScopeId: currentRootScopeId, uploadId };
     }
 
-    cancelUpload = (uploadId: string) => {
-        const uploadProgressMeta = this.progressMapping.get(uploadId);
-        if (uploadProgressMeta) {
-            uploadProgressMeta.status = 'cancelled';
-            if (uploadProgressMeta.options.simulate) {
-                clearInterval(uploadProgressMeta.simulationId);
-            } else {
-                // actual upload flow - hold for now
-                // wire it up with axios cancel
+    cancelUpload = (...uploadIds: string[]) => {
+        uploadIds.forEach((uploadId) => {
+            const uploadProgressMeta = this.progressMapping.get(uploadId);
+            if (uploadProgressMeta) {
+                uploadProgressMeta.status = 'cancelled';
+                if (uploadProgressMeta.options.simulate) {
+                    clearInterval(uploadProgressMeta.simulationId);
+                } else {
+                    // actual upload flow - hold for now
+                    // wire it up with axios cancel
+                }
             }
-        }
+        });
     };
 
     /**
@@ -269,10 +271,12 @@ export class UploadService {
                     uploadProgressMeta.current += uploadRate;
                 } else {
                     clearInterval(uploadProgressMeta.simulationId);
-                    uploadProgressMeta.status = 'uploaded';
-                    uploadProgressMeta.fileInput.onUploadDone?.(uploadProgressMeta);
-                    this.checkIsAllUploadsInScopeCompleted(uploadProgressMeta.scopeId);
-                    this.checkIsAllUploadsInRootScopeCompleted(uploadProgressMeta.rootScopeId);
+                    if (uploadProgressMeta.status === 'uploading') {
+                        uploadProgressMeta.status = 'uploaded';
+                        uploadProgressMeta.fileInput.onUploadDone?.(uploadProgressMeta);
+                        this.checkIsAllUploadsInScopeCompleted(uploadProgressMeta.scopeId);
+                        this.checkIsAllUploadsInRootScopeCompleted(uploadProgressMeta.rootScopeId);
+                    }
                 }
                 uploadProgressMeta.subscriptions.forEach((callback) =>
                     callback(this.getUploadProgressData(uploadId)),
