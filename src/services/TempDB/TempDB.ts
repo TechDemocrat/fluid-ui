@@ -134,12 +134,14 @@ export class TempDB {
      * Transforms record in the form to send it to user
      */
     private transformRecord<R extends IBaseRecord[]>(records: R): R {
-        return records.map((record) => {
-            const newRecord = { ...record };
-            const id = newRecord._id;
-            delete newRecord._id;
-            return { ...newRecord, id } as R[0];
-        }) as R;
+        return cloneDeep(
+            records.map((record) => {
+                const newRecord = { ...record };
+                const id = newRecord._id;
+                delete newRecord._id;
+                return { ...newRecord, id } as R[0];
+            }) as R,
+        );
     }
 
     insertOne<R extends IBaseRecord>(collectionName: string, record: R): R {
