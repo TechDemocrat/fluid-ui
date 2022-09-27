@@ -78,6 +78,8 @@ export interface IUploadServiceProgressMeta extends IUploadFileMonoResponse {
 
 export type TUploadServiceProgressMetaMapping = Map<string, IUploadServiceProgressMeta>;
 
+export type TUploadGlobalScopeSubscriptionMapping = Map<string, (data: IRootScope) => void>;
+
 export interface IUploadScope {
     uploadId: string[];
     options: IUploadOptions;
@@ -85,6 +87,14 @@ export interface IUploadScope {
      * Flag is used to call the scope upload completion callback only once
      */
     isCallbackTriggered?: boolean;
+    /**
+     * this will be periodically updated based upload instances performance
+     */
+    status?: 'completed' | 'in-progress';
+    /**
+     * subscriptions for the scope will be added
+     */
+    subscriptions: Map<string, (scope: IUploadScope) => void>;
 }
 
 /**
@@ -103,6 +113,14 @@ export interface IRootScope {
      * Flag is used to call the scope upload completion callback only once
      */
     isCallbackTriggered?: boolean;
+    /**
+     * this will be periodically updated based upload instances performance
+     */
+    status?: 'completed' | 'in-progress';
+    /**
+     * subscriptions for the root scope will be added
+     */
+    subscriptions: Map<string, (scope: IRootScope) => void>;
 }
 
 /**
@@ -147,4 +165,12 @@ export interface IUploadOptions {
 export interface IUploadScopeCompletionResponse {
     completed: boolean;
     uploadProgressMeta: IUploadServiceProgressMeta[];
+}
+
+export type TUploadScopeStatusType = 'scope' | 'rootScope' | 'global';
+
+export interface IUploadScopeStatusMetaMapping {
+    global: IRootScope;
+    scope: IUploadScope;
+    rootScope: IRootScope;
 }

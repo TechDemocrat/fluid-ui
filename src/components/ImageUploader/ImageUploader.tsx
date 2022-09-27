@@ -151,7 +151,7 @@ export const ImageUploader = (props: IImageUploaderProps) => {
         if (currentContent) {
             return currentContent.location === 'remote'
                 ? currentContent.src
-                : UploadService.getInstance().getUploadProgressData(currentContent.id).url;
+                : UploadService.getInstance().getUploadProgressMeta(currentContent.id).url;
         }
         return '';
     }, [currentContent]);
