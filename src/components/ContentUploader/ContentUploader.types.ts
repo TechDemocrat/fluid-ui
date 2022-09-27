@@ -1,4 +1,5 @@
-import { ReactNode } from 'react';
+import { CSSProperties, ReactNode } from 'react';
+import { IContentSource } from '../ImageUploader/ImageUploader.types';
 
 export type TContentUploadStatus = 'idle' | 'uploading' | 'uploaded';
 export type TAllowedFileTypes =
@@ -18,30 +19,11 @@ export type TAllowedFileTypes =
     | 'audio/x-aac'
     | 'audio/aac';
 
-export interface IUploadProgress {
-    /**
-     * on file selection send back the upload file name from parent component
-     */
-    fileName?: string;
-    /**
-     * value should be specified in bytes
-     */
-    loaded: number;
-    /**
-     * value should be specified in bytes
-     */
-    total: number;
-    /**
-     * on upload cancel handler
-     */
-    onCancel?: () => void;
-}
-
 export interface IUploadContentMeta {
     /**
      * should be passed if status is 'uploaded'
      */
-    previewArea?: ReactNode;
+    previewArea?: () => ReactNode;
     /**
      * uploaded at timestamp
      */
@@ -62,6 +44,14 @@ export interface IContentUploaderProps {
      */
     status: TContentUploadStatus;
     /**
+     * width of the container
+     */
+    width?: CSSProperties['width'];
+    /**
+     * height of the container
+     */
+    height?: CSSProperties['height'];
+    /**
      * pass allowed file types as an array of strings (to allow from input field)
      */
     allowedFileTypes?: TAllowedFileTypes[];
@@ -70,10 +60,17 @@ export interface IContentUploaderProps {
      * if type is not supported through error toast from the parent component itself.
      */
     onUpload?: (file: File) => void;
+
     /**
-     * should be passed when the status is 'uploading'
+     * triggered when the upload is canceled
      */
-    uploadProgress?: IUploadProgress;
+    onUploadCancel?: () => void;
+
+    /**
+     * source of the content to be uploaded
+     */
+    contentSource: IContentSource;
+
     /**
      * should be passed when the status is 'uploaded'
      */

@@ -10,6 +10,16 @@
     }
 }
 
+@keyframes slide-left-reverse {
+    0% {
+        transform: translateX(0%);
+    }
+
+    100% {
+        transform: translateX(110%);
+    }
+}
+
 @keyframes slide-right {
     0% {
         transform: translateX(-100%);
@@ -20,42 +30,41 @@
     }
 }
 
+@keyframes slide-right-reverse {
+    0% {
+        transform: translateX(0%);
+    }
+
+    100% {
+        transform: translateX(-110%);
+    }
+}
+
+$toastOffset: 20px;
+
 .wrapper {
     position: absolute;
     display: block;
 
-    &.topLeft {
-        top: 0;
-        left: 0;
-    }
-
-    &.topRight {
-        top: 0;
-        right: 0;
-    }
-
-    &.bottomLeft {
-        bottom: 0;
-        left: 0;
-    }
-
-    &.bottomRight {
-        right: 0;
-        bottom: 0;
-    }
-
     .toastContainer {
         display: flex;
-        align-items: center;
-        justify-content: center;
-        padding: 5px;
+        justify-content: flex-end;
+        padding: 10px;
 
         &.animateRight {
-            animation: slide-left 500ms forwards;
+            animation: slide-left 300ms forwards;
         }
 
         &.animateLeft {
-            animation: slide-right 500ms forwards;
+            animation: slide-right 300ms forwards;
+        }
+
+        &.animateRightClose {
+            animation: slide-left-reverse 300ms forwards;
+        }
+
+        &.animateLeftClose {
+            animation: slide-right-reverse 300ms forwards;
         }
 
         .toastCardWrapper {
@@ -84,21 +93,56 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            padding: 5px;
+            padding: 6px;
+            gap: 10px;
 
             .toastIcon {
-                margin-right: 5px;
+                font-size: 25px;
                 pointer-events: none;
             }
 
             .toastAction {
-                margin-left: 5px;
-
                 &:hover {
                     color: $color-foregroundPrimary;
                     cursor: pointer;
                 }
             }
+        }
+    }
+
+    &.topLeft {
+        top: $toastOffset;
+        left: $toastOffset;
+
+        .toastContainer {
+            align-items: flex-start;
+        }
+    }
+
+    &.topRight {
+        top: $toastOffset;
+        right: $toastOffset;
+
+        .toastContainer {
+            align-items: flex-end;
+        }
+    }
+
+    &.bottomLeft {
+        bottom: $toastOffset;
+        left: $toastOffset;
+
+        .toastContainer {
+            align-items: flex-start;
+        }
+    }
+
+    &.bottomRight {
+        right: $toastOffset;
+        bottom: $toastOffset;
+
+        .toastContainer {
+            align-items: flex-end;
         }
     }
 }

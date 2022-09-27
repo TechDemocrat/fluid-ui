@@ -2,26 +2,32 @@
 @import "../../styles/variables";
 @import "../../styles/functions";
 
+$labelFontSize: $fontsize-medium;
+
 .wrapper {
     width: 100%;
-    height: 250px;
-    padding-top: calc($fontsize-medium / 2);
+    height: 300px;
+    padding-top: calc($labelFontSize / 2);
 
     .core {
         position: relative;
         width: 100%;
         height: 100%;
-        padding: calc(($fontsize-medium / 2) + 5px) 5px 5px;
+        padding: calc(($labelFontSize / 2) + 5px) 5px 5px;
         background-color: $color-backgroundSecondary;
         border-radius: 5px;
 
+        &:hover {
+            background-color: $color-backgroundSecondaryDark;
+        }
+
         .label {
             position: absolute;
-            top: calc((($fontsize-medium / 2)) * -1);
+            top: calc((($labelFontSize / 2)) * -1);
             left: 10px;
             color: $color-foregroundSecondary;
-            font-size: $fontsize-medium;
-            font-weight: $fontweight-bold;
+            font-size: $labelFontSize;
+            font-weight: $fontweight-semibold;
         }
 
         .contentWrapper {

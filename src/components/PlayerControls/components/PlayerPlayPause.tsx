@@ -25,7 +25,7 @@ export const PlayerPlayPause = (props: {
     };
 
     // hooks
-    useEventListener('keydown', onKeyDown);
+    useEventListener('keydown', onKeyDown, true);
 
     // compute
     let currentIcon = isPlaying ? baselinePause : baselinePlayArrow;

@@ -1,16 +1,35 @@
-export type TInputType = 'text' | 'number' | 'email' | 'password';
+import { CSSProperties } from 'react';
+
+export type TInputType = 'text' | 'number' | 'email' | 'password' | 'textarea' | 'tags';
 export type TInputSize = 'small' | 'medium' | 'large';
 
 export type TInputValue = string | number;
 
 export interface IInputProps {
     /**
+     * type of the input
+     * @default 'text'
+     * @example
+     * <Input type="text" />
+     * <Input type="number" />
+     * <Input type="email" />
+     * <Input type="password" />
+     */
+    type?: TInputType;
+    /**
      * value of the input
      * @default ''
      * @example
      * <Input value={'value'} />
      */
-    value: TInputValue;
+    value?: TInputValue;
+    /**
+     * should be passed when type is 'tags'
+     * @default []
+     * @example
+     * <Input tags={[]} />
+     */
+    tags?: string[];
     /**
      * additional className for the input
      */
@@ -24,16 +43,6 @@ export interface IInputProps {
      */
     placeholder?: string;
     /**
-     * type of the input
-     * @default 'text'
-     * @example
-     * <Input type="text" />
-     * <Input type="number" />
-     * <Input type="email" />
-     * <Input type="password" />
-     */
-    type?: TInputType;
-    /**
      * size of the input
      * @default 'medium'
      * @example
@@ -44,10 +53,15 @@ export interface IInputProps {
     size?: TInputSize;
 
     /**
-     * @default false
+     * @default 'width will be based on the size prop'
      * note; if true passed the width will be taken from parent container
      */
-    inheritWidth?: boolean;
+    width?: CSSProperties['width'];
+    /**
+     * @default 'width will be based on the size prop'
+     * note; if true passed the width will be taken from parent container
+     */
+    height?: CSSProperties['height'];
     /**
      * disabled input
      * @default false
@@ -63,7 +77,7 @@ export interface IInputProps {
     autoFocus?: boolean;
     /**
      * show success / error icon
-     * @default true
+     * @default false
      */
     showIcon?: boolean;
     /**
@@ -73,11 +87,21 @@ export interface IInputProps {
      * note: bottom margin will be added if true passed (to avoid layout shift)
      */
     showMessage?: boolean;
+
+    /**
+     * resize applicable only if type is 'textarea'
+     */
+    resize?: CSSProperties['resize'];
     /**
      * value will be in number format if type is number
      * otherwise it will be in string format
      */
     onChange?: (value: TInputValue) => void;
+    /**
+     * value will be in number format if type is number
+     * otherwise it will be in string format
+     */
+    onTagsChange?: (value: string[]) => void;
     /**
      * if passed, will be used instead native validation handler
      */

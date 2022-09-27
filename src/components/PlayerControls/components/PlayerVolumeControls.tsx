@@ -99,7 +99,7 @@ export const PlayerVolumeControls = (props: IPlayerVolumeControlsProps) => {
     };
 
     // hooks
-    useEventListener('keydown', onKeyDown);
+    useEventListener('keydown', onKeyDown, true);
 
     // compute
     const volumeIcon = useMemo(

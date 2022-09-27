@@ -1,5 +1,6 @@
 import React, {
     ChangeEventHandler,
+    CSSProperties,
     useCallback,
     useEffect,
     useMemo,
@@ -18,6 +19,7 @@ import { IconButton } from '../IconButton/IconButton';
 import { TimeFromNow } from '../TimeFromNow/TimeFromNow';
 import { ContentUploaderService } from './ContentUploader.service';
 import { useIsMounted } from '../../hooks';
+import { useUploadProgress } from '../../hooks/useUploadProgress';
 
 export const ContentUploader = (props: IContentUploaderProps) => {
     // props
@@ -25,16 +27,27 @@ export const ContentUploader = (props: IContentUploaderProps) => {
         label = 'Video',
         status = 'idle',
         uploadedContentMeta,
-        uploadProgress,
+        contentSource = { id: '', location: 'local', status: 'uploading', type: '' },
         allowedFileTypes = [],
+        width,
+        height,
         onUpload,
+        onUploadCancel,
     } = props;
     const { previewArea, uploadedAt = '', onDelete } = uploadedContentMeta ?? {};
-    const { loaded, total, fileName, onCancel } = uploadProgress ?? {};
     const errorInitialState = useMemo(() => ({ enabled: false, message: '' }), []);
 
     // hooks
     const isMounted = useIsMounted();
+    const {
+        current: loaded,
+        fileName,
+        total,
+    } = useUploadProgress(contentSource.location === 'local' ? contentSource.id : undefined) ?? {
+        progress: 0,
+        status: 'uploaded',
+        url: contentSource.src,
+    };
 
     // state
     const [isDragging, setIsDragging] = useState(false);
@@ -122,9 +135,14 @@ export const ContentUploader = (props: IContentUploaderProps) => {
         [allowedFileTypes],
     );
 
+    const wrapperStyle: CSSProperties = {
+        width,
+        height,
+    };
+
     // paint
     return (
-        <div className={cn(styles.wrapper)}>
+        <div className={cn(styles.wrapper)} style={wrapperStyle}>
             <div className={styles.core}>
                 <div className={styles.label}>{label}</div>
                 <div className={styles.contentWrapper}>
@@ -143,7 +161,11 @@ export const ContentUploader = (props: IContentUploaderProps) => {
                                 })}
                             />
                             <div className={styles.uploadText}>
-                                {error.enabled ? error.message : <>Drag and drop to upload</>}{' '}
+                                {error.enabled ? (
+                                    error.message
+                                ) : (
+                                    <>Drag and drop to upload {label?.toLowerCase()}</>
+                                )}{' '}
                                 <br />
                                 <span className={styles.supportedFilesText}>
                                     supported formats <br />( {formattedAllowedFileTypes} )
@@ -180,7 +202,7 @@ export const ContentUploader = (props: IContentUploaderProps) => {
                                     left
                                 </div>
                                 <div className={styles.uploadProgressAction}>
-                                    <IconButton title="Cancel upload" onClick={onCancel}>
+                                    <IconButton title="Cancel upload" onClick={onUploadCancel}>
                                         <Icon icon={close} className={styles.uploadCancelIcon} />
                                     </IconButton>
                                 </div>
@@ -189,7 +211,7 @@ export const ContentUploader = (props: IContentUploaderProps) => {
                     )}
                     {status === 'uploaded' && (
                         <div className={styles.uploadingState}>
-                            <div className={styles.coreUploadProgress}>{previewArea}</div>
+                            <div className={styles.coreUploadProgress}>{previewArea?.()}</div>
                             <div className={styles.uploadProgressDetailedView}>
                                 <div className={styles.uploadProgressMeta}>
                                     Last Uploaded at{' '}

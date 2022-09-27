@@ -7,7 +7,6 @@
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    gap: 20px;
 
     .icon {
         font-size: $fontsize-h2;
@@ -22,8 +21,12 @@
     }
 
     .message {
-        color: $color-foregroundPrimary;
+        color: $color-foregroundSecondary;
         font-size: $fontsize-medium;
         font-weight: $fontweight-normal;
+
+        &.messageSmall {
+            font-size: $fontsize-caption;
+        }
     }
 }

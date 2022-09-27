@@ -1,5 +1,6 @@
 import React, {
     ChangeEventHandler,
+    CSSProperties,
     DragEvent,
     MouseEvent,
     useCallback,
@@ -10,21 +11,17 @@ import React, {
 } from 'react';
 import cn from 'classnames';
 
-import {
-    IImageUploaderContent,
-    IImageUploaderProps,
-    IUploaderErrorMessage,
-} from './ImageUploader.types';
+import { IContentSource, IImageUploaderProps, IUploaderErrorMessage } from './ImageUploader.types';
 import styles from './ImageUploader.module.scss';
 import { ImageUploaderService } from './ImageUploader.service';
 import { ImageUploaderLandingPage } from './components/ImageUploaderLandingPage';
 import { Icon } from '@iconify/react';
-import { baselineAdd, baselineEdit } from '../../assets/icons/iconify';
+import { baselineAdd, baselineDeleteOutline, baselineEdit } from '../../assets/icons/iconify';
 import { IconButton } from '../IconButton/IconButton';
 import { ImageUploaderImageStack } from './components/ImageUploaderImageStack';
 import { DropToUploadOverlay } from './components/DropToUploadOverlay';
 import { onImageLoadError } from '../../utilities';
-import { UploadService } from '../../services/UploadService/UploadService';
+import { UploadService } from '../../services/UploadService/Upload.Service';
 import { useIsMounted } from '../../hooks';
 
 export const ImageUploader = (props: IImageUploaderProps) => {
@@ -36,8 +33,12 @@ export const ImageUploader = (props: IImageUploaderProps) => {
         viewMode,
         allowedFileTypes = [],
         showEditIcon = false,
+        width,
+        height,
         onUpload,
         onDelete,
+        onDeleteAll,
+        onEdit,
     } = props;
     const errorInitialState = useMemo<IUploaderErrorMessage>(
         () => ({ enabled: false, message: '' }),
@@ -111,14 +112,17 @@ export const ImageUploader = (props: IImageUploaderProps) => {
     }, []);
 
     const onAddButtonClick = () => {
-        inputFileRef.current?.click();
+        if (inputFileRef.current) {
+            inputFileRef.current.value = '';
+            inputFileRef.current.click();
+        }
     };
 
     const onPreviewImageChange = (index: number) => () => {
         setPreviewImageIndex(index);
     };
 
-    const onDeleteImage = (content: IImageUploaderContent) => (e: MouseEvent<SVGElement>) => {
+    const onDeleteImage = (content: IContentSource) => (e: MouseEvent<SVGElement>) => {
         e.preventDefault();
         e.stopPropagation();
         onDelete?.(content);
@@ -128,6 +132,10 @@ export const ImageUploader = (props: IImageUploaderProps) => {
     useEffect(() => {
         if (previewImageIndex >= contents.length || previewImageIndex < 0) {
             setPreviewImageIndex(contents.length - 1 || 0);
+        } else {
+            if (inputFileRef.current?.files) {
+                inputFileRef.current.value = ''; // freeing up the input file, so that it can accept the same input again
+            }
         }
     }, [contents, previewImageIndex]);
 
@@ -139,16 +147,21 @@ export const ImageUploader = (props: IImageUploaderProps) => {
     );
     const currentImageUrl = useMemo(() => {
         if (currentContent) {
-            return currentContent.type === 'remote'
-                ? currentContent.url
+            return currentContent.location === 'remote'
+                ? currentContent.src
                 : UploadService.getInstance().getUploadProgressData(currentContent.id).url;
         }
         return '';
     }, [currentContent]);
 
+    const wrapperStyle: CSSProperties = {
+        width,
+        height,
+    };
+
     // paint
     return (
-        <div className={cn(styles.wrapper)}>
+        <div className={cn(styles.wrapper)} style={wrapperStyle}>
             <div
                 className={styles.core}
                 onDragOver={onFileDragOver}
@@ -159,6 +172,7 @@ export const ImageUploader = (props: IImageUploaderProps) => {
                 <div className={styles.label}>{label}</div>
                 <div className={cn(styles.contentWrapper)}>
                     <ImageUploaderLandingPage
+                        label={label}
                         showLandingPage={isIdle}
                         ref={inputFileRef}
                         isDragging={isDragging}
@@ -171,8 +185,20 @@ export const ImageUploader = (props: IImageUploaderProps) => {
                         <div className={cn(styles.previewWithUploaderState)}>
                             {/* Place edit icon if needed */}
                             <div className={styles.previewActionsWrapper}>
+                                {viewMode === 'edit' && (
+                                    <IconButton
+                                        title="Delete all"
+                                        padding={3}
+                                        onClick={onDeleteAll}
+                                    >
+                                        <Icon
+                                            className={styles.previewActionIcon}
+                                            icon={baselineDeleteOutline}
+                                        />
+                                    </IconButton>
+                                )}
                                 {showEditIcon === true && viewMode === 'view' && (
-                                    <IconButton title="Edit" padding={3}>
+                                    <IconButton title="Edit" padding={3} onClick={onEdit}>
                                         <Icon
                                             className={styles.previewActionIcon}
                                             icon={baselineEdit}

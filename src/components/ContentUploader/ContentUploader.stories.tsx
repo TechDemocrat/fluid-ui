@@ -1,8 +1,12 @@
-import React, { Reducer, useEffect, useReducer, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Story, Meta } from '@storybook/react';
 
 import { ContentUploader } from './ContentUploader';
-import { IContentUploaderProps, IUploadProgress } from './ContentUploader.types';
+import { IContentUploaderProps, IUploadContentMeta } from './ContentUploader.types';
+import { UploadService } from '../../services/UploadService/Upload.Service';
+import { IContentSource } from '../ImageUploader/ImageUploader.types';
+import { IUploadServiceProgressMeta } from '../../services/UploadService/UploadService.types';
+import { useIsMounted } from '../../hooks';
 
 export default {
     title: 'fluid-ui/ContentUploader',
@@ -10,69 +14,79 @@ export default {
     argTypes: {},
 } as Meta<typeof ContentUploader>;
 
-// upload progress helpers
-const uploadProgressInitialState: Omit<IUploadProgress, 'onCancel'> = {
-    loaded: 0,
-    total: 5000000,
-    fileName: 'The Content file.mp4',
-};
-
-const uploadProgressReducer: Reducer<Omit<IUploadProgress, 'onCancel'>, { type: string }> = (
-    state,
-    action,
-) => {
-    switch (action.type) {
-        case 'increment':
-            return { ...state, loaded: state.loaded + 40000 };
-        case 'reset':
-            return { ...uploadProgressInitialState };
-        default:
-            return state;
-    }
-};
-
 // main story
 const Template: Story<IContentUploaderProps> = (args) => {
     // props
     const { status } = args;
 
     // state
+    const isMounted = useIsMounted();
+    const initialContentSource: IContentSource = {
+        id: '',
+        location: 'local',
+        status: 'uploading',
+        type: '',
+    };
+    const [contentSource, setContentSource] = useState<IContentSource>(initialContentSource);
     const [currentStatus, setCurrentStatus] = useState(status);
-    const [uploadProgress, dispatch] = useReducer(
-        uploadProgressReducer,
-        uploadProgressInitialState,
-    );
 
     // handlers
-    const onUploadHandler = (file: File) => {
-        if (file) {
-            dispatch({ type: 'reset' });
-            setCurrentStatus('uploading');
+    const onUploadDone = (progressMeta: IUploadServiceProgressMeta[]) => {
+        const currentProgressMeta = progressMeta[0];
+        if (isMounted()) {
+            setCurrentStatus('uploaded');
+            setContentSource({
+                id: currentProgressMeta.uploadId,
+                location: 'remote',
+                status: 'uploaded',
+                type: currentProgressMeta.fileType,
+                src: currentProgressMeta.url,
+            });
         }
+    };
+
+    const onUploadHandler = (file: File) => {
+        const { uploadId: currentUploadId } = UploadService.getInstance().upload(
+            { file },
+            {
+                onAllUploadsDoneInCurrentScope: onUploadDone,
+                simulate: true,
+                simulateOptions: { uploadSpeed: 100, uploadRate: 70000 },
+            },
+        );
+        setContentSource({
+            id: currentUploadId,
+            location: 'local',
+            status: 'uploading',
+            type: file.type,
+        });
+        setCurrentStatus('uploading');
+    };
+
+    const onCancelHandler = () => {
+        UploadService.getInstance().cancelUpload(contentSource.id);
+        setContentSource(initialContentSource);
+        setCurrentStatus('idle');
+    };
+
+    const onDeleteHandler = () => {
+        setCurrentStatus('idle');
     };
 
     // effects
     useEffect(() => {
-        const interval = setInterval(() => {
-            if (currentStatus === 'uploading') {
-                if (uploadProgress.loaded < uploadProgress.total) {
-                    dispatch({ type: 'increment' });
-                } else {
-                    dispatch({ type: 'reset' });
-                    setCurrentStatus('uploaded');
-                    clearInterval(interval);
-                }
-            } else {
-                clearInterval(interval);
-                dispatch({ type: 'reset' });
-            }
-        }, 200);
-        return () => clearInterval(interval);
-    }, [currentStatus, uploadProgress]);
-
-    useEffect(() => {
         setCurrentStatus(status);
     }, [status]);
+
+    // compute
+    const uploadedContentMeta: IUploadContentMeta | undefined =
+        currentStatus === 'uploaded'
+            ? {
+                  previewArea: () => <div>Preview area</div>,
+                  uploadedAt: Date.now().toString(),
+                  onDelete: onDeleteHandler,
+              }
+            : undefined;
 
     // paint
     return (
@@ -80,8 +94,10 @@ const Template: Story<IContentUploaderProps> = (args) => {
             <ContentUploader
                 {...args}
                 status={currentStatus}
-                uploadProgress={uploadProgress}
+                contentSource={contentSource}
+                onUploadCancel={onCancelHandler}
                 onUpload={onUploadHandler}
+                uploadedContentMeta={uploadedContentMeta}
             />
         </div>
     );

@@ -1,14 +1,14 @@
 @import "../../styles/variables";
 
-$inputPaddingTopBottom: 10px;
+$inputPaddingTopBottom: 15px;
 $inputPaddingLeftRight: 15px;
-$levitatedLabelFontSize: $fontsize-caption;
+$levitatedLabelFontSize: $fontsize-medium;
 $messageFontSize: $fontsize-small;
 $messageTopMargin: 3px;
 $messageHeight: calc($messageFontSize + $messageTopMargin);
-$smallHeight: 35px;
-$mediumHeight: 40px;
-$largeHeight: 45px;
+$smallHeight: 40px;
+$mediumHeight: 45px;
+$largeHeight: 55px;
 $smallWidth: 150px;
 $mediumWidth: 200px;
 $largeWidth: 300px;
@@ -18,76 +18,256 @@ $largeWidth: 300px;
     $marginBottom: $messageHeight;
 
     position: relative;
-    margin-top: $marginTop; // which reserves space for the transformed levitated label
-    font-size: $fontsize-medium;
+    padding: $inputPaddingTopBottom 0;
+    padding-left: $inputPaddingLeftRight;
+    background-color: $color-backgroundSecondary;
+    border-radius: 5px;
 
-    &.small {
-        width: $smallWidth;
-        height: $smallHeight;
+    &:hover {
+        background-color: $color-backgroundSecondaryDark;
     }
 
-    &.medium {
-        width: $mediumWidth;
-        height: $mediumHeight;
+    &:focus {
+        background-color: $color-backgroundSecondaryDark;
+        outline: none;
     }
 
-    &.large {
-        width: $largeWidth;
-        height: $largeHeight;
+    &.labelHeightBuffer {
+        margin-top: $marginTop; // which reserves space for the transformed levitated label
     }
 
     &.messageHeightBuffer {
         margin-bottom: $marginBottom;
     }
 
+    &::before {
+        position: absolute;
+        z-index: 1;
+        top: 0;
+        left: 0;
+        width: calc(100% - $inputPaddingLeftRight);
+        height: calc($levitatedLabelFontSize / 2);
+        background-color: $color-backgroundSecondary;
+        border-radius: 5px 5px 0 0;
+        content: "";
+    }
+
+    &:hover,
+    &:focus-within,
+    &:focus {
+        background-color: $color-backgroundSecondaryDark;
+
+        &::before {
+            background-color: $color-backgroundSecondaryDark;
+        }
+    }
+
+    .tagsWrapper {
+        display: flex;
+        width: 100%;
+        height: 100%;
+        flex-direction: column;
+
+        .tagsContainer {
+            display: flex;
+            height: 100%;
+            flex-flow: row wrap;
+            align-items: center;
+            padding-right: $inputPaddingLeftRight + 20px;
+            padding-bottom: 15px;
+            gap: 10px;
+
+            .tagNode {
+                position: relative;
+                padding: 4px 8px;
+                background-color: $color-backgroundSecondary;
+                border-radius: 5px;
+                box-shadow: 0 0 3px 0 $color-foregroundTertiary;
+                cursor: pointer;
+                font-size: $fontsize-medium;
+                user-select: none;
+
+                .tagDeleteIcon {
+                    position: absolute;
+                    z-index: 1;
+                    top: -5px;
+                    right: -5px;
+                    display: grid;
+                    width: 15px;
+                    height: 15px;
+                    background-color: $color-backgroundSecondary;
+                    border-radius: 50%;
+                    box-shadow: 0 0 3px 0 $color-foregroundTertiary;
+                    color: $color-foregroundSecondary;
+                    content: "";
+                    cursor: pointer;
+                    font-size: 12px;
+                    opacity: 0;
+                    place-items: center;
+                    pointer-events: none;
+                    user-select: none;
+                    visibility: hidden;
+
+                    @include click-effect;
+
+                    &:hover {
+                        background-color: $color-backgroundTertiary;
+                    }
+                }
+
+                &:hover {
+                    background-color: $color-backgroundTertiary;
+
+                    .tagDeleteIcon {
+                        opacity: 1;
+                        pointer-events: all;
+                        visibility: visible;
+                    }
+                }
+            }
+        }
+    }
+
     .input {
         position: relative;
         width: 100%;
         height: 100%;
-        padding: $inputPaddingTopBottom $inputPaddingLeftRight;
-        border: 0 solid $color-foregroundTertiary;
-        background: $color-backgroundSecondary;
-        border-radius: 5px;
-        font-size: $fontsize-medium;
+        padding-right: $inputPaddingLeftRight + 20px;
+
+        // 20px for icon width - make it dynamic later if specifically needed
+        border: none;
+        background-color: transparent;
+
+        &.textarea {
+            resize: none;
+        }
 
         &:hover {
-            background: $color-backgroundSecondaryDark;
+            background-color: transparent;
         }
 
         &:focus {
-            background: $color-backgroundSecondaryDark;
+            background-color: transparent;
             outline: none;
         }
     }
 
     .label {
+        $labelTopPosition: calc($inputPaddingTopBottom);
+
         position: absolute;
-        top: 50%;
+        z-index: 2;
+        top: $labelTopPosition;
         left: $inputPaddingLeftRight;
         width: auto;
         color: $color-foregroundSecondary;
-        font-weight: $fontweight-bold;
+        font-weight: $fontweight-semibold;
         pointer-events: none;
-
-        // font-weight: $fontweight-medium;
-        transform: translateY(-50%);
         transform-origin: top left;
         transition: top 0.1s ease-out;
         white-space: nowrap;
 
         &.levitateLabel {
-            top: 0;
+            top: 0 !important;
             font-size: $levitatedLabelFontSize;
+            transform: translateY(-50%);
+        }
+    }
+
+    &.small {
+        width: $smallWidth;
+        height: $smallHeight;
+        font-size: $fontsize-medium;
+
+        &.textareaSize {
+            height: calc($smallHeight * 2);
+        }
+
+        .label {
+            top: 13px;
+
+            &.levitateLabel {
+                font-size: $fontsize-caption;
+            }
+        }
+
+        .input {
+            font-size: inherit;
+        }
+
+        &.tags {
+            height: auto !important;
+            min-height: $smallHeight !important;
+        }
+    }
+
+    &.medium {
+        width: $mediumWidth;
+        height: $mediumHeight;
+        font-size: $fontsize-medium;
+
+        &.textareaSize {
+            height: calc($mediumHeight * 2);
+        }
+
+        .label {
+            &.levitateLabel {
+                font-size: $fontsize-caption;
+            }
+        }
+
+        .input {
+            font-size: inherit;
+        }
+
+        &.tags {
+            height: auto !important;
+            min-height: $mediumHeight !important;
+        }
+    }
+
+    &.large {
+        width: $largeWidth;
+        height: $largeHeight;
+        font-size: $fontsize-bodyMain;
+
+        &.textareaSize {
+            height: calc($largeHeight * 2);
+        }
+
+        .label {
+            top: 20px;
+        }
+
+        .input {
+            font-size: inherit;
+        }
+
+        &.tags {
+            height: auto !important;
+            min-height: $largeHeight !important;
         }
     }
 
     .icon {
         position: absolute;
-        top: 50%;
-        right: calc($inputPaddingLeftRight - 10px);
+        top: 0;
+        right: calc($inputPaddingLeftRight - 8px);
         color: $color-foregroundTertiary;
         font-size: $fontsize-bodyMain;
-        transform: translateY(-50%);
+        transform-origin: top left;
+    }
+
+    &.small .icon {
+        top: 6px !important;
+    }
+
+    &.medium .icon {
+        top: 8px !important;
+    }
+
+    &.large .icon {
+        top: 10px !important;
     }
 
     .message {
@@ -99,7 +279,7 @@ $largeWidth: 300px;
     }
 
     .disabled {
-        background: $color-backgroundTertiary;
+        background-color: $color-backgroundTertiary;
         color: $color-foregroundTertiary;
         cursor: not-allowed;
         pointer-events: none;

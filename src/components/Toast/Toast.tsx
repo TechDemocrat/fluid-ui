@@ -10,7 +10,11 @@ import ToastMessage from './components/ToastMessage';
 
 export const Toast = (props: IToastProps) => {
     // props
-    const { position = 'top-right' } = props;
+    const {
+        position = 'top-right',
+        type: defaultType = 'info',
+        duration: defaultDuration = 3000,
+    } = props;
 
     // compute
     const positionClass = ToastService.getPositionClass(position);
@@ -28,26 +32,28 @@ export const Toast = (props: IToastProps) => {
     return (
         <div className={cn(styles.wrapper, positionClass)}>
             {[...toastList.keys()].map((id) => {
-                const toast = toastList.get(id);
+                const {
+                    message = '',
+                    duration = defaultDuration,
+                    type = defaultType,
+                    show = true,
+                } = toastList.get(id) ?? {};
                 return (
                     <div
                         key={id}
-                        className={cn(
-                            styles.toastContainer,
-                            {
-                                [styles.animateRight]: position.includes('right'),
-                            },
-                            {
-                                [styles.animateLeft]: position.includes('left'),
-                            },
-                        )}
+                        className={cn(styles.toastContainer, {
+                            [styles.animateRight]: position.includes('right') && show,
+                            [styles.animateRightClose]: position.includes('right') && !show,
+                            [styles.animateLeft]: position.includes('left') && show,
+                            [styles.animateLeftClose]: position.includes('left') && !show,
+                        })}
                     >
                         <ToastMessage
                             key={id}
                             id={id}
-                            message={toast?.message}
-                            duration={toast?.duration || 5000}
-                            type={toast?.type || 'info'}
+                            message={message}
+                            duration={duration}
+                            type={type}
                             close={close}
                         />
                     </div>

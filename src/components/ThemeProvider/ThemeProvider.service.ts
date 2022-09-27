@@ -8,14 +8,16 @@ export class ThemeProviderService {
         secondaryDark: '#9dadd07c',
 
         foregroundPrimary: '#212121',
-        foregroundSecondary: '#666666',
-        foregroundTertiary: '#9E9E9E',
         foregroundPrimaryLight: '#FFFFFF',
+        foregroundSecondary: '#666666',
+        foregroundSecondaryLight: '#F5F5F5',
+        foregroundTertiary: '#9E9E9E',
+        foregroundTertiaryLight: '#E0E0E0',
 
         backgroundPrimary: '#FFFFFF',
+        backgroundPrimaryDark: '#212121',
         backgroundSecondary: '#F5F5F5',
         backgroundTertiary: '#E0E0E0',
-        backgroundPrimaryDark: '#212121',
 
         success: '#00C851',
         successDark: '#007E33',

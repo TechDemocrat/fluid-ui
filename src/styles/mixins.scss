@@ -12,19 +12,24 @@
     &::-webkit-scrollbar-thumb {
         border: $border-width solid transparent;
         background-clip: content-box;
+        background-color: transparent;
         border-radius: $border-radius;
+    }
 
-        @if $color-primary {
-            background-color: $color-primary;
-        } @else {
-            background-color: $color-foregroundSecondary;
-        }
-
-        &:hover {
-            @if $color-secondary {
-                background-color: $color-secondary;
+    &:hover {
+        &::-webkit-scrollbar-thumb {
+            @if $color-primary {
+                background-color: $color-primary;
             } @else {
-                background-color: $color-foregroundTertiary;
+                background-color: $color-foregroundSecondary;
+            }
+
+            &:hover {
+                @if $color-secondary {
+                    background-color: $color-secondary;
+                } @else {
+                    background-color: $color-foregroundTertiary;
+                }
             }
         }
     }
