@@ -5,7 +5,7 @@ export interface ICommentData {
     avatarUrl: string;
     text: string;
     date: string;
-    replies: ICommentData[];
+    replies?: ICommentData[];
 }
 
 export interface ICommentsProps {
