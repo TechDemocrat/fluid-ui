@@ -8,7 +8,7 @@ export const useUploadProgress = (uploadId: string | undefined): IUploadProgress
 
     // state
     const initialState = useMemo(
-        () => (uploadId ? uploadService.getUploadProgressData(uploadId) : ({} as IUploadProgress)),
+        () => (uploadId ? uploadService.getUploadProgressMeta(uploadId) : ({} as IUploadProgress)),
         [uploadId, uploadService],
     );
     const [progress, setProgress] = useState<IUploadProgress>(initialState);

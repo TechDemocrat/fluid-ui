@@ -1,0 +1,15 @@
+@keyframes fade-in-animation-keyframes {
+    0% {
+        opacity: 0;
+    }
+
+    100% {
+        opacity: 1;
+    }
+}
+
+@mixin fade-in-animation($seconds: 0.5s) {
+    animation: fade-in-animation-keyframes ease $seconds;
+    animation-fill-mode: forwards;
+    animation-iteration-count: 1;
+}

@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/naming-convention */
-import { cloneDeep } from 'lodash';
+import { cloneDeep, merge } from 'lodash';
 import { formKey } from '../../utilities';
 import { IBaseRecord, ITempDBTelemetry } from './TempDB.types';
 
@@ -34,13 +34,20 @@ export class TempDB {
     };
 
     private telemetry = (props: Partial<ITempDBTelemetry> = {}) => {
+        const cloneResult = props?.cloneResult ?? true;
+
         if (this.isTelemetryActive) {
             // eslint-disable-next-line no-console
             console.groupCollapsed(`TempDB Telemetry - ${props.action}`);
+
+            const getVal = cloneResult ? cloneDeep : (val: unknown) => val;
+
+            Object.keys(props).forEach((key) =>
+                // eslint-disable-next-line no-console
+                console.log(key, getVal(props[key as keyof typeof props])),
+            );
             // eslint-disable-next-line no-console
-            Object.keys(props).forEach((key) => console.log(key, props[key as keyof typeof props]));
-            // eslint-disable-next-line no-console
-            console.log('memory', this.memory);
+            console.log('memory', getVal(this.memory));
             // eslint-disable-next-line no-console
             console.groupEnd();
         }
@@ -127,12 +134,14 @@ export class TempDB {
      * Transforms record in the form to send it to user
      */
     private transformRecord<R extends IBaseRecord[]>(records: R): R {
-        return records.map((record) => {
-            const newRecord = { ...record };
-            const id = newRecord._id;
-            delete newRecord._id;
-            return { ...newRecord, id } as R[0];
-        }) as R;
+        return cloneDeep(
+            records.map((record) => {
+                const newRecord = { ...record };
+                const id = newRecord._id;
+                delete newRecord._id;
+                return { ...newRecord, id } as R[0];
+            }) as R,
+        );
     }
 
     insertOne<R extends IBaseRecord>(collectionName: string, record: R): R {
@@ -140,7 +149,7 @@ export class TempDB {
         this.getCollection(collectionName).push(formattedRecord);
         const result = this.transformRecord([formattedRecord])[0];
 
-        this.telemetry({ action: 'insertOne', collectionName, result });
+        this.telemetry({ action: 'insertOne', collectionName, result, input: { record } });
         return result;
     }
 
@@ -149,18 +158,34 @@ export class TempDB {
         this.getCollection(collectionName).push(...formattedRecords);
         const result = this.transformRecord(formattedRecords);
 
-        this.telemetry({ action: 'insertMany', collectionName, result });
+        this.telemetry({ action: 'insertMany', collectionName, result, input: { records } });
         return result;
     }
 
     // update
+    updateById<R extends IBaseRecord>(
+        collectionName: string,
+        id: string,
+        updateFunction: (record: R) => R,
+    ): R {
+        const record = this.findById<R>(collectionName, id, true);
+        if (!record) throw new Error(`Record for ${id} not found`);
+        const updatedRecord = updateFunction(record) ?? record;
+        merge(record, updatedRecord);
+        const result = this.transformRecord([record])[0];
+
+        this.telemetry({ action: 'updateOne', collectionName, result, input: { id } });
+        return result;
+    }
+
     updateOne<R extends IBaseRecord>(
         collectionName: string,
         query: Partial<IBaseRecord>,
-        updateFunction: (record: R) => void,
+        updateFunction: (record: R) => R,
     ): R {
         const record = this.findOne<R>(collectionName, query, true);
-        updateFunction(record);
+        const updatedRecord = updateFunction(record) ?? record;
+        merge(record, updatedRecord);
         const result = this.transformRecord([record])[0];
 
         this.telemetry({ action: 'updateOne', collectionName, query, result });
@@ -170,10 +195,13 @@ export class TempDB {
     updateMany<R extends IBaseRecord[]>(
         collectionName: string,
         query: Partial<IBaseRecord>,
-        updateFunction: (record: R[0]) => void,
+        updateFunction: (record: R[0]) => R[0],
     ): R {
         const records = this.findMany<R>(collectionName, query, true);
-        records.forEach((record) => updateFunction(record));
+        records.forEach((record) => {
+            const updatedRecord = updateFunction(record) ?? record;
+            merge(record, updatedRecord);
+        });
         const result = this.transformRecord(records);
 
         this.telemetry({ action: 'updateMany', collectionName, query, result });
@@ -182,10 +210,13 @@ export class TempDB {
 
     updateAll<R extends IBaseRecord[]>(
         collectionName: string,
-        updateFunction: (record: R[0]) => void,
+        updateFunction: (record: R[0]) => R[0],
     ): R {
         const records = this.getCollection<R>(collectionName);
-        records.forEach((record) => updateFunction(record));
+        records.forEach((record) => {
+            const updatedRecord = updateFunction(record) ?? record;
+            merge(record, updatedRecord);
+        });
         const result = this.transformRecord(records);
 
         this.telemetry({ action: 'updateAll', collectionName, result });
@@ -193,9 +224,13 @@ export class TempDB {
     }
 
     // find
-    findById<R extends IBaseRecord>(collectionName: string, id: string): R | undefined {
+    findById<R extends IBaseRecord>(
+        collectionName: string,
+        id: string,
+        unTransformedResult = false,
+    ): R | undefined {
         const record = <R>this.getCollection(collectionName).find((item) => item._id === id);
-        const result = this.transformRecord([record])[0];
+        const result = unTransformedResult ? record : this.transformRecord([record])[0];
 
         this.telemetry({ action: 'findById', collectionName, result, input: { id } });
         return result;
@@ -242,20 +277,23 @@ export class TempDB {
 
     findMany<R extends IBaseRecord[]>(
         collectionName: string,
-        query: Partial<IBaseRecord>,
+        query?: Partial<IBaseRecord>,
         unTransformedResult = false,
     ): R {
-        const keys = Object.keys(query);
-        const records = <R>this.getCollection(collectionName).reduce(
-            (resultRecords, currentRecord) => {
+        const currentCollection = this.getCollection(collectionName);
+        let records: R;
+        if (query) {
+            const keys = Object.keys(query);
+            records = <R>currentCollection.reduce((resultRecords, currentRecord) => {
                 const found = keys.find((key) => currentRecord[key] === query[key]);
                 if (found) {
                     resultRecords.push(currentRecord);
                 }
                 return resultRecords;
-            },
-            <IBaseRecord[]>[],
-        );
+            }, <IBaseRecord[]>[]);
+        } else {
+            records = <R>currentCollection;
+        }
 
         const result = unTransformedResult ? records : this.transformRecord(records);
 

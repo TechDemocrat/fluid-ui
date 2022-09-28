@@ -52,6 +52,11 @@ export interface IImageUploaderProps {
      */
     allowedFileTypes?: TAllowedFileTypes[];
     /**
+     * this gives the users the feedback while fetching upload id from server
+     * this helps in avoiding unresponsiveness while contacting server
+     */
+    isPreparingToUpload?: boolean;
+    /**
      * on file add catch the file and tweak the status to uploading if it is valid
      * if type is not supported through error toast from the parent component itself.
      */

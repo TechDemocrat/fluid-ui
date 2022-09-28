@@ -13,4 +13,6 @@ export interface ITempDBTelemetry {
     query?: Partial<IBaseRecord>;
     result?: unknown;
     input?: unknown;
+
+    cloneResult?: boolean;
 }

@@ -46,9 +46,9 @@ export type IUploadFileBothResponse = IUploadFileMonoResponse | IUploadFileMulti
 export interface IUploadFileInput {
     file: File;
     /**
-     * if passed customId will be used instead of generating one
+     * if passed uploadId will be used instead of generating one
      */
-    customId?: string;
+    uploadId?: string;
     /**
      * triggers on upload done
      */
@@ -78,40 +78,56 @@ export interface IUploadServiceProgressMeta extends IUploadFileMonoResponse {
 
 export type TUploadServiceProgressMetaMapping = Map<string, IUploadServiceProgressMeta>;
 
+export type TUploadGlobalScopeSubscriptionMapping = Map<string, (data: IRootScope) => void>;
+
+export interface IUploadScope {
+    uploadId: string[];
+    options: IUploadOptions;
+    /**
+     * Flag is used to call the scope upload completion callback only once
+     */
+    isCallbackTriggered?: boolean;
+    /**
+     * this will be periodically updated based upload instances performance
+     */
+    status?: 'completed' | 'in-progress';
+    /**
+     * subscriptions for the scope will be added
+     */
+    subscriptions: Map<string, (scope: IUploadScope) => void>;
+}
+
 /**
  * key - scopeId
  * value - uploadId
  */
-export type TUploadScopeMapping = Map<
-    string,
-    {
-        uploadId: string[];
-        options: IUploadOptions;
-        /**
-         * Flag is used to call the scope upload completion callback only once
-         */
-        isCallbackTriggered?: boolean;
-    }
->;
+export type TUploadScopeMapping = Map<string, IUploadScope>;
+
+export interface IRootScope {
+    scopeIds: string[];
+    /**
+     * only first set option will be considered
+     */
+    options: IUploadOptions;
+    /**
+     * Flag is used to call the scope upload completion callback only once
+     */
+    isCallbackTriggered?: boolean;
+    /**
+     * this will be periodically updated based upload instances performance
+     */
+    status?: 'completed' | 'in-progress';
+    /**
+     * subscriptions for the root scope will be added
+     */
+    subscriptions: Map<string, (scope: IRootScope) => void>;
+}
 
 /**
  * key - rootScopeId
  * value - scopeId
  */
-export type TUploadRootScopeMapping = Map<
-    string,
-    {
-        scopeIds: string[];
-        /**
-         * only first set option will be considered
-         */
-        options: IUploadOptions;
-        /**
-         * Flag is used to call the scope upload completion callback only once
-         */
-        isCallbackTriggered?: boolean;
-    }
->;
+export type TUploadRootScopeMapping = Map<string, IRootScope>;
 
 export interface IUploadOptions {
     url?: string;
@@ -149,4 +165,12 @@ export interface IUploadOptions {
 export interface IUploadScopeCompletionResponse {
     completed: boolean;
     uploadProgressMeta: IUploadServiceProgressMeta[];
+}
+
+export type TUploadScopeStatusType = 'scope' | 'rootScope' | 'global';
+
+export interface IUploadScopeStatusMetaMapping {
+    global: IRootScope;
+    scope: IUploadScope;
+    rootScope: IRootScope;
 }
