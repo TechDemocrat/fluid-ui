@@ -1,4 +1,4 @@
-import React, { CSSProperties, RefObject, useRef, useState } from 'react';
+import React, { CSSProperties, RefObject, useEffect, useRef, useState } from 'react';
 import cn from 'classnames';
 
 import { IInputProps, IValidationResult, TInputValue } from './Input.types';
@@ -9,6 +9,7 @@ import { check, close, error } from '../../assets/icons/iconify';
 import { useTheme } from '../ThemeProvider/ThemeProvider';
 import { formKey } from '../../utilities';
 import { useEventListener } from '../../hooks';
+import { isEqual } from 'lodash';
 
 export const Input = (props: IInputProps) => {
     // props
@@ -95,6 +96,21 @@ export const Input = (props: IInputProps) => {
             setLocalValue('');
         }
     };
+
+    // effects
+    useEffect(() => {
+        if (localValue !== value) {
+            setLocalValue(value);
+        }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [value]);
+
+    useEffect(() => {
+        if (!isEqual(originalTags, tags)) {
+            setTags([...originalTags]);
+        }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [originalTags]);
 
     // event listeners
     useEventListener('keyup', handleKeyboardEventForTags, inputFieldFocus && type === 'tags');

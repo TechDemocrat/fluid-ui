@@ -1,7 +1,4 @@
-@import "./fontWeights";
-@import "./fontSizes";
-@import "./colors";
-@import "./mixins";
+@import "./variables";
 
 :root {
     // variables will be populated by theme provider based on the current theme
@@ -90,6 +87,8 @@ body {
 
     // all component will have p tag's font-size as base font-size,
     font-size: $fontsize-bodyMain;
+
+    @include fade-in-animation;
 }
 
 h1 {

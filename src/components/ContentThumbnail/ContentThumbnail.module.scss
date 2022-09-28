@@ -8,6 +8,8 @@
     cursor: pointer;
     gap: 5px;
 
+    @include fade-in-animation;
+
     .thumbnailImageWrapper {
         position: relative;
         overflow: hidden;
