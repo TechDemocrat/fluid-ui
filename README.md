@@ -8,7 +8,7 @@ Fluid UI components for all your products.
 
 ### Latest Build Status
 
-[![Chromatic](https://github.com/CreatorsView/fluid-ui/actions/workflows/chromatic.yml/badge.svg)](https://github.com/CreatorsView/fluid-ui/actions/workflows/chromatic.yml)
+[![Chromatic](https://github.com/TechDemocrat/fluid-ui/actions/workflows/chromatic.yml/badge.svg)](https://github.com/TechDemocrat/fluid-ui/actions/workflows/chromatic.yml)
 
 ### Dashboard
 
@@ -18,9 +18,9 @@ Fluid UI components for all your products.
 
 ## Developer Guide
 
-Works seamlessly with the [cv-workspaces](https://github.com/CreatorsView/cv-workspaces).
+Works seamlessly with the [cv-workspaces](https://github.com/TechDemocrat/cv-workspaces).
 
-### [fui-cli](https://github.com/CreatorsView/fluid-ui/blob/main/scripts/fui-cli.js)
+### [fui-cli](https://github.com/TechDemocrat/fluid-ui/blob/main/scripts/fui-cli.js)
 
 ```c
     // to create a new component
