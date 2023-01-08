@@ -10,9 +10,9 @@ Fluid UI components for all your products.
 
 [![Chromatic](https://github.com/TechDemocrat/fluid-ui/actions/workflows/chromatic.yml/badge.svg)](https://github.com/TechDemocrat/fluid-ui/actions/workflows/chromatic.yml)
 
-### Dashboard
+### Library
 
-[https://www.chromatic.com/builds?appId=6250966ce063f2003a50b707](https://www.chromatic.com/builds?appId=6250966ce063f2003a50b707)
+[https://www.chromatic.com/library?appId=63baeb7053d68757df60c93c](https://www.chromatic.com/library?appId=63baeb7053d68757df60c93c)
 
 ---
 
